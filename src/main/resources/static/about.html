@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ==========================================================
+        VaultSync Banking Management System
+        About VaultSync
+        Frontend : HTML5 + CSS3 + Bootstrap 5 + JavaScript
+        Backend  : Core Java + JDBC + MySQL
+=========================================================== -->
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+
+VaultSync | About
+
+</title>
+
+<!-- Google Fonts -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Bootstrap -->
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+
+/*=========================================================
+ROOT VARIABLES
+=========================================================*/
+
+:root{
+
+--primary:#D4AF37;
+
+--secondary:#0D3B2E;
+
+--background:#F6F4EC;
+
+--card:#FFFFFF;
+
+--text:#17212B;
+
+--muted:#6B7280;
+
+--border:#ECECEC;
+
+--shadow:0 18px 40px rgba(0,0,0,.08);
+
+--heading:"Sora",sans-serif;
+
+--body:"Manrope",sans-serif;
+
+}
+
+/*=========================================================
+RESET
+=========================================================*/
+
+*{
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
+
+}
+
+body{
+
+background:var(--background);
+
+font-family:var(--body);
+
+overflow-x:hidden;
+
+color:var(--text);
+
+}
+
+/*=========================================================
+SIDEBAR
+=========================================================*/
+
+.sidebar{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:280px;
+
+height:100vh;
+
+background:linear-gradient(180deg,#0D3B2E,#164A37);
+
+padding:35px 25px;
+
+overflow-y:auto;
+
+color:white;
+
+}
+
+.logo{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+font-family:var(--heading);
+
+font-size:30px;
+
+font-weight:800;
+
+margin-bottom:45px;
+
+}
+
+.logo i{
+
+font-size:36px;
+
+color:var(--primary);
+
+}
+
+.sidebar h6{
+
+margin:28px 0 14px;
+
+font-size:13px;
+
+letter-spacing:1px;
+
+opacity:.6;
+
+text-transform:uppercase;
+
+}
+
+.sidebar a{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+padding:14px 18px;
+
+margin-bottom:10px;
+
+border-radius:15px;
+
+text-decoration:none;
+
+color:white;
+
+font-weight:600;
+
+transition:.35s;
+
+}
+
+.sidebar a:hover{
+
+background:rgba(255,255,255,.10);
+
+transform:translateX(6px);
+
+}
+
+.sidebar a.active{
+
+background:rgba(255,255,255,.15);
+
+}
+
+.sidebar a i{
+
+font-size:20px;
+
+width:22px;
+
+}
+
+/*=========================================================
+MAIN
+=========================================================*/
+
+.main{
+
+margin-left:280px;
+
+padding:35px;
+
+}
+
+/*=========================================================
+TOPBAR
+=========================================================*/
+
+.topbar{
+
+background:white;
+
+padding:18px 25px;
+
+border-radius:22px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+box-shadow:var(--shadow);
+
+margin-bottom:30px;
+
+}
+
+.search-box{
+
+position:relative;
+
+width:420px;
+
+}
+
+.search-box input{
+
+width:100%;
+
+height:52px;
+
+padding-left:48px;
+
+border:1px solid var(--border);
+
+border-radius:15px;
+
+outline:none;
+
+}
+
+.search-box i{
+
+position:absolute;
+
+left:18px;
+
+top:16px;
+
+color:var(--muted);
+
+}
+
+.profile{
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+}
+
+.profile img{
+
+width:50px;
+
+height:50px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+.notification{
+
+width:48px;
+
+height:48px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border-radius:50%;
+
+background:#F5F5F5;
+
+font-size:20px;
+
+cursor:pointer;
+
+}
+
+/*=========================================================
+PAGE HEADER
+=========================================================*/
+
+.page-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:30px;
+
+}
+
+.page-header h2{
+
+font-family:var(--heading);
+
+font-size:38px;
+
+font-weight:800;
+
+}
+
+.page-header p{
+
+margin-top:5px;
+
+color:var(--muted);
+
+}
+/*=========================================================
+ABOUT GRID
+=========================================================*/
+
+.about-grid{
+
+display:grid;
+
+grid-template-columns:2fr 1fr;
+
+gap:25px;
+
+margin-bottom:30px;
+
+}
+
+/*=========================================================
+CARDS
+=========================================================*/
+
+.card-box{
+
+background:white;
+
+padding:30px;
+
+border-radius:24px;
+
+box-shadow:var(--shadow);
+
+}
+
+.card-title{
+
+font-family:var(--heading);
+
+font-size:28px;
+
+font-weight:800;
+
+margin-bottom:22px;
+
+}
+
+/*=========================================================
+HERO SECTION
+=========================================================*/
+
+.hero-card{
+
+background:linear-gradient(135deg,#0D3B2E,#17533E);
+
+border-radius:24px;
+
+padding:45px;
+
+color:white;
+
+margin-bottom:30px;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.hero-card::after{
+
+content:"";
+
+position:absolute;
+
+right:-70px;
+
+top:-70px;
+
+width:220px;
+
+height:220px;
+
+border-radius:50%;
+
+background:rgba(255,255,255,.08);
+
+}
+
+.hero-card h1{
+
+font-family:var(--heading);
+
+font-size:42px;
+
+font-weight:800;
+
+margin-bottom:15px;
+
+}
+
+.hero-card h1 span{
+
+color:var(--primary);
+
+}
+
+.hero-card p{
+
+font-size:17px;
+
+line-height:1.8;
+
+max-width:750px;
+
+opacity:.92;
+
+}
+
+/*=========================================================
+MISSION & VISION
+=========================================================*/
+
+.mission-grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:20px;
+
+margin-top:25px;
+
+}
+
+.info-card{
+
+background:#FAFAFA;
+
+border:1px solid var(--border);
+
+border-radius:20px;
+
+padding:25px;
+
+transition:.35s;
+
+}
+
+.info-card:hover{
+
+transform:translateY(-6px);
+
+box-shadow:var(--shadow);
+
+}
+
+.info-card i{
+
+font-size:42px;
+
+color:var(--primary);
+
+margin-bottom:15px;
+
+}
+
+.info-card h4{
+
+font-family:var(--heading);
+
+font-weight:800;
+
+margin-bottom:12px;
+
+}
+
+.info-card p{
+
+margin:0;
+
+line-height:1.8;
+
+color:var(--muted);
+
+}
+
+/*=========================================================
+TECH STACK
+=========================================================*/
+
+.tech-list{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:15px;
+
+margin-top:20px;
+
+}
+
+.tech-item{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+padding:15px;
+
+background:#FAFAFA;
+
+border:1px solid var(--border);
+
+border-radius:16px;
+
+font-weight:700;
+
+transition:.3s;
+
+}
+
+.tech-item:hover{
+
+background:#FFF7DD;
+
+}
+
+.tech-item i{
+
+font-size:22px;
+
+color:var(--primary);
+
+}
+/*=========================================================
+TIMELINE
+=========================================================*/
+
+.timeline{
+
+position:relative;
+
+margin-top:25px;
+
+padding-left:30px;
+
+}
+
+.timeline::before{
+
+content:"";
+
+position:absolute;
+
+left:8px;
+
+top:0;
+
+width:4px;
+
+height:100%;
+
+background:var(--primary);
+
+border-radius:10px;
+
+}
+
+.timeline-item{
+
+position:relative;
+
+margin-bottom:30px;
+
+padding-left:25px;
+
+}
+
+.timeline-item::before{
+
+content:"";
+
+position:absolute;
+
+left:-2px;
+
+top:6px;
+
+width:18px;
+
+height:18px;
+
+border-radius:50%;
+
+background:var(--primary);
+
+border:4px solid white;
+
+box-shadow:0 0 0 2px var(--primary);
+
+}
+
+.timeline-item h5{
+
+font-family:var(--heading);
+
+font-weight:800;
+
+margin-bottom:8px;
+
+}
+
+.timeline-item small{
+
+color:var(--muted);
+
+display:block;
+
+margin-bottom:10px;
+
+}
+
+.timeline-item p{
+
+margin:0;
+
+color:var(--muted);
+
+line-height:1.8;
+
+}
+
+/*=========================================================
+FAQ
+=========================================================*/
+
+.accordion-item{
+
+border:none;
+
+margin-bottom:15px;
+
+border-radius:18px !important;
+
+overflow:hidden;
+
+box-shadow:var(--shadow);
+
+}
+
+.accordion-button{
+
+font-weight:700;
+
+padding:18px 22px;
+
+background:#fff;
+
+box-shadow:none !important;
+
+}
+
+.accordion-button:not(.collapsed){
+
+background:#FFF7DD;
+
+color:#0D3B2E;
+
+}
+
+.accordion-body{
+
+line-height:1.8;
+
+color:var(--muted);
+
+}
+
+/*=========================================================
+DEVELOPER CARD
+=========================================================*/
+
+.developer-card{
+
+background:linear-gradient(135deg,#0D3B2E,#17533E);
+
+border-radius:24px;
+
+padding:30px;
+
+text-align:center;
+
+color:white;
+
+margin-bottom:25px;
+
+}
+
+.developer-card img{
+
+width:120px;
+
+height:120px;
+
+border-radius:50%;
+
+border:5px solid var(--primary);
+
+object-fit:cover;
+
+margin-bottom:18px;
+
+}
+
+.developer-card h3{
+
+font-family:var(--heading);
+
+font-weight:800;
+
+margin-bottom:8px;
+
+}
+
+.developer-card p{
+
+margin-bottom:6px;
+
+opacity:.9;
+
+}
+
+/*=========================================================
+RESPONSIVE
+=========================================================*/
+
+@media(max-width:1200px){
+
+.about-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:991px){
+
+.sidebar{
+
+left:-100%;
+
+}
+
+.main{
+
+margin-left:0;
+
+padding:20px;
+
+}
+
+.topbar{
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.search-box{
+
+width:100%;
+
+}
+
+.page-header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:20px;
+
+}
+
+.mission-grid,
+
+.tech-list{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+/*=========================================================
+END CSS
+=========================================================*/
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =====================================================
+SIDEBAR
+===================================================== -->
+
+<div class="sidebar">
+
+<div class="logo">
+
+<i class="bi bi-bank2"></i>
+
+VaultSync
+
+</div>
+
+<h6>Main Menu</h6>
+
+<a href="dashboard.html"><i class="bi bi-speedometer2"></i>Dashboard</a>
+
+<a href="customer-accounts.html"><i class="bi bi-people-fill"></i>Customer Accounts</a>
+
+<a href="withdraw.html"><i class="bi bi-cash-stack"></i>Withdraw Money</a>
+
+<a href="deposit.html"><i class="bi bi-wallet2"></i>Deposit Money</a>
+
+<a href="fund-transfer.html"><i class="bi bi-arrow-left-right"></i>Fund Transfer</a>
+
+<a href="check-balance.html"><i class="bi bi-wallet-fill"></i>Check Balance</a>
+
+<a href="transaction-history.html"><i class="bi bi-clock-history"></i>Transaction History</a>
+
+<a href="concurrent-simulation.html"><i class="bi bi-cpu-fill"></i>Concurrent Simulation</a>
+
+<a href="thread-monitor.html"><i class="bi bi-diagram-3-fill"></i>Thread Monitor</a>
+
+<a href="reports.html"><i class="bi bi-bar-chart-fill"></i>Reports</a>
+
+<a href="settings.html"><i class="bi bi-gear-fill"></i>Settings</a>
+
+<a href="#" class="active"><i class="bi bi-info-circle-fill"></i>About</a>
+
+</div>
+
+<!-- =====================================================
+MAIN START
+===================================================== -->
+
+<div class="main">
+
+<div class="topbar">
+
+<div class="search-box">
+
+<i class="bi bi-search"></i>
+
+<input type="text" placeholder="Search About...">
+
+</div>
+
+<div class="profile">
+
+<div class="notification">
+
+<i class="bi bi-bell-fill"></i>
+
+</div>
+
+<img src="https://i.pravatar.cc/150?img=12">
+
+<div>
+
+<h6 class="mb-0 fw-bold">
+
+Welcome, Rutuja
+
+</h6>
+
+<small class="text-muted">
+
+Administrator
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="page-header">
+
+<div>
+
+<h2>
+
+About VaultSync
+
+</h2>
+
+<p>
+
+Learn about the project, technology stack and development journey.
+
+</p>
+
+</div>
+
+</div>
+<!-- =====================================================
+HERO SECTION
+===================================================== -->
+
+<div class="hero-card">
+
+<h1>
+
+Welcome to <span>VaultSync</span>
+
+</h1>
+
+<p>
+
+VaultSync Banking Management System is a modern banking solution developed to simplify customer account management, deposits, withdrawals, fund transfers, transaction monitoring and multithreaded banking simulations. The project combines an attractive user interface with secure banking operations and synchronization concepts using Core Java.
+
+</p>
+
+</div>
+
+<!-- =====================================================
+ABOUT GRID
+===================================================== -->
+
+<div class="about-grid">
+
+<!-- ================= LEFT PANEL ================= -->
+
+<div>
+
+<div class="card-box">
+
+<h3 class="card-title">
+
+About The Project
+
+</h3>
+
+<p>
+
+VaultSync is a complete Banking Management System designed for educational and real-world banking workflow simulation. It enables administrators to securely manage customer accounts, perform banking transactions, monitor concurrent operations and generate reports through an interactive dashboard.
+
+</p>
+
+<div class="mission-grid">
+
+<div class="info-card">
+
+<i class="bi bi-bullseye"></i>
+
+<h4>
+
+Mission
+
+</h4>
+
+<p>
+
+To build a secure, reliable and user-friendly banking platform that demonstrates modern banking operations together with multithreading and synchronization concepts.
+
+</p>
+
+</div>
+
+<div class="info-card">
+
+<i class="bi bi-eye-fill"></i>
+
+<h4>
+
+Vision
+
+</h4>
+
+<p>
+
+To provide a professional banking application that integrates technology, security and real-time transaction management for future-ready banking systems.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card-box">
+
+<h3 class="card-title">
+
+Technology Stack
+
+</h3>
+
+<div class="tech-list">
+
+<div class="tech-item">
+
+<i class="bi bi-filetype-html"></i>
+
+HTML5
+
+</div>
+
+<div class="tech-item">
+
+<i class="bi bi-filetype-css"></i>
+
+CSS3
+
+</div>
+
+<div class="tech-item">
+
+<i class="bi bi-filetype-js"></i>
+
+JavaScript
+
+</div>
+
+<div class="tech-item">
+
+<i class="bi bi-bootstrap-fill"></i>
+
+Bootstrap 5
+
+</div>
+
+<div class="tech-item">
+
+<i class="bi bi-cup-hot-fill"></i>
+
+Core Java
+
+</div>
+
+<div class="tech-item">
+
+<i class="bi bi-database-fill"></i>
+
+JDBC
+
+</div>
+
+<div class="tech-item">
+
+<i class="bi bi-server"></i>
+
+MySQL
+
+</div>
+
+<div class="tech-item">
+
+<i class="bi bi-diagram-3-fill"></i>
+
+Multithreading
+
+</div>
+
+<div class="tech-item">
+
+<i class="bi bi-shield-lock-fill"></i>
+
+Synchronization
+
+</div>
+
+<div class="tech-item">
+
+<i class="bi bi-git"></i>
+
+Git & GitHub
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= RIGHT PANEL ================= -->
+
+<div>
+
+<div class="developer-card">
+
+<img src="https://i.pravatar.cc/150?img=12" alt="Developer">
+
+<h3>
+
+Rutuja Divate
+
+</h3>
+
+<p>
+
+MCA Student
+
+</p>
+
+<p>
+
+Savitribai Phule Pune University
+
+</p>
+
+<p>
+
+VaultSync Project Developer
+
+</p>
+
+</div>
+<div class="card-box">
+
+<h3 class="card-title">
+
+Project Development Timeline
+
+</h3>
+
+<div class="timeline">
+
+<div class="timeline-item">
+
+<h5>
+
+Project Planning
+
+</h5>
+
+<small>
+
+January 2026
+
+</small>
+
+<p>
+
+Requirement analysis, banking workflow design, UI planning and database structure preparation.
+
+</p>
+
+</div>
+
+<div class="timeline-item">
+
+<h5>
+
+Frontend Development
+
+</h5>
+
+<small>
+
+February – March 2026
+
+</small>
+
+<p>
+
+Developed Login, Registration, Dashboard, Customer Management, Deposit, Withdrawal and Fund Transfer modules using HTML, CSS, Bootstrap and JavaScript.
+
+</p>
+
+</div>
+
+<div class="timeline-item">
+
+<h5>
+
+Backend Integration
+
+</h5>
+
+<small>
+
+April 2026
+
+</small>
+
+<p>
+
+Integrated Core Java, JDBC and MySQL database for secure banking operations and transaction processing.
+
+</p>
+
+</div>
+
+<div class="timeline-item">
+
+<h5>
+
+Concurrent Banking Simulation
+
+</h5>
+
+<small>
+
+May 2026
+
+</small>
+
+<p>
+
+Implemented multithreading concepts including synchronization, thread monitoring and concurrent transaction simulation.
+
+</p>
+
+</div>
+
+<div class="timeline-item">
+
+<h5>
+
+Testing & Deployment
+
+</h5>
+
+<small>
+
+June 2026
+
+</small>
+
+<p>
+
+Completed functional testing, UI improvements, report generation and final project deployment.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card-box">
+
+<h3 class="card-title">
+
+Frequently Asked Questions
+
+</h3>
+
+<div class="accordion" id="faqAccordion">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+
+type="button"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#faq1">
+
+What is VaultSync?
+
+</button>
+
+</h2>
+
+<div id="faq1"
+
+class="accordion-collapse collapse show"
+
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+VaultSync is a Banking Management System developed using Core Java, JDBC, MySQL, HTML, CSS, Bootstrap and JavaScript for secure banking operations.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+
+type="button"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#faq2">
+
+Why is Multithreading used?
+
+</button>
+
+</h2>
+
+<div id="faq2"
+
+class="accordion-collapse collapse"
+
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Multithreading allows multiple banking transactions such as deposits, withdrawals and transfers to execute simultaneously while maintaining data consistency through synchronization.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+
+type="button"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#faq3">
+
+Which database is used?
+
+</button>
+
+</h2>
+
+<div id="faq3"
+
+class="accordion-collapse collapse"
+
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+VaultSync uses MySQL as the backend database with JDBC connectivity for secure storage and retrieval of banking information.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+FOOTER
+===================================================== -->
+
+<footer class="text-center py-4 mt-4">
+
+<p class="text-muted mb-0">
+
+© 2026 <strong>VaultSync Banking Management System</strong> |
+About Module
+
+</p>
+
+</footer>
+
+</div>
+<!-- =====================================================
+END MAIN
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+// ==========================================
+// SEARCH
+// ==========================================
+
+document.querySelector(".search-box input")
+
+.addEventListener("keyup",function(){
+
+console.log("Searching :",this.value);
+
+});
+
+// ==========================================
+// SIDEBAR ACTIVE
+// ==========================================
+
+document.querySelectorAll(".sidebar a")
+
+.forEach(link=>{
+
+link.addEventListener("click",function(){
+
+document.querySelectorAll(".sidebar a")
+
+.forEach(item=>item.classList.remove("active"));
+
+this.classList.add("active");
+
+});
+
+});
+
+// ==========================================
+// HERO ANIMATION
+// ==========================================
+
+const hero=document.querySelector(".hero-card");
+
+hero.style.opacity="0";
+
+hero.style.transform="translateY(30px)";
+
+window.addEventListener("load",()=>{
+
+setTimeout(()=>{
+
+hero.style.transition="all .8s ease";
+
+hero.style.opacity="1";
+
+hero.style.transform="translateY(0)";
+
+},300);
+
+});
+
+// ==========================================
+// INFO CARD HOVER EFFECT
+// ==========================================
+
+document.querySelectorAll(".info-card")
+
+.forEach(card=>{
+
+card.addEventListener("mouseenter",()=>{
+
+card.style.transform="translateY(-8px)";
+
+});
+
+card.addEventListener("mouseleave",()=>{
+
+card.style.transform="translateY(0px)";
+
+});
+
+});
+
+// ==========================================
+// TECH STACK CLICK
+// ==========================================
+
+document.querySelectorAll(".tech-item")
+
+.forEach(item=>{
+
+item.addEventListener("click",()=>{
+
+item.style.background="#FFF7DD";
+
+item.style.borderColor="#D4AF37";
+
+});
+
+});
+
+// ==========================================
+// TIMELINE ANIMATION
+// ==========================================
+
+const timelineItems=document.querySelectorAll(".timeline-item");
+
+window.addEventListener("scroll",()=>{
+
+timelineItems.forEach(item=>{
+
+const position=item.getBoundingClientRect().top;
+
+if(position<window.innerHeight-100){
+
+item.style.opacity="1";
+
+item.style.transform="translateX(0)";
+
+}else{
+
+item.style.opacity="0";
+
+item.style.transform="translateX(-40px)";
+
+}
+
+});
+
+});
+
+// ==========================================
+// DEVELOPER CARD EFFECT
+// ==========================================
+
+const developer=document.querySelector(".developer-card");
+
+developer.addEventListener("mouseenter",()=>{
+
+developer.style.transform="translateY(-8px)";
+
+developer.style.transition=".3s";
+
+});
+
+developer.addEventListener("mouseleave",()=>{
+
+developer.style.transform="translateY(0)";
+
+});
+
+</script>
+
+</body>
+
+</html>

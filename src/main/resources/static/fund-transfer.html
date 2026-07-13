@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ==========================================================
+        VaultSync Banking Management System
+        Fund Transfer
+        Frontend : HTML5 + CSS3 + Bootstrap 5 + JavaScript
+        Backend  : Core Java + JDBC + MySQL
+=========================================================== -->
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+
+VaultSync | Fund Transfer
+
+</title>
+
+<!-- Google Fonts -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Bootstrap -->
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+
+/*=========================================================
+ROOT VARIABLES
+=========================================================*/
+
+:root{
+
+--primary:#D4AF37;
+--secondary:#0D3B2E;
+--background:#F6F4EC;
+--card:#FFFFFF;
+--text:#17212B;
+--muted:#6B7280;
+--border:#ECECEC;
+--shadow:0 18px 40px rgba(0,0,0,.08);
+
+--heading:"Sora",sans-serif;
+--body:"Manrope",sans-serif;
+
+}
+
+/*=========================================================
+RESET
+=========================================================*/
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+
+}
+
+body{
+
+background:var(--background);
+
+font-family:var(--body);
+
+overflow-x:hidden;
+
+color:var(--text);
+
+}
+
+/*=========================================================
+SIDEBAR
+=========================================================*/
+
+.sidebar{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:280px;
+height:100vh;
+
+background:linear-gradient(180deg,#0D3B2E,#164A37);
+
+padding:35px 25px;
+
+overflow-y:auto;
+
+color:white;
+
+}
+
+.logo{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+font-family:var(--heading);
+
+font-size:30px;
+
+font-weight:800;
+
+margin-bottom:45px;
+
+}
+
+.logo i{
+
+font-size:36px;
+
+color:var(--primary);
+
+}
+
+.sidebar h6{
+
+margin:28px 0 14px;
+
+font-size:13px;
+
+letter-spacing:1px;
+
+opacity:.6;
+
+text-transform:uppercase;
+
+}
+
+.sidebar a{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+padding:14px 18px;
+
+margin-bottom:10px;
+
+border-radius:15px;
+
+text-decoration:none;
+
+color:white;
+
+font-weight:600;
+
+transition:.35s;
+
+}
+
+.sidebar a:hover{
+
+background:rgba(255,255,255,.10);
+
+transform:translateX(6px);
+
+}
+
+.sidebar a.active{
+
+background:rgba(255,255,255,.15);
+
+}
+
+.sidebar a i{
+
+font-size:20px;
+
+width:22px;
+
+}
+
+/*=========================================================
+MAIN
+=========================================================*/
+
+.main{
+
+margin-left:280px;
+
+padding:35px;
+
+}
+
+/*=========================================================
+TOPBAR
+=========================================================*/
+
+.topbar{
+
+background:white;
+
+padding:18px 25px;
+
+border-radius:22px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+box-shadow:var(--shadow);
+
+margin-bottom:30px;
+
+}
+
+.search-box{
+
+position:relative;
+
+width:420px;
+
+}
+
+.search-box input{
+
+width:100%;
+
+height:52px;
+
+padding-left:48px;
+
+border:1px solid var(--border);
+
+border-radius:15px;
+
+outline:none;
+
+}
+
+.search-box i{
+
+position:absolute;
+
+left:18px;
+
+top:16px;
+
+color:var(--muted);
+
+}
+
+.profile{
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+}
+
+.profile img{
+
+width:50px;
+
+height:50px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+.notification{
+
+width:48px;
+
+height:48px;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:#F5F5F5;
+
+font-size:20px;
+
+cursor:pointer;
+
+}
+
+/*=========================================================
+PAGE HEADER
+=========================================================*/
+
+.page-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:30px;
+
+}
+
+.page-header h2{
+
+font-family:var(--heading);
+
+font-size:38px;
+
+font-weight:800;
+
+}
+
+.page-header p{
+
+margin-top:5px;
+
+color:var(--muted);
+
+}
+/*=========================================================
+TRANSFER GRID
+=========================================================*/
+
+.transfer-grid{
+
+display:grid;
+
+grid-template-columns:1fr 420px;
+
+gap:25px;
+
+margin-bottom:30px;
+
+}
+
+/*=========================================================
+CARDS
+=========================================================*/
+
+.card-box{
+
+background:white;
+
+padding:30px;
+
+border-radius:24px;
+
+box-shadow:var(--shadow);
+
+}
+
+.card-title{
+
+font-size:26px;
+
+font-family:var(--heading);
+
+font-weight:800;
+
+margin-bottom:25px;
+
+}
+
+/*=========================================================
+ACCOUNT DETAILS
+=========================================================*/
+
+.account-grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:18px;
+
+margin-bottom:25px;
+
+}
+
+.info-box{
+
+background:#FAFAFA;
+
+border:1px solid var(--border);
+
+padding:18px;
+
+border-radius:18px;
+
+}
+
+.info-box h6{
+
+font-size:14px;
+
+color:var(--muted);
+
+margin-bottom:8px;
+
+}
+
+.info-box h5{
+
+margin:0;
+
+font-size:20px;
+
+font-weight:800;
+
+}
+
+/*=========================================================
+FORM
+=========================================================*/
+
+.form-label{
+
+font-weight:700;
+
+margin-bottom:8px;
+
+}
+
+.form-control,
+
+.form-select{
+
+height:55px;
+
+border-radius:15px;
+
+border:1px solid var(--border);
+
+padding-left:16px;
+
+box-shadow:none;
+
+}
+
+.form-control:focus,
+
+.form-select:focus{
+
+border-color:var(--primary);
+
+box-shadow:0 0 0 4px rgba(212,175,55,.12);
+
+}
+
+textarea.form-control{
+
+height:100px;
+
+padding-top:15px;
+
+resize:none;
+
+}
+
+.input-group-text{
+
+background:white;
+
+cursor:pointer;
+
+}
+
+/*=========================================================
+BUTTONS
+=========================================================*/
+
+.btn-transfer{
+
+width:100%;
+
+height:58px;
+
+border:none;
+
+border-radius:16px;
+
+font-size:17px;
+
+font-weight:700;
+
+color:white;
+
+background:linear-gradient(135deg,#0D3B2E,#1D6B4F);
+
+transition:.3s;
+
+}
+
+.btn-transfer:hover{
+
+transform:translateY(-5px);
+
+box-shadow:0 18px 35px rgba(13,59,46,.30);
+
+}
+
+.btn-reset{
+
+width:100%;
+
+height:58px;
+
+margin-top:15px;
+
+border:none;
+
+border-radius:16px;
+
+font-weight:700;
+
+background:#ECECEC;
+
+transition:.3s;
+
+}
+
+.btn-reset:hover{
+
+background:#DDDDDD;
+
+}
+
+/*=========================================================
+BALANCE CARD
+=========================================================*/
+
+.balance-card{
+
+background:linear-gradient(135deg,#0D3B2E,#17533E);
+
+padding:35px;
+
+border-radius:24px;
+
+text-align:center;
+
+color:white;
+
+margin-bottom:25px;
+
+}
+
+.balance-card h6{
+
+opacity:.8;
+
+margin-bottom:12px;
+
+}
+
+.balance-card h2{
+
+font-size:42px;
+
+font-family:var(--heading);
+
+font-weight:800;
+
+color:var(--primary);
+
+margin-bottom:0;
+
+}
+/*=========================================================
+TRANSFER HISTORY
+=========================================================*/
+
+.history-list{
+
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
+
+}
+
+.history-item{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:18px;
+
+background:#FAFAFA;
+
+border:1px solid var(--border);
+
+border-radius:18px;
+
+transition:.3s;
+
+}
+
+.history-item:hover{
+
+transform:translateY(-4px);
+
+box-shadow:var(--shadow);
+
+}
+
+.history-left{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+}
+
+.history-icon{
+
+width:52px;
+
+height:52px;
+
+border-radius:15px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:#E8F8EC;
+
+color:#198754;
+
+font-size:22px;
+
+}
+
+.history-left h6{
+
+margin:0;
+
+font-weight:700;
+
+}
+
+.history-left small{
+
+color:var(--muted);
+
+}
+
+.amount{
+
+font-size:20px;
+
+font-weight:800;
+
+color:#0D3B2E;
+
+}
+
+/*=========================================================
+STATUS BOXES
+=========================================================*/
+
+.success-box{
+
+display:none;
+
+margin-top:20px;
+
+padding:16px;
+
+border-radius:15px;
+
+background:#DFF7E5;
+
+border:1px solid #A3E4B5;
+
+color:#198754;
+
+}
+
+.error-box{
+
+display:none;
+
+margin-top:20px;
+
+padding:16px;
+
+border-radius:15px;
+
+background:#FFE5E5;
+
+border:1px solid #F5B5B5;
+
+color:#DC3545;
+
+}
+
+/*=========================================================
+RESPONSIVE
+=========================================================*/
+
+@media(max-width:1200px){
+
+.transfer-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:991px){
+
+.sidebar{
+
+left:-100%;
+
+}
+
+.main{
+
+margin-left:0;
+
+padding:20px;
+
+}
+
+.topbar{
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.search-box{
+
+width:100%;
+
+}
+
+.page-header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:20px;
+
+}
+
+.account-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+/*=========================================================
+END CSS
+=========================================================*/
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =====================================================
+SIDEBAR
+===================================================== -->
+
+<div class="sidebar">
+
+<div class="logo">
+
+<i class="bi bi-bank2"></i>
+
+VaultSync
+
+</div>
+
+<h6>Main Menu</h6>
+
+<a href="dashboard.html">
+
+<i class="bi bi-speedometer2"></i>
+
+Dashboard
+
+</a>
+
+<a href="customer-accounts.html">
+
+<i class="bi bi-people-fill"></i>
+
+Customer Accounts
+
+</a>
+
+<a href="withdraw.html">
+
+<i class="bi bi-cash-stack"></i>
+
+Withdraw Money
+
+</a>
+
+<a href="deposit.html">
+
+<i class="bi bi-wallet2"></i>
+
+Deposit Money
+
+</a>
+
+<a href="#" class="active">
+
+<i class="bi bi-arrow-left-right"></i>
+
+Fund Transfer
+
+</a>
+
+<a href="transaction-history.html">
+
+<i class="bi bi-clock-history"></i>
+
+Transaction History
+
+</a>
+
+<a href="concurrent-simulation.html">
+
+<i class="bi bi-cpu-fill"></i>
+
+Concurrent Simulation
+
+</a>
+
+<a href="thread-monitor.html">
+
+<i class="bi bi-diagram-3-fill"></i>
+
+Thread Monitor
+
+</a>
+
+</div>
+
+<!-- =====================================================
+MAIN START
+===================================================== -->
+
+<div class="main">
+
+<div class="topbar">
+
+<div class="search-box">
+
+<i class="bi bi-search"></i>
+
+<input
+
+type="text"
+
+placeholder="Search Customer">
+
+</div>
+
+<div class="profile">
+
+<div class="notification">
+
+<i class="bi bi-bell-fill"></i>
+
+</div>
+
+<img src="https://i.pravatar.cc/150?img=12">
+
+<div>
+
+<h6 class="mb-0 fw-bold">
+
+Welcome, Rutuja
+
+</h6>
+
+<small class="text-muted">
+
+Administrator
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="page-header">
+
+<div>
+
+<h2>
+
+Fund Transfer
+
+</h2>
+
+<p>
+
+Transfer money securely between bank accounts.
+
+</p>
+
+</div>
+
+</div>
+<!-- =====================================================
+TRANSFER GRID
+===================================================== -->
+
+<div class="transfer-grid">
+
+<!-- ================= LEFT CARD ================= -->
+
+<div class="card-box">
+
+<h3 class="card-title">
+
+Fund Transfer Details
+
+</h3>
+
+<div class="account-grid">
+
+<div class="info-box">
+
+<h6>
+
+Sender Name
+
+</h6>
+
+<h5>
+
+Rutuja Divate
+
+</h5>
+
+</div>
+
+<div class="info-box">
+
+<h6>
+
+Sender Account
+
+</h6>
+
+<h5>
+
+ACC100245
+
+</h5>
+
+</div>
+
+<div class="info-box">
+
+<h6>
+
+Receiver Name
+
+</h6>
+
+<h5>
+
+Aarav Sharma
+
+</h5>
+
+</div>
+
+<div class="info-box">
+
+<h6>
+
+Receiver Account
+
+</h6>
+
+<h5>
+
+ACC100246
+
+</h5>
+
+</div>
+
+</div>
+
+<form id="transferForm">
+
+<div class="mb-4">
+
+<label class="form-label">
+
+Transfer Amount
+
+</label>
+
+<input
+
+type="number"
+
+class="form-control"
+
+id="amount"
+
+placeholder="Enter transfer amount"
+
+required>
+
+</div>
+
+<div class="mb-4">
+
+<label class="form-label">
+
+IFSC Code
+
+</label>
+
+<input
+
+type="text"
+
+class="form-control"
+
+id="ifsc"
+
+placeholder="SBIN0001234"
+
+required>
+
+</div>
+
+<div class="mb-4">
+
+<label class="form-label">
+
+Transfer Type
+
+</label>
+
+<select
+
+class="form-select"
+
+id="transferType"
+
+required>
+
+<option>
+
+Select Transfer Type
+
+</option>
+
+<option>
+
+UPI
+
+</option>
+
+<option>
+
+NEFT
+
+</option>
+
+<option>
+
+RTGS
+
+</option>
+
+<option>
+
+IMPS
+
+</option>
+
+</select>
+
+</div>
+
+<div class="mb-4">
+
+<label class="form-label">
+
+Remarks
+
+</label>
+
+<textarea
+
+class="form-control"
+
+id="remarks"
+
+placeholder="Enter transfer remarks">
+
+</textarea>
+
+</div>
+
+<div class="mb-4">
+
+<label class="form-label">
+
+Transaction PIN
+
+</label>
+
+<div class="input-group">
+
+<input
+
+type="password"
+
+class="form-control"
+
+id="pin"
+
+maxlength="4"
+
+placeholder="Enter 4-digit PIN"
+
+required>
+
+<span
+
+class="input-group-text"
+
+onclick="togglePin()">
+
+<i
+
+class="bi bi-eye-fill"
+
+id="pinIcon">
+
+</i>
+
+</span>
+
+</div>
+
+</div>
+
+<button
+
+type="submit"
+
+class="btn-transfer"
+
+id="transferBtn">
+
+<i class="bi bi-send-fill"></i>
+
+Transfer Money
+
+</button>
+
+<button
+
+type="reset"
+
+class="btn-reset">
+
+Reset Form
+
+</button>
+
+<div
+
+class="success-box"
+
+id="successBox">
+
+Fund Transfer Completed Successfully.
+
+</div>
+
+<div
+
+class="error-box"
+
+id="errorBox">
+
+Transfer Failed. Please Try Again.
+
+</div>
+
+</form>
+
+</div>
+
+<!-- ================= RIGHT CARD ================= -->
+
+<div>
+
+<div class="balance-card">
+
+<h6>
+
+Available Balance
+
+</h6>
+
+<h2>
+
+₹ 1,25,000
+
+</h2>
+
+</div>
+<h3 class="card-title">
+
+Recent Fund Transfers
+
+</h3>
+
+<div class="history-list">
+
+<div class="history-item">
+
+<div class="history-left">
+
+<div class="history-icon">
+
+<i class="bi bi-arrow-left-right"></i>
+
+</div>
+
+<div>
+
+<h6>
+
+Transfer to Aarav Sharma
+
+</h6>
+
+<small>
+
+10 Jul 2026 • 10:45 AM • UPI
+
+</small>
+
+</div>
+
+</div>
+
+<div class="amount">
+
+₹ 5,000
+
+</div>
+
+</div>
+
+<div class="history-item">
+
+<div class="history-left">
+
+<div class="history-icon">
+
+<i class="bi bi-arrow-left-right"></i>
+
+</div>
+
+<div>
+
+<h6>
+
+Transfer to Priya Patil
+
+</h6>
+
+<small>
+
+09 Jul 2026 • 03:20 PM • NEFT
+
+</small>
+
+</div>
+
+</div>
+
+<div class="amount">
+
+₹ 12,000
+
+</div>
+
+</div>
+
+<div class="history-item">
+
+<div class="history-left">
+
+<div class="history-icon">
+
+<i class="bi bi-arrow-left-right"></i>
+
+</div>
+
+<div>
+
+<h6>
+
+Transfer to Rahul Verma
+
+</h6>
+
+<small>
+
+08 Jul 2026 • 01:15 PM • IMPS
+
+</small>
+
+</div>
+
+</div>
+
+<div class="amount">
+
+₹ 8,750
+
+</div>
+
+</div>
+
+<div class="history-item">
+
+<div class="history-left">
+
+<div class="history-icon">
+
+<i class="bi bi-arrow-left-right"></i>
+
+</div>
+
+<div>
+
+<h6>
+
+Transfer to Neha Joshi
+
+</h6>
+
+<small>
+
+07 Jul 2026 • 09:40 AM • RTGS
+
+</small>
+
+</div>
+
+</div>
+
+<div class="amount">
+
+₹ 25,000
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+FOOTER
+===================================================== -->
+
+<footer class="text-center py-4 mt-4">
+
+<p class="text-muted mb-0">
+
+© 2026 <strong>VaultSync Banking Management System</strong> |
+Fund Transfer Module
+
+</p>
+
+</footer>
+
+</div>
+<!-- =====================================================
+END MAIN
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+// ==========================================
+// SHOW / HIDE TRANSACTION PIN
+// ==========================================
+
+function togglePin(){
+
+const pin=document.getElementById("pin");
+
+const icon=document.getElementById("pinIcon");
+
+if(pin.type==="password"){
+
+pin.type="text";
+
+icon.className="bi bi-eye-slash-fill";
+
+}else{
+
+pin.type="password";
+
+icon.className="bi bi-eye-fill";
+
+}
+
+}
+
+// ==========================================
+// FUND TRANSFER
+// ==========================================
+
+const form=document.getElementById("transferForm");
+
+const transferBtn=document.getElementById("transferBtn");
+
+const successBox=document.getElementById("successBox");
+
+const errorBox=document.getElementById("errorBox");
+
+form.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const amount=parseFloat(document.getElementById("amount").value);
+
+const ifsc=document.getElementById("ifsc").value.trim();
+
+const type=document.getElementById("transferType").value;
+
+const balance=125000;
+
+successBox.style.display="none";
+
+errorBox.style.display="none";
+
+if(isNaN(amount)||amount<=0){
+
+alert("Enter a valid transfer amount.");
+
+return;
+
+}
+
+if(amount>balance){
+
+errorBox.innerHTML="Insufficient Balance.";
+
+errorBox.style.display="block";
+
+return;
+
+}
+
+if(type==="Select Transfer Type"){
+
+alert("Please select transfer type.");
+
+return;
+
+}
+
+if(ifsc.length<8){
+
+alert("Enter a valid IFSC Code.");
+
+return;
+
+}
+
+transferBtn.innerHTML=
+
+'<span class="spinner-border spinner-border-sm me-2"></span>Processing Transfer...';
+
+transferBtn.disabled=true;
+
+setTimeout(()=>{
+
+successBox.style.display="block";
+
+transferBtn.innerHTML='<i class="bi bi-check-circle-fill"></i> Transfer Successful';
+
+transferBtn.classList.remove("btn-transfer");
+
+transferBtn.classList.add("btn","btn-success");
+
+},2000);
+
+});
+
+// ==========================================
+// SEARCH
+// ==========================================
+
+document.querySelector(".search-box input")
+
+.addEventListener("keyup",function(){
+
+console.log("Searching : "+this.value);
+
+});
+
+// ==========================================
+// SIDEBAR ACTIVE
+// ==========================================
+
+document.querySelectorAll(".sidebar a")
+
+.forEach(link=>{
+
+link.addEventListener("click",function(){
+
+document.querySelectorAll(".sidebar a")
+
+.forEach(item=>item.classList.remove("active"));
+
+this.classList.add("active");
+
+});
+
+});
+
+</script>
+
+</body>
+
+</html>

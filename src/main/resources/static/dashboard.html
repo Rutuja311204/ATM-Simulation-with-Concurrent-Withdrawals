@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ==========================================================
+        VaultSync Banking Management System
+        Dashboard
+        Frontend : HTML5 + CSS3 + Bootstrap 5 + JavaScript
+        Backend  : Core Java + JDBC + MySQL
+=========================================================== -->
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+
+VaultSync | Dashboard
+
+</title>
+
+<!-- Google Fonts -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Bootstrap -->
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+
+/*=========================================================
+ROOT
+=========================================================*/
+
+:root{
+
+--primary:#D4AF37;
+
+--secondary:#0D3B2E;
+
+--background:#F6F4EC;
+
+--card:#FFFFFF;
+
+--text:#1A2433;
+
+--muted:#718096;
+
+--border:#ECECEC;
+
+--shadow:0 18px 40px rgba(0,0,0,.08);
+
+--heading:"Sora",sans-serif;
+
+--body:"Manrope",sans-serif;
+
+}
+
+/*=========================================================
+RESET
+=========================================================*/
+
+*{
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
+
+}
+
+body{
+
+background:var(--background);
+
+font-family:var(--body);
+
+color:var(--text);
+
+overflow-x:hidden;
+
+}
+
+/*=========================================================
+SIDEBAR
+=========================================================*/
+
+.sidebar{
+
+position:fixed;
+
+left:0;
+
+top:0;
+
+width:280px;
+
+height:100vh;
+
+background:linear-gradient(180deg,#0D3B2E,#144936);
+
+padding:35px 25px;
+
+color:white;
+
+overflow:auto;
+
+}
+
+.logo{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+font-family:var(--heading);
+
+font-size:30px;
+
+font-weight:800;
+
+margin-bottom:45px;
+
+}
+
+.logo i{
+
+color:var(--primary);
+
+font-size:36px;
+
+}
+
+.sidebar h6{
+
+margin:30px 0 15px;
+
+opacity:.6;
+
+font-size:13px;
+
+text-transform:uppercase;
+
+letter-spacing:1px;
+
+}
+
+.sidebar a{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+padding:14px 18px;
+
+margin-bottom:10px;
+
+border-radius:14px;
+
+text-decoration:none;
+
+color:white;
+
+font-weight:600;
+
+transition:.3s;
+
+}
+
+.sidebar a:hover,
+
+.sidebar a.active{
+
+background:rgba(255,255,255,.12);
+
+}
+
+.sidebar a i{
+
+font-size:19px;
+
+width:22px;
+
+text-align:center;
+
+}
+
+/*=========================================================
+MAIN
+=========================================================*/
+
+.main{
+
+margin-left:280px;
+
+padding:35px;
+
+}
+
+/*=========================================================
+TOPBAR
+=========================================================*/
+
+.topbar{
+
+background:white;
+
+padding:18px 28px;
+
+border-radius:22px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+box-shadow:var(--shadow);
+
+margin-bottom:35px;
+
+}
+
+.search{
+
+position:relative;
+
+width:380px;
+
+}
+
+.search input{
+
+width:100%;
+
+height:52px;
+
+border:1px solid var(--border);
+
+border-radius:14px;
+
+padding-left:50px;
+
+outline:none;
+
+}
+
+.search i{
+
+position:absolute;
+
+left:18px;
+
+top:17px;
+
+color:var(--muted);
+
+}
+
+.profile{
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+}
+
+.profile img{
+
+width:52px;
+
+height:52px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+.notification{
+
+width:50px;
+
+height:50px;
+
+border-radius:50%;
+
+background:#F4F4F4;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:20px;
+
+cursor:pointer;
+
+}
+
+/*=========================================================
+WELCOME
+=========================================================*/
+
+.welcome{
+
+margin-bottom:30px;
+
+}
+
+.welcome h2{
+
+font-family:var(--heading);
+
+font-size:38px;
+
+font-weight:800;
+
+}
+
+.welcome p{
+
+color:var(--muted);
+
+margin-top:8px;
+
+}
+/*=========================================================
+STAT CARDS
+=========================================================*/
+
+.cards{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:22px;
+
+margin-bottom:30px;
+
+}
+
+.card-box{
+
+background:var(--card);
+
+padding:28px;
+
+border-radius:22px;
+
+box-shadow:var(--shadow);
+
+transition:.35s;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.card-box::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:0;
+
+width:6px;
+
+height:100%;
+
+background:var(--primary);
+
+}
+
+.card-box:hover{
+
+transform:translateY(-8px);
+
+}
+
+.card-icon{
+
+width:60px;
+
+height:60px;
+
+border-radius:18px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:#FFF7DD;
+
+font-size:26px;
+
+color:var(--primary);
+
+margin-bottom:18px;
+
+}
+
+.card-box h3{
+
+font-size:34px;
+
+font-weight:800;
+
+font-family:var(--heading);
+
+margin-bottom:6px;
+
+}
+
+.card-box p{
+
+margin:0;
+
+color:var(--muted);
+
+}
+
+.growth{
+
+margin-top:10px;
+
+font-size:14px;
+
+font-weight:700;
+
+color:#198754;
+
+}
+
+/*=========================================================
+GRID
+=========================================================*/
+
+.dashboard-grid{
+
+display:grid;
+
+grid-template-columns:2fr 1fr;
+
+gap:24px;
+
+margin-bottom:30px;
+
+}
+
+.dashboard-card{
+
+background:white;
+
+padding:28px;
+
+border-radius:22px;
+
+box-shadow:var(--shadow);
+
+}
+
+.dashboard-card h4{
+
+font-family:var(--heading);
+
+font-size:24px;
+
+font-weight:700;
+
+margin-bottom:20px;
+
+}
+
+/*=========================================================
+CHART PLACEHOLDER
+=========================================================*/
+
+.chart{
+
+height:340px;
+
+border-radius:18px;
+
+background:
+
+linear-gradient(180deg,#FFFFFF,#F5F5F5);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border:2px dashed #E5E5E5;
+
+font-size:22px;
+
+color:#999;
+
+}
+
+/*=========================================================
+QUICK ACTIONS
+=========================================================*/
+
+.quick-actions{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:15px;
+
+}
+
+.action-btn{
+
+padding:18px;
+
+border-radius:18px;
+
+background:#F8F8F8;
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.action-btn:hover{
+
+background:#FFF6D8;
+
+transform:translateY(-5px);
+
+}
+
+.action-btn i{
+
+font-size:28px;
+
+color:var(--primary);
+
+}
+
+.action-btn h6{
+
+margin:0;
+
+font-weight:700;
+
+}
+
+.action-btn small{
+
+color:var(--muted);
+
+}
+
+/*=========================================================
+RECENT TRANSACTIONS
+=========================================================*/
+
+.table-card{
+
+background:white;
+
+padding:28px;
+
+border-radius:22px;
+
+box-shadow:var(--shadow);
+
+margin-bottom:30px;
+
+}
+
+.table-card h4{
+
+font-family:var(--heading);
+
+font-size:24px;
+
+font-weight:700;
+
+margin-bottom:20px;
+
+}
+
+.table{
+
+margin:0;
+
+}
+
+.table thead{
+
+background:#F7F7F7;
+
+}
+
+.table th{
+
+padding:16px;
+
+font-size:15px;
+
+}
+
+.table td{
+
+padding:18px 16px;
+
+vertical-align:middle;
+
+}
+
+.badge-success{
+
+background:#DFF7E5;
+
+color:#198754;
+
+padding:8px 16px;
+
+border-radius:20px;
+
+}
+
+.badge-pending{
+
+background:#FFF4D6;
+
+color:#C68A00;
+
+padding:8px 16px;
+
+border-radius:20px;
+
+}
+
+.badge-failed{
+
+background:#FFE1E1;
+
+color:#DC3545;
+
+padding:8px 16px;
+
+border-radius:20px;
+
+}
+/*=========================================================
+THREAD STATUS
+=========================================================*/
+
+.thread-list{
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+}
+
+.thread-item{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:18px;
+
+border-radius:18px;
+
+background:#F8F8F8;
+
+transition:.3s;
+
+}
+
+.thread-item:hover{
+
+background:#FFF6D8;
+
+}
+
+.thread-left{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+}
+
+.thread-icon{
+
+width:52px;
+
+height:52px;
+
+border-radius:16px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:#FFF4D6;
+
+color:var(--primary);
+
+font-size:22px;
+
+}
+
+.thread-status{
+
+padding:8px 18px;
+
+border-radius:30px;
+
+font-size:14px;
+
+font-weight:700;
+
+}
+
+.running{
+
+background:#DFF7E5;
+
+color:#198754;
+
+}
+
+.waiting{
+
+background:#FFF3CD;
+
+color:#D39E00;
+
+}
+
+.completed{
+
+background:#D6F4FF;
+
+color:#0D6EFD;
+
+}
+
+/*=========================================================
+RESPONSIVE
+=========================================================*/
+
+@media(max-width:1200px){
+
+.cards{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+.dashboard-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:991px){
+
+.sidebar{
+
+left:-100%;
+
+}
+
+.main{
+
+margin-left:0;
+
+padding:20px;
+
+}
+
+.topbar{
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.search{
+
+width:100%;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.cards{
+
+grid-template-columns:1fr;
+
+}
+
+.quick-actions{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+/*=========================================================
+END CSS
+=========================================================*/
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =====================================================
+SIDEBAR
+===================================================== -->
+
+<div class="sidebar">
+
+<div class="logo">
+
+<i class="bi bi-bank2"></i>
+
+VaultSync
+
+</div>
+
+<h6>Main Menu</h6>
+
+<a href="#" class="active">
+
+<i class="bi bi-speedometer2"></i>
+
+Dashboard
+
+</a>
+
+<a href="#">
+
+<i class="bi bi-people-fill"></i>
+
+Customer Accounts
+
+</a>
+
+<a href="#">
+
+<i class="bi bi-cash-stack"></i>
+
+Withdraw Money
+
+</a>
+
+<a href="#">
+
+<i class="bi bi-wallet2"></i>
+
+Deposit Money
+
+</a>
+
+<a href="#">
+
+<i class="bi bi-arrow-left-right"></i>
+
+Fund Transfer
+
+</a>
+
+<a href="#">
+
+<i class="bi bi-clock-history"></i>
+
+Transaction History
+
+</a>
+
+<h6>Concurrency Lab</h6>
+
+<a href="#">
+
+<i class="bi bi-cpu-fill"></i>
+
+Concurrent Simulation
+
+</a>
+
+<a href="#">
+
+<i class="bi bi-diagram-3-fill"></i>
+
+Thread Monitor
+
+</a>
+
+<h6>Reports</h6>
+
+<a href="#">
+
+<i class="bi bi-graph-up-arrow"></i>
+
+Analytics
+
+</a>
+
+<a href="#">
+
+<i class="bi bi-file-earmark-bar-graph"></i>
+
+Reports
+
+</a>
+
+<a href="#">
+
+<i class="bi bi-bell-fill"></i>
+
+Notifications
+
+</a>
+
+<a href="#">
+
+<i class="bi bi-gear-fill"></i>
+
+Settings
+
+</a>
+
+<a href="#">
+
+<i class="bi bi-box-arrow-right"></i>
+
+Logout
+
+</a>
+
+</div>
+
+<!-- =====================================================
+MAIN START
+===================================================== -->
+
+<div class="main">
+    <!-- =====================================================
+TOP BAR
+===================================================== -->
+
+<div class="topbar">
+
+<div class="search">
+
+<i class="bi bi-search"></i>
+
+<input
+
+type="text"
+
+placeholder="Search customers, transactions, threads...">
+
+</div>
+
+<div class="profile">
+
+<div class="notification">
+
+<i class="bi bi-bell-fill"></i>
+
+</div>
+
+<img src="https://i.pravatar.cc/150?img=12">
+
+<div>
+
+<h6 class="mb-0 fw-bold" id="customerName">
+Loading...
+</h6>
+
+<small class="text-muted">
+
+Administrator
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+WELCOME
+===================================================== -->
+
+<div class="welcome">
+<h2 id="welcomeText">
+
+Good Morning 👋
+
+</h2>
+<p>
+
+Here's what's happening in your Banking Management System today.
+
+</p>
+
+</div>
+
+<!-- =====================================================
+STATISTICS
+===================================================== -->
+
+<div class="cards">
+
+<div class="card-box">
+
+<div class="card-icon">
+
+<i class="bi bi-wallet2"></i>
+
+</div>
+
+<h3>
+
+₹12,45,000
+
+</h3>
+
+<p>
+
+Total Balance
+
+</p>
+
+<div class="growth">
+
++12.5% from yesterday
+
+</div>
+
+</div>
+
+<div class="card-box">
+
+<div class="card-icon">
+
+<i class="bi bi-cash-stack"></i>
+
+</div>
+
+<h3>
+
+₹2,85,000
+
+</h3>
+
+<p>
+
+Today's Withdrawals
+
+</p>
+
+<div class="growth">
+
++8.2%
+
+</div>
+
+</div>
+
+<div class="card-box">
+
+<div class="card-icon">
+
+<i class="bi bi-bank"></i>
+
+</div>
+
+<h3>
+
+₹3,40,000
+
+</h3>
+
+<p>
+
+Today's Deposits
+
+</p>
+
+<div class="growth">
+
++9.0%
+
+</div>
+
+</div>
+
+<div class="card-box">
+
+<div class="card-icon">
+
+<i class="bi bi-cpu-fill"></i>
+
+</div>
+
+<h3>
+
+08
+
+</h3>
+
+<p>
+
+Active Threads
+
+</p>
+
+<div class="growth">
+
+Running Now
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+CHART + QUICK ACTIONS
+===================================================== -->
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card">
+
+<h4>
+
+Transaction Overview
+
+</h4>
+
+<div class="chart">
+
+📊 Transaction Analytics Chart
+
+</div>
+
+</div>
+
+<div class="dashboard-card">
+
+<h4>
+
+Quick Actions
+
+</h4>
+
+<div class="quick-actions">
+
+<div class="action-btn">
+
+<i class="bi bi-cash-stack"></i>
+
+<div>
+
+<h6>
+
+Withdraw
+
+</h6>
+
+<small>
+
+Withdraw Money
+
+</small>
+
+</div>
+
+</div>
+
+<div class="action-btn">
+
+<i class="bi bi-wallet2"></i>
+
+<div>
+
+<h6>
+
+Deposit
+
+</h6>
+
+<small>
+
+Deposit Money
+
+</small>
+
+</div>
+
+</div>
+
+<div class="action-btn">
+
+<i class="bi bi-arrow-left-right"></i>
+
+<div>
+
+<h6>
+
+Transfer
+
+</h6>
+
+<small>
+
+Fund Transfer
+
+</small>
+
+</div>
+
+</div>
+
+<div class="action-btn">
+
+<i class="bi bi-clock-history"></i>
+
+<div>
+
+<h6>
+
+History
+
+</h6>
+
+<small>
+
+Transactions
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<!-- =====================================================
+RECENT TRANSACTIONS
+===================================================== -->
+
+<div class="table-card">
+
+<h4>
+
+Recent Transactions
+
+</h4>
+
+<div class="table-responsive">
+
+<table class="table align-middle">
+
+<thead>
+
+<tr>
+
+<th>Transaction ID</th>
+
+<th>Customer</th>
+
+<th>Type</th>
+
+<th>Amount</th>
+
+<th>Status</th>
+
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>TXN10001</td>
+
+<td>Rutuja Divate</td>
+
+<td>Deposit</td>
+
+<td class="fw-bold text-success">
+
++ ₹25,000
+
+</td>
+
+<td>
+
+<span class="badge-success">
+
+Completed
+
+</span>
+
+</td>
+
+<td>10 Jul 2026</td>
+
+</tr>
+
+<tr>
+
+<td>TXN10002</td>
+
+<td>Aarav Sharma</td>
+
+<td>Withdrawal</td>
+
+<td class="fw-bold text-danger">
+
+- ₹8,000
+
+</td>
+
+<td>
+
+<span class="badge-success">
+
+Completed
+
+</span>
+
+</td>
+
+<td>10 Jul 2026</td>
+
+</tr>
+
+<tr>
+
+<td>TXN10003</td>
+
+<td>Priya Patil</td>
+
+<td>Transfer</td>
+
+<td class="fw-bold text-primary">
+
+₹12,000
+
+</td>
+
+<td>
+
+<span class="badge-pending">
+
+Pending
+
+</span>
+
+</td>
+
+<td>10 Jul 2026</td>
+
+</tr>
+
+<tr>
+
+<td>TXN10004</td>
+
+<td>Rahul Verma</td>
+
+<td>Withdrawal</td>
+
+<td class="fw-bold text-danger">
+
+- ₹5,000
+
+</td>
+
+<td>
+
+<span class="badge-failed">
+
+Failed
+
+</span>
+
+</td>
+
+<td>09 Jul 2026</td>
+
+</tr>
+
+<tr>
+
+<td>TXN10005</td>
+
+<td>Neha Joshi</td>
+
+<td>Deposit</td>
+
+<td class="fw-bold text-success">
+
++ ₹50,000
+
+</td>
+
+<td>
+
+<span class="badge-success">
+
+Completed
+
+</span>
+
+</td>
+
+<td>09 Jul 2026</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+THREAD STATUS
+===================================================== -->
+
+<div class="dashboard-card">
+
+<h4>
+
+Live Thread Status
+
+</h4>
+
+<div class="thread-list">
+
+<div class="thread-item">
+
+<div class="thread-left">
+
+<div class="thread-icon">
+
+<i class="bi bi-cpu-fill"></i>
+
+</div>
+
+<div>
+
+<h6 class="mb-1">
+
+Thread-01
+
+</h6>
+
+<small class="text-muted">
+
+ATM Withdrawal
+
+</small>
+
+</div>
+
+</div>
+
+<span class="thread-status running">
+
+Running
+
+</span>
+
+</div>
+
+<div class="thread-item">
+
+<div class="thread-left">
+
+<div class="thread-icon">
+
+<i class="bi bi-hourglass-split"></i>
+
+</div>
+
+<div>
+
+<h6 class="mb-1">
+
+Thread-02
+
+</h6>
+
+<small class="text-muted">
+
+Waiting For Lock
+
+</small>
+
+</div>
+
+</div>
+
+<span class="thread-status waiting">
+
+Waiting
+
+</span>
+
+</div>
+
+<div class="thread-item">
+
+<div class="thread-left">
+
+<div class="thread-icon">
+
+<i class="bi bi-check-circle-fill"></i>
+
+</div>
+
+<div>
+
+<h6 class="mb-1">
+
+Thread-03
+
+</h6>
+
+<small class="text-muted">
+
+Deposit Completed
+
+</small>
+
+</div>
+
+</div>
+
+<span class="thread-status completed">
+
+Completed
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+<!-- =====================================================
+FOOTER
+===================================================== -->
+
+<footer class="text-center py-4 mt-4">
+
+<p class="text-muted mb-0">
+
+© 2026 <strong>VaultSync Banking Management System</strong>
+| Developed using Core Java, JDBC & MySQL
+
+</p>
+
+</footer>
+
+</div>
+
+<!-- =====================================================
+END MAIN
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+// ==========================================
+// SEARCH
+// ==========================================
+
+const searchInput=document.querySelector(".search input");
+
+searchInput.addEventListener("keyup",function(){
+
+console.log("Searching : "+this.value);
+
+});
+
+// ==========================================
+// CARD HOVER
+// ==========================================
+
+document.querySelectorAll(".card-box").forEach(card=>{
+
+card.addEventListener("mouseenter",()=>{
+
+card.style.transform="translateY(-10px)";
+
+});
+
+card.addEventListener("mouseleave",()=>{
+
+card.style.transform="translateY(0px)";
+
+});
+
+});
+
+// ==========================================
+// QUICK ACTION CLICK
+// ==========================================
+
+document.querySelectorAll(".action-btn").forEach(btn=>{
+
+btn.addEventListener("click",()=>{
+
+const action=btn.querySelector("h6").innerText;
+
+alert(action+" Module Coming Next");
+
+});
+
+});
+
+// ==========================================
+// LIVE COUNTER
+// ==========================================
+
+function animateValue(element,start,end,duration){
+
+let range=end-start;
+
+let current=start;
+
+let increment=end>start?1:-1;
+
+let stepTime=Math.abs(Math.floor(duration/range));
+
+let timer=setInterval(()=>{
+
+current+=increment;
+
+element.textContent=current;
+
+if(current==end){
+
+clearInterval(timer);
+
+}
+
+},stepTime);
+
+}
+
+const threadCard=document.querySelectorAll(".card-box h3")[3];
+
+animateValue(threadCard,0,8,1200);
+
+// ==========================================
+// NOTIFICATION
+// ==========================================
+
+document.querySelector(".notification")
+
+.addEventListener("click",()=>{
+
+alert("No New Notifications");
+
+});
+
+// ==========================================
+// ACTIVE SIDEBAR
+// ==========================================
+
+document.querySelectorAll(".sidebar a")
+
+.forEach(link=>{
+
+link.addEventListener("click",function(){
+
+document.querySelectorAll(".sidebar a")
+
+.forEach(item=>item.classList.remove("active"));
+
+this.classList.add("active");
+
+});
+
+});
+
+// ==========================================
+// LOAD LOGGED-IN CUSTOMER
+// ==========================================
+
+const email = localStorage.getItem("email");
+
+if(email){
+
+fetch("http://localhost:8081/customer/"+email)
+
+.then(res=>res.json())
+
+.then(customer=>{
+
+document.getElementById("customerName").innerHTML =
+customer.fullName;
+
+document.getElementById("welcomeText").innerHTML =
+"Good Morning, "+customer.fullName+" 👋";
+
+});
+
+}
+
+</script>
+
+</body>
+
+</html>

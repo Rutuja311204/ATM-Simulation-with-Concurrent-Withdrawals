@@ -1,0 +1,2913 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- =========================================================
+      VaultSync Banking Management System
+      MCA Final Year Project
+      Frontend : HTML5 + CSS3 + JavaScript + Bootstrap
+      Backend  : Core Java + JDBC + MySQL
+========================================================= -->
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+
+VaultSync • Banking Management System
+
+</title>
+
+<meta
+name="description"
+content="ATM Simulation with Concurrent Withdrawals using Java Multithreading">
+
+<!-- =========================================================
+GOOGLE FONT
+========================================================= -->
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<!-- =========================================================
+BOOTSTRAP
+========================================================= -->
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link
+rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+
+/*=========================================================
+ROOT VARIABLES
+=========================================================*/
+
+:root{
+
+--primary:#D4AF37;
+
+--secondary:#0D3B2E;
+
+--accent:#F7E7B0;
+
+--bg:#FAF8F2;
+
+--bg2:#F2EEE3;
+
+--card:rgba(255,255,255,.72);
+
+--text:#111827;
+
+--muted:#667085;
+
+--border:rgba(212,175,55,.18);
+
+--shadow:
+
+0 30px 70px rgba(15,23,42,.12);
+
+--radius:24px;
+
+--heading:"Sora",sans-serif;
+
+--body:"Manrope",sans-serif;
+
+}
+
+/*=========================================================
+DARK MODE
+=========================================================*/
+
+body.dark{
+
+--bg:#071B14;
+
+--bg2:#10261E;
+
+--card:rgba(18,35,28,.72);
+
+--text:#F8FAFC;
+
+--muted:#B6C3BC;
+
+--border:rgba(212,175,55,.18);
+
+}
+
+/*=========================================================
+RESET
+=========================================================*/
+
+*{
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
+
+}
+
+html{
+
+scroll-behavior:smooth;
+
+}
+
+body{
+
+font-family:var(--body);
+
+background:var(--bg);
+
+color:var(--text);
+
+overflow-x:hidden;
+
+transition:.45s;
+
+}
+
+/*=========================================================
+BACKGROUND
+=========================================================*/
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+width:700px;
+
+height:700px;
+
+border-radius:50%;
+
+background:
+
+radial-gradient(circle,
+rgba(212,175,55,.22),
+transparent 70%);
+
+top:-250px;
+
+right:-250px;
+
+filter:blur(45px);
+
+z-index:-2;
+
+animation:blob1 10s infinite alternate;
+
+}
+
+body::after{
+
+content:"";
+
+position:fixed;
+
+width:600px;
+
+height:600px;
+
+border-radius:50%;
+
+background:
+
+radial-gradient(circle,
+rgba(13,59,46,.28),
+transparent 70%);
+
+bottom:-220px;
+
+left:-180px;
+
+filter:blur(40px);
+
+z-index:-2;
+
+animation:blob2 8s infinite alternate;
+
+}
+
+@keyframes blob1{
+
+100%{
+
+transform:translateY(80px)
+translateX(-40px);
+
+}
+
+}
+
+@keyframes blob2{
+
+100%{
+
+transform:translateY(-80px)
+translateX(60px);
+
+}
+
+}
+
+/*=========================================================
+COMMON
+=========================================================*/
+
+.container{
+
+max-width:1380px;
+
+}
+
+section{
+
+padding:90px 0;
+
+}
+
+h1,h2,h3,h4{
+
+font-family:var(--heading);
+
+}
+
+p{
+
+color:var(--muted);
+
+line-height:1.9;
+
+}
+
+/*=========================================================
+NAVBAR
+=========================================================*/
+
+.navbar{
+
+margin-top:20px;
+
+padding:18px 26px;
+
+border-radius:22px;
+
+background:rgba(255,255,255,.65);
+
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.25);
+
+box-shadow:var(--shadow);
+
+transition:.4s;
+
+}
+
+body.dark .navbar{
+
+background:rgba(18,35,28,.65);
+
+}
+
+.logo{
+
+font-size:32px;
+
+font-family:var(--heading);
+
+font-weight:800;
+
+letter-spacing:-1px;
+
+color:var(--primary);
+
+text-decoration:none;
+
+}
+
+.nav-link{
+
+margin-left:18px;
+
+font-weight:600;
+
+color:var(--text)!important;
+
+transition:.35s;
+
+}
+
+.nav-link:hover{
+
+color:var(--primary)!important;
+
+}
+
+/*=========================================================
+BUTTONS
+=========================================================*/
+
+.btn-gold{
+
+background:
+
+linear-gradient(135deg,
+#D4AF37,
+#F7E7B0);
+
+border:none;
+
+padding:14px 30px;
+
+border-radius:16px;
+
+font-weight:700;
+
+color:#111;
+
+transition:.35s;
+
+}
+
+.btn-gold:hover{
+
+transform:translateY(-5px);
+
+box-shadow:
+
+0 20px 35px rgba(212,175,55,.35);
+
+}
+
+.btn-outline-bank{
+
+background:transparent;
+
+border:1px solid var(--border);
+
+padding:14px 28px;
+
+border-radius:16px;
+
+font-weight:600;
+
+color:var(--text);
+
+transition:.35s;
+
+}
+
+.btn-outline-bank:hover{
+
+background:var(--secondary);
+
+color:#fff;
+
+}
+
+/*=========================================================
+THEME BUTTON
+=========================================================*/
+
+.theme-toggle{
+
+width:48px;
+
+height:48px;
+
+border-radius:50%;
+
+border:none;
+
+background:var(--card);
+
+box-shadow:var(--shadow);
+
+font-size:20px;
+
+cursor:pointer;
+
+transition:.4s;
+
+}
+
+.theme-toggle:hover{
+
+transform:rotate(180deg);
+
+}
+/*=========================================================
+HERO SECTION
+=========================================================*/
+
+.hero{
+
+min-height:100vh;
+
+display:flex;
+
+align-items:center;
+
+position:relative;
+
+padding-top:120px;
+
+overflow:hidden;
+
+}
+
+.hero-left{
+
+position:relative;
+
+z-index:2;
+
+}
+
+.hero-badge{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:10px;
+
+padding:12px 20px;
+
+border-radius:50px;
+
+background:rgba(212,175,55,.12);
+
+border:1px solid rgba(212,175,55,.20);
+
+backdrop-filter:blur(20px);
+
+font-size:14px;
+
+font-weight:700;
+
+color:var(--primary);
+
+margin-bottom:28px;
+
+}
+
+.hero h1{
+
+font-size:78px;
+
+line-height:1;
+
+font-weight:800;
+
+letter-spacing:-3px;
+
+margin-bottom:28px;
+
+max-width:720px;
+
+}
+
+.hero h1 span{
+
+background:
+
+linear-gradient(
+
+135deg,
+
+#D4AF37,
+
+#F7E7B0);
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
+
+}
+
+.hero p{
+
+font-size:18px;
+
+max-width:650px;
+
+margin-bottom:40px;
+
+}
+
+.hero-buttons{
+
+display:flex;
+
+gap:18px;
+
+flex-wrap:wrap;
+
+}
+
+/*=========================================================
+LIVE STATUS
+=========================================================*/
+
+.live-status{
+
+margin-top:35px;
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+font-weight:700;
+
+color:#16A34A;
+
+}
+
+.live-dot{
+
+width:14px;
+
+height:14px;
+
+border-radius:50%;
+
+background:#16A34A;
+
+animation:pulse 1.6s infinite;
+
+}
+
+@keyframes pulse{
+
+0%{
+
+box-shadow:0 0 0 0 rgba(22,163,74,.55);
+
+}
+
+100%{
+
+box-shadow:0 0 0 18px rgba(22,163,74,0);
+
+}
+
+}
+
+/*=========================================================
+RIGHT SIDE
+=========================================================*/
+
+.hero-right{
+
+display:flex;
+
+justify-content:center;
+
+position:relative;
+
+}
+
+.dashboard{
+
+width:560px;
+
+background:var(--card);
+
+border:1px solid var(--border);
+
+border-radius:30px;
+
+backdrop-filter:blur(20px);
+
+padding:30px;
+
+box-shadow:var(--shadow);
+
+animation:floating 6s ease-in-out infinite;
+
+}
+
+@keyframes floating{
+
+50%{
+
+transform:translateY(-18px);
+
+}
+
+}
+
+/*=========================================================
+TOP BAR
+=========================================================*/
+
+.dashboard-top{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:28px;
+
+}
+
+.user{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+}
+
+.user img{
+
+width:58px;
+
+height:58px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+.user h5{
+
+margin:0;
+
+font-weight:800;
+
+}
+
+.user small{
+
+color:var(--muted);
+
+}
+
+/*=========================================================
+BALANCE CARD
+=========================================================*/
+
+.balance{
+
+margin-top:20px;
+
+padding:30px;
+
+border-radius:25px;
+
+background:
+
+linear-gradient(
+
+135deg,
+
+#0D3B2E,
+
+#1D5C46);
+
+color:white;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.balance::before{
+
+content:"";
+
+position:absolute;
+
+width:250px;
+
+height:250px;
+
+border-radius:50%;
+
+background:
+
+rgba(255,255,255,.08);
+
+top:-120px;
+
+right:-120px;
+
+}
+
+.balance small{
+
+font-size:14px;
+
+opacity:.85;
+
+}
+
+.balance h2{
+
+margin-top:15px;
+
+font-size:46px;
+
+font-weight:800;
+
+}
+
+.balance-row{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-top:28px;
+
+}
+
+.balance-item h4{
+
+font-size:18px;
+
+margin-bottom:4px;
+
+}
+
+.balance-item span{
+
+opacity:.8;
+
+font-size:13px;
+
+}
+
+/*=========================================================
+STATISTICS GRID
+=========================================================*/
+
+.grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:18px;
+
+margin-top:30px;
+
+}
+
+.grid-card{
+
+background:var(--bg2);
+
+border:1px solid var(--border);
+
+padding:24px;
+
+border-radius:20px;
+
+transition:.35s;
+
+cursor:pointer;
+
+}
+
+.grid-card:hover{
+
+transform:translateY(-8px);
+
+box-shadow:0 20px 45px rgba(0,0,0,.08);
+
+}
+
+.grid-card i{
+
+font-size:34px;
+
+color:var(--primary);
+
+margin-bottom:14px;
+
+}
+
+.grid-card h3{
+
+font-size:34px;
+
+margin-bottom:6px;
+
+}
+
+.grid-card p{
+
+font-size:14px;
+
+margin:0;
+
+}
+
+/*=========================================================
+FLOATING GLASS CARDS
+=========================================================*/
+
+.float-card{
+
+position:absolute;
+
+background:var(--card);
+
+backdrop-filter:blur(20px);
+
+border:1px solid var(--border);
+
+padding:18px;
+
+border-radius:20px;
+
+box-shadow:var(--shadow);
+
+animation:moveCard 5s ease-in-out infinite;
+
+}
+
+.float-card h6{
+
+font-size:13px;
+
+color:var(--muted);
+
+margin-bottom:8px;
+
+}
+
+.float-card h4{
+
+font-size:28px;
+
+font-weight:800;
+
+margin:0;
+
+}
+
+.card1{
+
+top:40px;
+
+right:-40px;
+
+}
+
+.card2{
+
+left:-40px;
+
+bottom:70px;
+
+animation-delay:2s;
+
+}
+
+.card3{
+
+right:30px;
+
+bottom:-25px;
+
+animation-delay:1s;
+
+}
+
+@keyframes moveCard{
+
+50%{
+
+transform:translateY(-14px);
+
+}
+
+}
+
+/*=========================================================
+TRUST BADGES
+=========================================================*/
+
+.badges{
+
+display:flex;
+
+gap:14px;
+
+margin-top:40px;
+
+flex-wrap:wrap;
+
+}
+
+.badge-box{
+
+padding:12px 18px;
+
+border-radius:50px;
+
+background:var(--card);
+
+border:1px solid var(--border);
+
+font-size:14px;
+
+font-weight:700;
+
+backdrop-filter:blur(20px);
+
+}
+
+.badge-box i{
+
+margin-right:8px;
+
+color:var(--primary);
+
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================================================
+                    NAVBAR START
+========================================================= -->
+
+<div class="container">
+
+<nav class="navbar navbar-expand-lg">
+
+<a class="logo" href="#">
+
+<i class="bi bi-bank2"></i>
+
+VaultSync
+
+</a>
+
+<button
+class="navbar-toggler"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#navbarMenu">
+
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<div
+class="collapse navbar-collapse"
+id="navbarMenu">
+
+<ul class="navbar-nav ms-auto align-items-lg-center">
+
+<li class="nav-item">
+
+<a class="nav-link active" href="#">
+
+Home
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link" href="#features">
+
+Features
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link" href="#simulation">
+
+Simulation
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link" href="#analytics">
+
+Analytics
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link" href="#security">
+
+Security
+
+</a>
+
+</li>
+
+<li class="nav-item ms-lg-3">
+
+<button
+class="theme-toggle"
+id="themeToggle">
+
+<i class="bi bi-moon-stars-fill"></i>
+
+</button>
+
+</li>
+
+<li class="nav-item ms-lg-3">
+
+<a
+href="login.html"
+class="btn btn-gold">
+
+Login
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</nav>
+
+</div>
+
+<!-- =========================================================
+                    HERO SECTION
+========================================================= -->
+
+<section class="hero">
+
+<div class="container">
+
+<div class="row align-items-center">
+
+<!-- ================= LEFT SIDE ================= -->
+
+<div class="col-lg-6 hero-left">
+
+<div class="hero-badge">
+
+<i class="bi bi-stars"></i>
+
+Enterprise Banking Platform
+
+</div>
+
+<h1>
+
+Future of
+
+<span>
+
+Digital Banking
+
+</span>
+
+Starts Here.
+
+</h1>
+
+<p>
+
+VaultSync is an Enterprise Banking Management
+System developed using Core Java, JDBC and
+MySQL.
+
+The application demonstrates secure banking
+operations with Java Multithreading and
+Synchronization by simulating multiple ATM
+withdrawal requests on the same customer
+account.
+
+</p>
+
+<div class="hero-buttons">
+
+<a
+href="login.html"
+class="btn btn-gold">
+
+Get Started
+
+</a>
+
+<a
+href="#simulation"
+class="btn btn-outline-bank">
+
+Watch Simulation
+
+</a>
+
+</div>
+
+<div class="badges">
+
+<div class="badge-box">
+
+<i class="bi bi-shield-check"></i>
+
+RBI Ready
+
+</div>
+
+<div class="badge-box">
+
+<i class="bi bi-lock-fill"></i>
+
+AES-256
+
+</div>
+
+<div class="badge-box">
+
+<i class="bi bi-cpu-fill"></i>
+
+Java Threads
+
+</div>
+
+</div>
+
+<div class="live-status">
+
+<div class="live-dot"></div>
+
+System Running Securely
+
+</div>
+
+</div>
+
+<!-- ================= RIGHT SIDE ================= -->
+
+<div class="col-lg-6 hero-right">
+
+<div class="dashboard">
+
+<div class="dashboard-top">
+
+<div class="user">
+
+<img
+src="https://i.pravatar.cc/100?img=12"
+alt="User">
+
+<div>
+
+<h5>
+
+Welcome,
+Rutuja
+
+</h5>
+
+<small>
+
+Premium Banking Dashboard
+
+</small>
+
+</div>
+
+</div>
+
+<div>
+
+<i class="bi bi-bell-fill fs-4"></i>
+
+</div>
+
+</div>
+
+<div class="balance">
+
+<small>
+
+Available Balance
+
+</small>
+
+<h2>
+
+₹ 8,56,240
+
+</h2>
+
+<div class="balance-row">
+
+<div class="balance-item">
+
+<h4>
+
+₹ 1,42,500
+
+</h4>
+
+<span>
+
+Today's Deposit
+
+</span>
+
+</div>
+
+<div class="balance-item">
+
+<h4>
+
+₹ 54,800
+
+</h4>
+
+<span>
+
+Today's Withdrawal
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="grid-card">
+
+<i class="bi bi-people-fill"></i>
+
+<h3>
+
+2,560
+
+</h3>
+
+<p>
+
+Registered Customers
+
+</p>
+
+</div>
+
+<div class="grid-card">
+
+<i class="bi bi-arrow-left-right"></i>
+
+<h3>
+
+18,540
+
+</h3>
+
+<p>
+
+Transactions
+
+</p>
+
+</div>
+
+<div class="grid-card">
+
+<i class="bi bi-cpu-fill"></i>
+
+<h3>
+
+03
+
+</h3>
+
+<p>
+
+Active Threads
+
+</p>
+
+</div>
+
+<div class="grid-card">
+
+<i class="bi bi-shield-check"></i>
+
+<h3>
+
+99.98%
+
+</h3>
+
+<p>
+
+Secure Operations
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Floating Card -->
+
+<div class="float-card card1">
+
+<h6>
+
+Today's Revenue
+
+</h6>
+
+<h4>
+
+₹ 3.42L
+
+</h4>
+
+</div>
+
+<!-- Floating Card -->
+
+<div class="float-card card2">
+
+<h6>
+
+Server Health
+
+</h6>
+
+<h4>
+
+98%
+
+</h4>
+
+</div>
+
+<!-- Floating Card -->
+
+<div class="float-card card3">
+
+<h6>
+
+Running Threads
+
+</h6>
+
+<h4>
+
+03 Active
+
+</h4>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+<!-- =========================================================
+                    TRUSTED TECHNOLOGIES
+========================================================= -->
+
+<section class="py-5" id="features">
+
+<div class="container">
+
+<div class="text-center mb-5">
+
+<div class="hero-badge">
+
+<i class="bi bi-award-fill"></i>
+
+Enterprise Technology Stack
+
+</div>
+
+<h2
+style="font-size:58px;font-weight:800;">
+
+Built Using Modern Banking Technologies
+
+</h2>
+
+<p class="mt-4">
+
+Enterprise-grade architecture powered by Java,
+JDBC, MySQL and modern web technologies.
+
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-lg-2 col-md-4 col-6">
+
+<div class="grid-card text-center">
+
+<i class="bi bi-filetype-java"></i>
+
+<h4 class="mt-3">
+
+Core Java
+
+</h4>
+
+</div>
+
+</div>
+
+<div class="col-lg-2 col-md-4 col-6">
+
+<div class="grid-card text-center">
+
+<i class="bi bi-database-fill"></i>
+
+<h4 class="mt-3">
+
+MySQL
+
+</h4>
+
+</div>
+
+</div>
+
+<div class="col-lg-2 col-md-4 col-6">
+
+<div class="grid-card text-center">
+
+<i class="bi bi-hdd-network-fill"></i>
+
+<h4 class="mt-3">
+
+JDBC
+
+</h4>
+
+</div>
+
+</div>
+
+<div class="col-lg-2 col-md-4 col-6">
+
+<div class="grid-card text-center">
+
+<i class="bi bi-cpu-fill"></i>
+
+<h4 class="mt-3">
+
+Threads
+
+</h4>
+
+</div>
+
+</div>
+
+<div class="col-lg-2 col-md-4 col-6">
+
+<div class="grid-card text-center">
+
+<i class="bi bi-shield-lock-fill"></i>
+
+<h4 class="mt-3">
+
+Security
+
+</h4>
+
+</div>
+
+</div>
+
+<div class="col-lg-2 col-md-4 col-6">
+
+<div class="grid-card text-center">
+
+<i class="bi bi-bootstrap-fill"></i>
+
+<h4 class="mt-3">
+
+Bootstrap
+
+</h4>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+                    WHY VAULTSYNC
+========================================================= -->
+
+<section class="py-5">
+
+<div class="container">
+
+<div class="text-center mb-5">
+
+<div class="hero-badge">
+
+<i class="bi bi-stars"></i>
+
+Why Choose VaultSync
+
+</div>
+
+<h2
+style="font-size:60px;font-weight:800;">
+
+Designed For Modern Banking
+
+</h2>
+
+<p class="mt-4">
+
+Enterprise-grade user experience with secure
+financial operations.
+
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-lg-4">
+
+<div class="dashboard h-100">
+
+<i class="bi bi-lightning-charge-fill fs-1 text-warning"></i>
+
+<h3 class="mt-4">
+
+High Performance
+
+</h3>
+
+<p class="mt-3">
+
+Java Multithreading executes banking operations
+efficiently while maintaining high performance
+under concurrent requests.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="dashboard h-100">
+
+<i class="bi bi-shield-check fs-1 text-success"></i>
+
+<h3 class="mt-4">
+
+Secure Transactions
+
+</h3>
+
+<p class="mt-3">
+
+Synchronization ensures that only one thread
+updates the account balance at a time,
+preventing race conditions.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="dashboard h-100">
+
+<i class="bi bi-graph-up-arrow fs-1 text-primary"></i>
+
+<h3 class="mt-4">
+
+Real Time Analytics
+
+</h3>
+
+<p class="mt-3">
+
+Monitor transaction statistics, thread status,
+customer activity and live banking operations.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+                    PREMIUM STATISTICS
+========================================================= -->
+
+<section class="py-5" id="analytics">
+
+<div class="container">
+
+<div class="row g-4">
+
+<div class="col-lg-3">
+
+<div class="balance text-center">
+
+<h2 class="counter" data-target="12540">
+
+0
+
+</h2>
+
+<small>
+
+Registered Customers
+
+</small>
+
+</div>
+
+</div>
+
+<div class="col-lg-3">
+
+<div class="balance text-center">
+
+<h2 class="counter" data-target="89456">
+
+0
+
+</h2>
+
+<small>
+
+Transactions Processed
+
+</small>
+
+</div>
+
+</div>
+
+<div class="col-lg-3">
+
+<div class="balance text-center">
+
+<h2 class="counter" data-target="99">
+
+0
+
+</h2>
+
+<small>
+
+Transaction Accuracy %
+
+</small>
+
+</div>
+
+</div>
+
+<div class="col-lg-3">
+
+<div class="balance text-center">
+
+<h2>
+
+24×7
+
+</h2>
+
+<small>
+
+Bank Availability
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+                    PREMIUM BANKING SERVICES
+========================================================= -->
+
+<section class="py-5">
+
+<div class="container">
+
+<div class="text-center mb-5">
+
+<div class="hero-badge">
+
+<i class="bi bi-bank"></i>
+
+Banking Services
+
+</div>
+
+<h2
+style="font-size:60px;font-weight:800;">
+
+Everything In One Platform
+
+</h2>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-lg-3">
+
+<div class="grid-card text-center">
+
+<i class="bi bi-cash-stack"></i>
+
+<h4 class="mt-4">
+
+Withdraw Money
+
+</h4>
+
+<p>
+
+Withdraw securely using synchronized Java
+threads.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-3">
+
+<div class="grid-card text-center">
+
+<i class="bi bi-wallet2"></i>
+
+<h4 class="mt-4">
+
+Deposit Money
+
+</h4>
+
+<p>
+
+Instant account credit with secure database
+transactions.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-3">
+
+<div class="grid-card text-center">
+
+<i class="bi bi-arrow-left-right"></i>
+
+<h4 class="mt-4">
+
+Fund Transfer
+
+</h4>
+
+<p>
+
+Transfer funds safely between multiple customer
+accounts.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-3">
+
+<div class="grid-card text-center">
+
+<i class="bi bi-clock-history"></i>
+
+<h4 class="mt-4">
+
+Transaction History
+
+</h4>
+
+<p>
+
+View complete banking activity with detailed
+logs.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+<!-- =========================================================
+              CONCURRENT WITHDRAWAL SIMULATION
+========================================================= -->
+
+<section id="simulation" class="py-5">
+
+<div class="container">
+
+<div class="text-center mb-5">
+
+<div class="hero-badge">
+
+<i class="bi bi-cpu-fill"></i>
+
+Main Project Feature
+
+</div>
+
+<h2 style="font-size:60px;font-weight:800;">
+
+Concurrent ATM Withdrawal Simulation
+
+</h2>
+
+<p class="mt-4">
+
+Demonstration of Java Multithreading &
+Synchronization using three ATM withdrawal
+requests on a single customer account.
+
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<!-- ================= ATM 1 ================= -->
+
+<div class="col-lg-4">
+
+<div class="dashboard">
+
+<div class="d-flex justify-content-between">
+
+<h4>
+
+🏧 ATM 01
+
+</h4>
+
+<span class="badge bg-warning">
+
+Waiting
+
+</span>
+
+</div>
+
+<hr>
+
+<h2>
+
+₹ 4,000
+
+</h2>
+
+<p>
+
+Withdrawal Request
+
+</p>
+
+<div class="progress mt-4">
+
+<div
+class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+style="width:45%">
+
+</div>
+
+</div>
+
+<div class="mt-4">
+
+<strong>
+
+Thread :
+
+</strong>
+
+Thread-1
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= ATM 2 ================= -->
+
+<div class="col-lg-4">
+
+<div class="dashboard">
+
+<div class="d-flex justify-content-between">
+
+<h4>
+
+🏧 ATM 02
+
+</h4>
+
+<span class="badge bg-primary">
+
+Processing
+
+</span>
+
+</div>
+
+<hr>
+
+<h2>
+
+₹ 5,000
+
+</h2>
+
+<p>
+
+Withdrawal Request
+
+</p>
+
+<div class="progress mt-4">
+
+<div
+class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+style="width:72%">
+
+</div>
+
+</div>
+
+<div class="mt-4">
+
+<strong>
+
+Thread :
+
+</strong>
+
+Thread-2
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= ATM 3 ================= -->
+
+<div class="col-lg-4">
+
+<div class="dashboard">
+
+<div class="d-flex justify-content-between">
+
+<h4>
+
+🏧 ATM 03
+
+</h4>
+
+<span class="badge bg-success">
+
+Completed
+
+</span>
+
+</div>
+
+<hr>
+
+<h2>
+
+₹ 3,000
+
+</h2>
+
+<p>
+
+Withdrawal Request
+
+</p>
+
+<div class="progress mt-4">
+
+<div
+class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+style="width:100%">
+
+</div>
+
+</div>
+
+<div class="mt-4">
+
+<strong>
+
+Thread :
+
+</strong>
+
+Thread-3
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+                    THREAD MONITOR
+========================================================= -->
+
+<div class="row mt-5 g-4">
+
+<div class="col-lg-8">
+
+<div class="dashboard">
+
+<h3>
+
+Live Thread Monitor
+
+</h3>
+
+<table class="table table-borderless mt-4">
+
+<thead>
+
+<tr>
+
+<th>
+
+Thread
+
+</th>
+
+<th>
+
+ATM
+
+</th>
+
+<th>
+
+Status
+
+</th>
+
+<th>
+
+Execution
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+
+Thread-1
+
+</td>
+
+<td>
+
+ATM-01
+
+</td>
+
+<td>
+
+<span class="badge bg-warning">
+
+Waiting
+
+</span>
+
+</td>
+
+<td>
+
+34%
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Thread-2
+
+</td>
+
+<td>
+
+ATM-02
+
+</td>
+
+<td>
+
+<span class="badge bg-primary">
+
+Running
+
+</span>
+
+</td>
+
+<td>
+
+75%
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Thread-3
+
+</td>
+
+<td>
+
+ATM-03
+
+</td>
+
+<td>
+
+<span class="badge bg-success">
+
+Completed
+
+</span>
+
+</td>
+
+<td>
+
+100%
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="dashboard">
+
+<h3>
+
+Synchronization Lock
+
+</h3>
+
+<hr>
+
+<h5>
+
+🔒 Current Lock Owner
+
+</h5>
+
+<h2 class="mt-3">
+
+Thread-2
+
+</h2>
+
+<p>
+
+Only Thread-2 currently owns the synchronized
+lock.
+
+Other threads remain blocked until the lock is
+released.
+
+</p>
+
+<div class="alert alert-success mt-4">
+
+Race Condition Prevented
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+                    LIVE ACCOUNT
+========================================================= -->
+
+<div class="row mt-5 g-4">
+
+<div class="col-lg-4">
+
+<div class="balance text-center">
+
+<small>
+
+Initial Balance
+
+</small>
+
+<h2>
+
+₹ 50,000
+
+</h2>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="balance text-center">
+
+<small>
+
+Current Balance
+
+</small>
+
+<h2>
+
+₹ 38,000
+
+</h2>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="balance text-center">
+
+<small>
+
+Total Withdrawn
+
+</small>
+
+<h2>
+
+₹ 12,000
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+                TRANSACTION FLOW
+========================================================= -->
+
+<div class="dashboard mt-5">
+
+<h3>
+
+Transaction Execution Timeline
+
+</h3>
+
+<div class="mt-4">
+
+🟢 ATM-01 Request Received
+
+</div>
+
+<div class="mt-3">
+
+🟡 Waiting For Lock
+
+</div>
+
+<div class="mt-3">
+
+🔒 Lock Acquired
+
+</div>
+
+<div class="mt-3">
+
+⚙ Processing Withdrawal
+
+</div>
+
+<div class="mt-3">
+
+💰 Balance Updated
+
+</div>
+
+<div class="mt-3">
+
+✅ Lock Released
+
+</div>
+
+<div class="mt-3">
+
+🏧 Next Thread Starts
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+<!-- =========================================================
+                    TESTIMONIALS
+========================================================= -->
+
+<section class="py-5">
+
+<div class="container">
+
+<div class="text-center mb-5">
+
+<div class="hero-badge">
+
+<i class="bi bi-chat-square-heart-fill"></i>
+
+Customer Reviews
+
+</div>
+
+<h2 style="font-size:58px;font-weight:800;">
+
+Trusted By Thousands
+
+</h2>
+
+<p>
+
+Modern Banking Experience with Enterprise-Level
+Security.
+
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-lg-4">
+
+<div class="dashboard">
+
+★★★★★
+
+<h4 class="mt-4">
+
+Fast & Secure
+
+</h4>
+
+<p class="mt-3">
+
+VaultSync delivers lightning-fast transactions
+while maintaining excellent security.
+
+</p>
+
+<h6 class="mt-4">
+
+— Enterprise Customer
+
+</h6>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="dashboard">
+
+★★★★★
+
+<h4 class="mt-4">
+
+Professional UI
+
+</h4>
+
+<p class="mt-3">
+
+Beautiful interface with smooth animations and
+excellent user experience.
+
+</p>
+
+<h6 class="mt-4">
+
+— Banking Officer
+
+</h6>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="dashboard">
+
+★★★★★
+
+<h4 class="mt-4">
+
+Reliable Thread Management
+
+</h4>
+
+<p class="mt-3">
+
+Perfect implementation of Java Multithreading
+and Synchronization concepts.
+
+</p>
+
+<h6 class="mt-4">
+
+— Software Architect
+
+</h6>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+                    FAQ
+========================================================= -->
+
+<section class="py-5">
+
+<div class="container">
+
+<div class="text-center mb-5">
+
+<div class="hero-badge">
+
+<i class="bi bi-question-circle-fill"></i>
+
+FAQ
+
+</div>
+
+<h2 style="font-size:58px;font-weight:800;">
+
+Frequently Asked Questions
+
+</h2>
+
+</div>
+
+<div class="accordion" id="faq">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+data-bs-toggle="collapse"
+data-bs-target="#q1">
+
+Why Synchronization?
+
+</button>
+
+</h2>
+
+<div id="q1"
+class="accordion-collapse collapse show">
+
+<div class="accordion-body">
+
+Synchronization ensures that only one Java
+Thread accesses the shared Account object at a
+time.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#q2">
+
+What database is used?
+
+</button>
+
+</h2>
+
+<div id="q2"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+MySQL Database using JDBC Connectivity.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#q3">
+
+Main Concept?
+
+</button>
+
+</h2>
+
+<div id="q3"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+Concurrent ATM Withdrawal Simulation using
+Java Multithreading and Synchronization.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+                    FOOTER
+========================================================= -->
+
+<footer class="py-5 mt-5">
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-lg-5">
+
+<h2>
+
+VaultSync
+
+</h2>
+
+<p class="mt-3">
+
+Enterprise Banking Management System developed
+for MCA Postgraduate Project using Core Java,
+JDBC and MySQL.
+
+</p>
+
+</div>
+
+<div class="col-lg-3">
+
+<h5>
+
+Quick Links
+
+</h5>
+
+<ul class="list-unstyled mt-3">
+
+<li>
+
+<a href="#">Home</a>
+
+</li>
+
+<li>
+
+<a href="#">Dashboard</a>
+
+</li>
+
+<li>
+
+<a href="#">Simulation</a>
+
+</li>
+
+<li>
+
+<a href="#">Login</a>
+
+</li>
+
+</ul>
+
+</div>
+
+<div class="col-lg-4">
+
+<h5>
+
+Contact
+
+</h5>
+
+<p class="mt-3">
+
+Nashik
+
+</p>
+
+<p>
+
+Rutuja Divate
+
+</p>
+
+<p>
+
+MCA Final Year Project
+
+</p>
+
+</div>
+
+</div>
+
+<hr class="my-5">
+
+<div class="text-center">
+
+© 2026 VaultSync Banking Management System.
+All Rights Reserved.
+
+</div>
+
+</div>
+
+</footer>
+
+<!-- =========================================================
+                    JAVASCRIPT
+========================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+// =======================================
+// DARK MODE
+// =======================================
+
+const themeBtn=document.getElementById("themeToggle");
+
+themeBtn.onclick=()=>{
+
+document.body.classList.toggle("dark");
+
+localStorage.setItem(
+"theme",
+document.body.classList.contains("dark")
+);
+
+};
+
+if(localStorage.getItem("theme")=="true"){
+
+document.body.classList.add("dark");
+
+}
+
+// =======================================
+// COUNTER
+// =======================================
+
+document.querySelectorAll(".counter").forEach(counter=>{
+
+const update=()=>{
+
+const target=+counter.dataset.target;
+
+const current=+counter.innerText;
+
+const increment=target/120;
+
+if(current<target){
+
+counter.innerText=Math.ceil(current+increment);
+
+setTimeout(update,20);
+
+}else{
+
+counter.innerText=target;
+
+}
+
+};
+
+update();
+
+});
+
+// =======================================
+// SCROLL REVEAL
+// =======================================
+
+const observer=new IntersectionObserver(entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.animate([
+
+{
+
+opacity:0,
+
+transform:"translateY(50px)"
+
+},
+
+{
+
+opacity:1,
+
+transform:"translateY(0px)"
+
+}
+
+],{
+
+duration:800,
+
+fill:"forwards"
+
+});
+
+}
+
+});
+
+});
+
+document.querySelectorAll("section,.dashboard,.grid-card")
+.forEach(el=>observer.observe(el));
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- =========================================================
+        VaultSync Banking Management System
+        Login Page
+        Frontend : HTML5 + CSS3 + Bootstrap 5 + JavaScript
+        Backend  : Core Java + JDBC + MySQL
+========================================================== -->
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+
+VaultSync | Secure Login
+
+</title>
+
+<!-- ================= GOOGLE FONTS ================= -->
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<!-- ================= BOOTSTRAP ================= -->
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link
+rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+
+/*=========================================================
+ROOT
+=========================================================*/
+
+:root{
+
+--primary:#D4AF37;
+
+--secondary:#0D3B2E;
+
+--accent:#F8E7B0;
+
+--bg:#F7F4EC;
+
+--card:rgba(255,255,255,.75);
+
+--text:#17212B;
+
+--muted:#64748B;
+
+--border:rgba(212,175,55,.18);
+
+--shadow:0 25px 60px rgba(0,0,0,.08);
+
+--heading:"Sora",sans-serif;
+
+--body:"Manrope",sans-serif;
+
+}
+
+/*=========================================================
+RESET
+=========================================================*/
+
+*{
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
+
+}
+
+body{
+
+font-family:var(--body);
+
+background:var(--bg);
+
+overflow:hidden;
+
+color:var(--text);
+
+height:100vh;
+
+}
+
+/*=========================================================
+BACKGROUND
+=========================================================*/
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+width:700px;
+
+height:700px;
+
+border-radius:50%;
+
+background:
+
+radial-gradient(circle,
+rgba(212,175,55,.28),
+transparent 70%);
+
+top:-280px;
+
+right:-180px;
+
+filter:blur(60px);
+
+z-index:-2;
+
+animation:move1 12s infinite alternate;
+
+}
+
+body::after{
+
+content:"";
+
+position:fixed;
+
+width:650px;
+
+height:650px;
+
+border-radius:50%;
+
+background:
+
+radial-gradient(circle,
+rgba(13,59,46,.22),
+transparent 70%);
+
+bottom:-250px;
+
+left:-180px;
+
+filter:blur(50px);
+
+z-index:-2;
+
+animation:move2 10s infinite alternate;
+
+}
+
+@keyframes move1{
+
+100%{
+
+transform:translateY(80px);
+
+}
+
+}
+
+@keyframes move2{
+
+100%{
+
+transform:translateX(80px);
+
+}
+
+}
+
+/*=========================================================
+LOGIN SECTION
+=========================================================*/
+
+.login-section{
+
+height:100vh;
+
+display:flex;
+
+align-items:center;
+
+}
+
+.login-card{
+
+background:var(--card);
+
+backdrop-filter:blur(18px);
+
+border:1px solid var(--border);
+
+border-radius:28px;
+
+padding:45px;
+
+box-shadow:var(--shadow);
+
+animation:fadeUp 1s;
+
+}
+
+@keyframes fadeUp{
+
+from{
+
+opacity:0;
+
+transform:translateY(40px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+/*=========================================================
+LEFT SIDE
+=========================================================*/
+
+.left-content h1{
+
+font-family:var(--heading);
+
+font-size:62px;
+
+font-weight:800;
+
+line-height:1.05;
+
+margin-bottom:25px;
+
+}
+
+.left-content h1 span{
+
+color:var(--primary);
+
+}
+
+.left-content p{
+
+font-size:18px;
+
+color:var(--muted);
+
+line-height:1.9;
+
+max-width:520px;
+
+}
+
+.bank-icon{
+
+width:120px;
+
+height:120px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border-radius:30px;
+
+background:linear-gradient(135deg,#0D3B2E,#1D5C46);
+
+color:white;
+
+font-size:60px;
+
+margin-bottom:30px;
+
+box-shadow:0 20px 40px rgba(13,59,46,.25);
+
+}
+
+/*=========================================================
+LOGIN TITLE
+=========================================================*/
+
+.login-title{
+
+font-family:var(--heading);
+
+font-size:38px;
+
+font-weight:800;
+
+margin-bottom:10px;
+
+}
+
+.login-subtitle{
+
+color:var(--muted);
+
+margin-bottom:30px;
+
+}
+
+/*=========================================================
+FORM
+=========================================================*/
+
+.form-control{
+
+height:58px;
+
+border-radius:15px;
+
+border:1px solid #E5E7EB;
+
+padding-left:18px;
+
+font-size:15px;
+
+box-shadow:none;
+
+}
+
+.form-control:focus{
+
+border-color:var(--primary);
+
+box-shadow:none;
+
+}
+
+.input-group-text{
+
+background:white;
+
+border-radius:0 15px 15px 0;
+
+cursor:pointer;
+
+}
+
+/*=========================================================
+BUTTON
+=========================================================*/
+
+.btn-login{
+
+width:100%;
+
+height:58px;
+
+border:none;
+
+border-radius:16px;
+
+font-weight:700;
+
+font-size:17px;
+
+background:
+
+linear-gradient(135deg,#D4AF37,#F8E7B0);
+
+transition:.35s;
+
+}
+
+.btn-login:hover{
+
+transform:translateY(-4px);
+
+box-shadow:0 20px 35px rgba(212,175,55,.35);
+
+}
+/*=========================================================
+REMEMBER + FORGOT
+=========================================================*/
+
+.options{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin:18px 0 28px;
+
+font-size:15px;
+
+}
+
+.options a{
+
+text-decoration:none;
+
+color:var(--secondary);
+
+font-weight:700;
+
+transition:.3s;
+
+}
+
+.options a:hover{
+
+color:var(--primary);
+
+}
+
+.form-check-input:checked{
+
+background:var(--secondary);
+
+border-color:var(--secondary);
+
+}
+
+/*=========================================================
+REGISTER LINK
+=========================================================*/
+
+.register{
+
+margin-top:28px;
+
+text-align:center;
+
+font-size:15px;
+
+color:var(--muted);
+
+}
+
+.register a{
+
+text-decoration:none;
+
+color:var(--primary);
+
+font-weight:700;
+
+}
+
+/*=========================================================
+SECURITY FEATURES
+=========================================================*/
+
+.security{
+
+display:flex;
+
+gap:18px;
+
+margin-top:35px;
+
+flex-wrap:wrap;
+
+}
+
+.security-card{
+
+padding:14px 20px;
+
+border-radius:18px;
+
+background:rgba(255,255,255,.65);
+
+backdrop-filter:blur(16px);
+
+border:1px solid var(--border);
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+box-shadow:var(--shadow);
+
+transition:.35s;
+
+}
+
+.security-card:hover{
+
+transform:translateY(-8px);
+
+}
+
+.security-card i{
+
+font-size:24px;
+
+color:var(--primary);
+
+}
+
+/*=========================================================
+FLOATING CARDS
+=========================================================*/
+
+.float-card{
+
+position:absolute;
+
+background:rgba(255,255,255,.72);
+
+backdrop-filter:blur(18px);
+
+padding:18px;
+
+border-radius:22px;
+
+border:1px solid var(--border);
+
+box-shadow:var(--shadow);
+
+animation:floatCard 5s ease-in-out infinite;
+
+}
+
+.card-one{
+
+top:8%;
+
+right:8%;
+
+}
+
+.card-two{
+
+bottom:10%;
+
+left:6%;
+
+animation-delay:2s;
+
+}
+
+.card-three{
+
+bottom:12%;
+
+right:18%;
+
+animation-delay:1s;
+
+}
+
+.float-card h6{
+
+margin-bottom:8px;
+
+font-size:13px;
+
+color:var(--muted);
+
+}
+
+.float-card h3{
+
+font-family:var(--heading);
+
+font-size:28px;
+
+font-weight:800;
+
+margin:0;
+
+}
+
+@keyframes floatCard{
+
+50%{
+
+transform:translateY(-15px);
+
+}
+
+}
+
+/*=========================================================
+LOGO
+=========================================================*/
+
+.logo{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+font-family:var(--heading);
+
+font-size:30px;
+
+font-weight:800;
+
+margin-bottom:50px;
+
+color:var(--secondary);
+
+}
+
+.logo i{
+
+font-size:40px;
+
+color:var(--primary);
+
+}
+
+/*=========================================================
+RESPONSIVE
+=========================================================*/
+
+@media(max-width:991px){
+
+.left-content{
+
+text-align:center;
+
+margin-bottom:50px;
+
+}
+
+.left-content p{
+
+margin:auto;
+
+}
+
+.bank-icon{
+
+margin:auto auto 30px;
+
+}
+
+.float-card{
+
+display:none;
+
+}
+
+body{
+
+overflow:auto;
+
+}
+
+.login-section{
+
+padding:50px 0;
+
+height:auto;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<section class="login-section">
+
+<div class="container">
+
+<div class="row align-items-center">
+
+<!-- ================= LEFT ================= -->
+
+<div class="col-lg-6 position-relative">
+
+<div class="left-content">
+
+<div class="logo">
+
+<i class="bi bi-bank2"></i>
+
+VaultSync
+
+</div>
+
+<div class="bank-icon">
+
+<i class="bi bi-shield-lock-fill"></i>
+
+</div>
+
+<h1>
+
+Enterprise
+
+<span>
+
+Banking
+
+</span>
+
+Starts Here.
+
+</h1>
+
+<p>
+
+Secure authentication for your Banking Management
+System powered by Core Java, JDBC and MySQL.
+Experience enterprise-grade security with a modern,
+professional interface.
+
+</p>
+
+<div class="security">
+
+<div class="security-card">
+
+<i class="bi bi-shield-check"></i>
+
+<div>
+
+<strong>256-bit</strong><br>
+
+<small>Encryption</small>
+
+</div>
+
+</div>
+
+<div class="security-card">
+
+<i class="bi bi-cpu-fill"></i>
+
+<div>
+
+<strong>Java</strong><br>
+
+<small>Synchronization</small>
+
+</div>
+
+</div>
+
+<div class="security-card">
+
+<i class="bi bi-database-fill"></i>
+
+<div>
+
+<strong>MySQL</strong><br>
+
+<small>Secure Database</small>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="float-card card-one">
+
+<h6>Customers</h6>
+
+<h3>12.5K+</h3>
+
+</div>
+
+<div class="float-card card-two">
+
+<h6>Transactions</h6>
+
+<h3>₹5.2Cr</h3>
+
+</div>
+
+<div class="float-card card-three">
+
+<h6>Success Rate</h6>
+
+<h3>99.98%</h3>
+
+</div>
+
+</div>
+<!-- ================= RIGHT ================= -->
+
+<div class="col-lg-6">
+
+<div class="login-card">
+
+<h2 class="login-title">
+
+Welcome Back 👋
+
+</h2>
+
+<p class="login-subtitle">
+
+Sign in to access your secure banking dashboard.
+
+</p>
+
+<form id="loginForm">
+
+<!-- ================= EMAIL ================= -->
+
+<div class="mb-4">
+
+<label class="form-label fw-semibold">
+
+Email Address
+
+</label>
+
+<input
+type="email"
+class="form-control"
+id="email"
+placeholder="Enter your email"
+required>
+
+</div>
+
+<!-- ================= PASSWORD ================= -->
+
+<div class="mb-4">
+
+<label class="form-label fw-semibold">
+
+Password
+
+</label>
+
+<div class="input-group">
+
+<input
+
+type="password"
+
+class="form-control"
+
+id="password"
+
+placeholder="Enter password"
+
+required>
+
+<span
+
+class="input-group-text"
+
+onclick="togglePassword()">
+
+<i
+
+class="bi bi-eye-fill"
+
+id="eyeIcon">
+
+</i>
+
+</span>
+
+</div>
+
+</div>
+
+<!-- ================= OPTIONS ================= -->
+
+<div class="options">
+
+<div class="form-check">
+
+<input
+
+class="form-check-input"
+
+type="checkbox"
+
+id="remember">
+
+<label
+
+class="form-check-label"
+
+for="remember">
+
+Remember Me
+
+</label>
+
+</div>
+
+<a href="forgot-password.html">
+
+Forgot Password?
+
+</a>
+
+</div>
+
+<!-- ================= LOGIN BUTTON ================= -->
+
+<button
+type="submit"
+class="btn-login"
+id="loginBtn">
+<i class="bi bi-box-arrow-in-right"></i>
+
+Secure Login
+
+</button>
+
+<!-- ================= REGISTER ================= -->
+
+<div class="register">
+
+Don't have an account?
+
+<a href="register.html">
+
+Create Account
+
+</a>
+
+</div>
+
+<hr class="my-4">
+
+<div class="text-center">
+
+<a
+
+href="index.html"
+
+class="text-decoration-none fw-bold">
+
+<i class="bi bi-arrow-left"></i>
+
+Back To Home
+
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= BOOTSTRAP ================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+function togglePassword(){
+
+const pass=document.getElementById("password");
+
+const eye=document.getElementById("eyeIcon");
+
+if(pass.type==="password"){
+
+pass.type="text";
+
+eye.className="bi bi-eye-slash-fill";
+
+}else{
+
+pass.type="password";
+
+eye.className="bi bi-eye-fill";
+
+}
+
+}
+// ===========================================
+// LOGIN LOADING ANIMATION
+// ===========================================
+
+const loginForm = document.getElementById("loginForm");
+const loginBtn = document.getElementById("loginBtn");
+
+loginForm.addEventListener("submit", function (e) {
+
+    e.preventDefault();
+
+    loginBtn.innerHTML =
+    '<span class="spinner-border spinner-border-sm me-2"></span>Signing In...';
+
+    loginBtn.disabled = true;
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    fetch("http://localhost:8081/customer/login?email=" + email + "&pin=" + password,{
+        method:"POST"
+    })
+
+    .then(res=>{
+
+        if(res.ok){
+            localStorage.setItem("email", email);
+            alert("Login Successful");
+            window.location.href="dashboard.html";
+        }
+        else{
+            alert("Invalid Email or Password");
+            loginBtn.disabled=false;
+            loginBtn.innerHTML='<i class="bi bi-box-arrow-in-right"></i> Secure Login';
+        }
+
+    });
+
+});
+
+// ===========================================
+// INPUT ANIMATION
+// ===========================================
+
+document.querySelectorAll(".form-control").forEach(input=>{
+
+input.addEventListener("focus",()=>{
+
+input.style.transform="translateY(-2px)";
+
+});
+
+input.addEventListener("blur",()=>{
+
+input.style.transform="translateY(0px)";
+
+});
+
+});
+
+// ===========================================
+// FLOATING EFFECT
+// ===========================================
+
+document.addEventListener("mousemove",(e)=>{
+
+const cards=document.querySelectorAll(".float-card");
+
+cards.forEach((card,index)=>{
+
+const speed=(index+1)*0.015;
+
+const x=(window.innerWidth/2-e.pageX)*speed;
+
+const y=(window.innerHeight/2-e.pageY)*speed;
+
+card.style.transform=
+
+`translate(${x}px,${y}px)`;
+
+});
+
+});
+
+// ===========================================
+// ENTER KEY SUPPORT
+// ===========================================
+
+document.addEventListener("keydown",(e)=>{
+
+if(e.key==="Enter"){
+
+loginForm.requestSubmit();
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ==========================================================
+        VaultSync Banking Management System
+        Reports & Analytics
+        Frontend : HTML5 + CSS3 + Bootstrap 5 + Chart.js
+        Backend  : Core Java + JDBC + MySQL
+=========================================================== -->
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+
+VaultSync | Reports & Analytics
+
+</title>
+
+<!-- Google Fonts -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Bootstrap -->
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<!-- Chart JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+/*=========================================================
+ROOT VARIABLES
+=========================================================*/
+
+:root{
+
+--primary:#D4AF37;
+
+--secondary:#0D3B2E;
+
+--background:#F6F4EC;
+
+--card:#FFFFFF;
+
+--text:#17212B;
+
+--muted:#6B7280;
+
+--border:#ECECEC;
+
+--shadow:0 18px 40px rgba(0,0,0,.08);
+
+--heading:"Sora",sans-serif;
+
+--body:"Manrope",sans-serif;
+
+}
+
+/*=========================================================
+RESET
+=========================================================*/
+
+*{
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
+
+}
+
+body{
+
+background:var(--background);
+
+font-family:var(--body);
+
+overflow-x:hidden;
+
+color:var(--text);
+
+}
+
+/*=========================================================
+SIDEBAR
+=========================================================*/
+
+.sidebar{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:280px;
+
+height:100vh;
+
+background:linear-gradient(180deg,#0D3B2E,#164A37);
+
+padding:35px 25px;
+
+overflow-y:auto;
+
+color:white;
+
+}
+
+.logo{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+font-family:var(--heading);
+
+font-size:30px;
+
+font-weight:800;
+
+margin-bottom:45px;
+
+}
+
+.logo i{
+
+font-size:36px;
+
+color:var(--primary);
+
+}
+
+.sidebar h6{
+
+margin:28px 0 14px;
+
+font-size:13px;
+
+letter-spacing:1px;
+
+opacity:.6;
+
+text-transform:uppercase;
+
+}
+
+.sidebar a{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+padding:14px 18px;
+
+margin-bottom:10px;
+
+border-radius:15px;
+
+text-decoration:none;
+
+color:white;
+
+font-weight:600;
+
+transition:.35s;
+
+}
+
+.sidebar a:hover{
+
+background:rgba(255,255,255,.10);
+
+transform:translateX(6px);
+
+}
+
+.sidebar a.active{
+
+background:rgba(255,255,255,.15);
+
+}
+
+.sidebar a i{
+
+font-size:20px;
+
+width:22px;
+
+}
+
+/*=========================================================
+MAIN
+=========================================================*/
+
+.main{
+
+margin-left:280px;
+
+padding:35px;
+
+}
+
+/*=========================================================
+TOPBAR
+=========================================================*/
+
+.topbar{
+
+background:white;
+
+padding:18px 25px;
+
+border-radius:22px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+box-shadow:var(--shadow);
+
+margin-bottom:30px;
+
+}
+
+.search-box{
+
+position:relative;
+
+width:420px;
+
+}
+
+.search-box input{
+
+width:100%;
+
+height:52px;
+
+padding-left:48px;
+
+border:1px solid var(--border);
+
+border-radius:15px;
+
+outline:none;
+
+}
+
+.search-box i{
+
+position:absolute;
+
+left:18px;
+
+top:16px;
+
+color:var(--muted);
+
+}
+
+.profile{
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+}
+
+.profile img{
+
+width:50px;
+
+height:50px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+.notification{
+
+width:48px;
+
+height:48px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border-radius:50%;
+
+background:#F5F5F5;
+
+font-size:20px;
+
+cursor:pointer;
+
+}
+
+/*=========================================================
+PAGE HEADER
+=========================================================*/
+
+.page-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:30px;
+
+}
+
+.page-header h2{
+
+font-family:var(--heading);
+
+font-size:38px;
+
+font-weight:800;
+
+}
+
+.page-header p{
+
+margin-top:5px;
+
+color:var(--muted);
+
+}
+/*=========================================================
+REPORT STATISTICS
+=========================================================*/
+
+.stats{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:22px;
+
+margin-bottom:30px;
+
+}
+
+.stat-card{
+
+background:white;
+
+padding:28px;
+
+border-radius:24px;
+
+box-shadow:var(--shadow);
+
+position:relative;
+
+overflow:hidden;
+
+transition:.35s;
+
+}
+
+.stat-card::before{
+
+content:"";
+
+position:absolute;
+
+left:0;
+
+top:0;
+
+width:6px;
+
+height:100%;
+
+background:var(--primary);
+
+}
+
+.stat-card:hover{
+
+transform:translateY(-8px);
+
+}
+
+.stat-icon{
+
+width:60px;
+
+height:60px;
+
+border-radius:18px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:#FFF7DD;
+
+color:var(--primary);
+
+font-size:28px;
+
+margin-bottom:18px;
+
+}
+
+.stat-card h3{
+
+font-size:34px;
+
+font-family:var(--heading);
+
+font-weight:800;
+
+margin-bottom:6px;
+
+}
+
+.stat-card p{
+
+margin:0;
+
+color:var(--muted);
+
+}
+
+.stat-growth{
+
+margin-top:10px;
+
+font-size:14px;
+
+font-weight:700;
+
+color:#198754;
+
+}
+
+/*=========================================================
+FILTER BAR
+=========================================================*/
+
+.filter-bar{
+
+background:white;
+
+padding:22px;
+
+border-radius:22px;
+
+box-shadow:var(--shadow);
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:20px;
+
+flex-wrap:wrap;
+
+margin-bottom:30px;
+
+}
+
+.filter-group{
+
+display:flex;
+
+gap:15px;
+
+flex-wrap:wrap;
+
+}
+
+.filter-group input,
+
+.filter-group select{
+
+height:48px;
+
+padding:0 16px;
+
+border:1px solid var(--border);
+
+border-radius:14px;
+
+outline:none;
+
+}
+
+.report-actions{
+
+display:flex;
+
+gap:12px;
+
+}
+
+.btn-report{
+
+padding:12px 22px;
+
+border:none;
+
+border-radius:14px;
+
+font-weight:700;
+
+color:white;
+
+background:#0D3B2E;
+
+transition:.3s;
+
+}
+
+.btn-report:hover{
+
+background:#14513D;
+
+}
+
+.btn-print{
+
+padding:12px 22px;
+
+border:none;
+
+border-radius:14px;
+
+font-weight:700;
+
+background:#ECECEC;
+
+transition:.3s;
+
+}
+
+.btn-print:hover{
+
+background:#DDDDDD;
+
+}
+
+/*=========================================================
+REPORT GRID
+=========================================================*/
+
+.report-grid{
+
+display:grid;
+
+grid-template-columns:2fr 1fr;
+
+gap:25px;
+
+margin-bottom:30px;
+
+}
+
+.card-box{
+
+background:white;
+
+padding:28px;
+
+border-radius:24px;
+
+box-shadow:var(--shadow);
+
+}
+
+.card-title{
+
+font-family:var(--heading);
+
+font-size:28px;
+
+font-weight:800;
+
+margin-bottom:22px;
+
+}
+
+.chart-container{
+
+height:420px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+}
+/*=========================================================
+TOP CUSTOMERS TABLE
+=========================================================*/
+
+.table-card{
+
+background:white;
+
+padding:28px;
+
+border-radius:24px;
+
+box-shadow:var(--shadow);
+
+margin-bottom:30px;
+
+}
+
+.table-title{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:20px;
+
+}
+
+.table-title h4{
+
+font-family:var(--heading);
+
+font-size:28px;
+
+font-weight:800;
+
+margin:0;
+
+}
+
+.table{
+
+margin:0;
+
+}
+
+.table thead{
+
+background:#F8F8F8;
+
+}
+
+.table th{
+
+padding:18px;
+
+font-size:15px;
+
+font-weight:700;
+
+}
+
+.table td{
+
+padding:18px;
+
+vertical-align:middle;
+
+}
+
+/*=========================================================
+BADGES
+=========================================================*/
+
+.badge-success{
+
+display:inline-block;
+
+padding:8px 16px;
+
+border-radius:30px;
+
+background:#DFF7E5;
+
+color:#198754;
+
+font-size:13px;
+
+font-weight:700;
+
+}
+
+.badge-warning{
+
+display:inline-block;
+
+padding:8px 16px;
+
+border-radius:30px;
+
+background:#FFF3CD;
+
+color:#B8860B;
+
+font-size:13px;
+
+font-weight:700;
+
+}
+
+.badge-danger{
+
+display:inline-block;
+
+padding:8px 16px;
+
+border-radius:30px;
+
+background:#FFE5E5;
+
+color:#DC3545;
+
+font-size:13px;
+
+font-weight:700;
+
+}
+
+/*=========================================================
+RECENT ACTIVITIES
+=========================================================*/
+
+.activity-list{
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+}
+
+.activity-item{
+
+display:flex;
+
+align-items:flex-start;
+
+gap:15px;
+
+padding:18px;
+
+background:#FAFAFA;
+
+border:1px solid var(--border);
+
+border-radius:18px;
+
+transition:.3s;
+
+}
+
+.activity-item:hover{
+
+transform:translateY(-5px);
+
+box-shadow:var(--shadow);
+
+}
+
+.activity-icon{
+
+width:52px;
+
+height:52px;
+
+border-radius:16px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:#FFF7DD;
+
+color:var(--primary);
+
+font-size:22px;
+
+}
+
+.activity-item h6{
+
+margin:0;
+
+font-weight:700;
+
+}
+
+.activity-item small{
+
+color:var(--muted);
+
+}
+
+/*=========================================================
+RESPONSIVE
+=========================================================*/
+
+@media(max-width:1200px){
+
+.stats{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+.report-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:991px){
+
+.sidebar{
+
+left:-100%;
+
+}
+
+.main{
+
+margin-left:0;
+
+padding:20px;
+
+}
+
+.topbar{
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.search-box{
+
+width:100%;
+
+}
+
+.page-header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:20px;
+
+}
+
+.filter-bar{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.stats{
+
+grid-template-columns:1fr;
+
+}
+
+.report-actions{
+
+width:100%;
+
+}
+
+.btn-report,
+
+.btn-print{
+
+flex:1;
+
+}
+
+}
+
+/*=========================================================
+END CSS
+=========================================================*/
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =====================================================
+SIDEBAR
+===================================================== -->
+
+<div class="sidebar">
+
+<div class="logo">
+
+<i class="bi bi-bank2"></i>
+
+VaultSync
+
+</div>
+
+<h6>Main Menu</h6>
+
+<a href="dashboard.html"><i class="bi bi-speedometer2"></i>Dashboard</a>
+
+<a href="customer-accounts.html"><i class="bi bi-people-fill"></i>Customer Accounts</a>
+
+<a href="withdraw.html"><i class="bi bi-cash-stack"></i>Withdraw Money</a>
+
+<a href="deposit.html"><i class="bi bi-wallet2"></i>Deposit Money</a>
+
+<a href="fund-transfer.html"><i class="bi bi-arrow-left-right"></i>Fund Transfer</a>
+
+<a href="check-balance.html"><i class="bi bi-wallet-fill"></i>Check Balance</a>
+
+<a href="transaction-history.html"><i class="bi bi-clock-history"></i>Transaction History</a>
+
+<a href="concurrent-simulation.html"><i class="bi bi-cpu-fill"></i>Concurrent Simulation</a>
+
+<a href="thread-monitor.html"><i class="bi bi-diagram-3-fill"></i>Thread Monitor</a>
+
+<a href="#" class="active"><i class="bi bi-bar-chart-fill"></i>Reports</a>
+
+</div>
+
+<!-- =====================================================
+MAIN START
+===================================================== -->
+
+<div class="main">
+
+<div class="topbar">
+
+<div class="search-box">
+
+<i class="bi bi-search"></i>
+
+<input type="text" placeholder="Search Reports...">
+
+</div>
+
+<div class="profile">
+
+<div class="notification">
+
+<i class="bi bi-bell-fill"></i>
+
+</div>
+
+<img src="https://i.pravatar.cc/150?img=12">
+
+<div>
+
+<h6 class="mb-0 fw-bold">
+
+Welcome, Rutuja
+
+</h6>
+
+<small class="text-muted">
+
+Administrator
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="page-header">
+
+<div>
+
+<h2>
+
+Reports & Analytics
+
+</h2>
+
+<p>
+
+View complete banking analytics, reports and financial insights.
+
+</p>
+
+</div>
+
+</div>
+<!-- =====================================================
+REPORT STATISTICS
+===================================================== -->
+
+<div class="stats">
+
+<div class="stat-card">
+
+<div class="stat-icon">
+
+<i class="bi bi-people-fill"></i>
+
+</div>
+
+<h3>
+
+2,548
+
+</h3>
+
+<p>
+
+Total Customers
+
+</p>
+
+<div class="stat-growth">
+
++12% This Month
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-icon">
+
+<i class="bi bi-wallet2"></i>
+
+</div>
+
+<h3>
+
+₹ 2.45 Cr
+
+</h3>
+
+<p>
+
+Total Deposits
+
+</p>
+
+<div class="stat-growth">
+
++18.4%
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-icon">
+
+<i class="bi bi-cash-stack"></i>
+
+</div>
+
+<h3>
+
+₹ 1.72 Cr
+
+</h3>
+
+<p>
+
+Total Withdrawals
+
+</p>
+
+<div class="stat-growth">
+
++10.7%
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-icon">
+
+<i class="bi bi-arrow-left-right"></i>
+
+</div>
+
+<h3>
+
+₹ 96 Lakh
+
+</h3>
+
+<p>
+
+Fund Transfers
+
+</p>
+
+<div class="stat-growth">
+
++8.9%
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+FILTER BAR
+===================================================== -->
+
+<div class="filter-bar">
+
+<div class="filter-group">
+
+<input type="date">
+
+<input type="date">
+
+<select>
+
+<option>
+
+All Reports
+
+</option>
+
+<option>
+
+Daily
+
+</option>
+
+<option>
+
+Weekly
+
+</option>
+
+<option>
+
+Monthly
+
+</option>
+
+<option>
+
+Yearly
+
+</option>
+
+</select>
+
+</div>
+
+<div class="report-actions">
+
+<button class="btn-report">
+
+<i class="bi bi-file-earmark-excel-fill"></i>
+
+Export Excel
+
+</button>
+
+<button class="btn-report">
+
+<i class="bi bi-file-earmark-pdf-fill"></i>
+
+Export PDF
+
+</button>
+
+<button class="btn-print">
+
+<i class="bi bi-printer-fill"></i>
+
+Print
+
+</button>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+REPORT GRID
+===================================================== -->
+
+<div class="report-grid">
+
+<!-- ================= CHART ================= -->
+
+<div class="card-box">
+
+<h3 class="card-title">
+
+Transaction Analytics
+
+</h3>
+
+<div class="chart-container">
+
+<canvas id="reportChart"></canvas>
+
+</div>
+
+</div>
+
+<!-- ================= SUMMARY ================= -->
+
+<div class="card-box">
+
+<h3 class="card-title">
+
+Financial Summary
+
+</h3>
+
+<div class="activity-list">
+
+<div class="activity-item">
+
+<div class="activity-icon">
+
+<i class="bi bi-graph-up-arrow"></i>
+
+</div>
+
+<div>
+
+<h6>
+
+Today's Transactions
+
+</h6>
+
+<small>
+
+1,245 Successful Transactions
+
+</small>
+
+</div>
+
+</div>
+
+<div class="activity-item">
+
+<div class="activity-icon">
+
+<i class="bi bi-currency-rupee"></i>
+
+</div>
+
+<div>
+
+<h6>
+
+Monthly Revenue
+
+</h6>
+
+<small>
+
+₹ 15,80,000 Generated
+
+</small>
+
+</div>
+
+</div>
+
+<div class="activity-item">
+
+<div class="activity-icon">
+
+<i class="bi bi-bar-chart-line-fill"></i>
+
+</div>
+
+<div>
+
+<h6>
+
+Bank Growth
+
+</h6>
+
+<small>
+
+Overall Growth : +21.8%
+
+</small>
+
+</div>
+
+</div>
+
+<div class="activity-item">
+
+<div class="activity-icon">
+
+<i class="bi bi-shield-check"></i>
+
+</div>
+
+<div>
+
+<h6>
+
+Security Status
+
+</h6>
+
+<small>
+
+No Fraud Activity Detected
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+TOP CUSTOMERS
+===================================================== -->
+
+<div class="table-card">
+
+<div class="table-title">
+
+<h4>
+
+Top Customers
+
+</h4>
+
+</div>
+
+<div class="table-responsive">
+
+<table class="table align-middle">
+
+<thead>
+
+<tr>
+
+<th>Customer</th>
+
+<th>Account No</th>
+
+<th>Total Balance</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+
+Rutuja Divate
+
+</td>
+
+<td>
+
+ACC100245
+
+</td>
+
+<td>
+
+₹ 8,50,000
+
+</td>
+
+<td>
+
+<span class="badge-success">
+
+Premium
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Aarav Sharma
+
+</td>
+
+<td>
+
+ACC100246
+
+</td>
+
+<td>
+
+₹ 6,90,000
+
+</td>
+
+<td>
+
+<span class="badge-success">
+
+Premium
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Priya Patil
+
+</td>
+
+<td>
+
+ACC100247
+
+</td>
+
+<td>
+
+₹ 5,25,000
+
+</td>
+
+<td>
+
+<span class="badge-warning">
+
+Gold
+
+</span>
+
+</td>
+
+</tr>
+<tr>
+
+<td>
+
+Rahul Verma
+
+</td>
+
+<td>
+
+ACC100248
+
+</td>
+
+<td>
+
+₹ 4,70,000
+
+</td>
+
+<td>
+
+<span class="badge-warning">
+
+Gold
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Neha Joshi
+
+</td>
+
+<td>
+
+ACC100249
+
+</td>
+
+<td>
+
+₹ 2,95,000
+
+</td>
+
+<td>
+
+<span class="badge-danger">
+
+Regular
+
+</span>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+RECENT ACTIVITIES
+===================================================== -->
+
+<div class="card-box">
+
+<h3 class="card-title">
+
+Recent Banking Activities
+
+</h3>
+
+<div class="activity-list">
+
+<div class="activity-item">
+
+<div class="activity-icon">
+
+<i class="bi bi-wallet2"></i>
+
+</div>
+
+<div>
+
+<h6>
+
+Cash Deposit Completed
+
+</h6>
+
+<small>
+
+₹50,000 deposited into ACC100245 • 10 Jul 2026 • 09:45 AM
+
+</small>
+
+</div>
+
+</div>
+
+<div class="activity-item">
+
+<div class="activity-icon">
+
+<i class="bi bi-arrow-left-right"></i>
+
+</div>
+
+<div>
+
+<h6>
+
+Fund Transfer Successful
+
+</h6>
+
+<small>
+
+₹12,500 transferred from ACC100245 to ACC100246
+
+</small>
+
+</div>
+
+</div>
+
+<div class="activity-item">
+
+<div class="activity-icon">
+
+<i class="bi bi-cash-stack"></i>
+
+</div>
+
+<div>
+
+<h6>
+
+ATM Withdrawal
+
+</h6>
+
+<small>
+
+₹8,000 withdrawn using ATM Thread 02
+
+</small>
+
+</div>
+
+</div>
+
+<div class="activity-item">
+
+<div class="activity-icon">
+
+<i class="bi bi-people-fill"></i>
+
+</div>
+
+<div>
+
+<h6>
+
+New Customer Registered
+
+</h6>
+
+<small>
+
+Customer Account ACC100320 created successfully.
+
+</small>
+
+</div>
+
+</div>
+
+<div class="activity-item">
+
+<div class="activity-icon">
+
+<i class="bi bi-shield-check"></i>
+
+</div>
+
+<div>
+
+<h6>
+
+Security Audit Completed
+
+</h6>
+
+<small>
+
+No suspicious banking activity detected today.
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+FOOTER
+===================================================== -->
+
+<footer class="text-center py-4 mt-4">
+
+<p class="text-muted mb-0">
+
+© 2026 <strong>VaultSync Banking Management System</strong> |
+Reports & Analytics Module
+
+</p>
+
+</footer>
+
+</div>
+<!-- =====================================================
+END MAIN
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+// ==========================================
+// CHART.JS REPORT
+// ==========================================
+
+const ctx=document.getElementById("reportChart");
+
+new Chart(ctx,{
+
+type:"bar",
+
+data:{
+
+labels:[
+
+"Jan",
+
+"Feb",
+
+"Mar",
+
+"Apr",
+
+"May",
+
+"Jun"
+
+],
+
+datasets:[
+
+{
+
+label:"Deposits",
+
+data:[52,68,74,81,95,110],
+
+backgroundColor:"#0D3B2E",
+
+borderRadius:8
+
+},
+
+{
+
+label:"Withdrawals",
+
+data:[35,42,55,60,71,83],
+
+backgroundColor:"#D4AF37",
+
+borderRadius:8
+
+}
+
+]
+
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false,
+
+plugins:{
+
+legend:{
+
+position:"top"
+
+}
+
+},
+
+scales:{
+
+y:{
+
+beginAtZero:true
+
+}
+
+}
+
+}
+
+});
+
+// ==========================================
+// SEARCH
+// ==========================================
+
+document.querySelector(".search-box input")
+
+.addEventListener("keyup",function(){
+
+console.log("Searching Report :",this.value);
+
+});
+
+// ==========================================
+// EXPORT BUTTONS
+// ==========================================
+
+document.querySelectorAll(".btn-report")
+
+.forEach(btn=>{
+
+btn.addEventListener("click",()=>{
+
+alert(btn.innerText+" Download Started");
+
+});
+
+});
+
+// ==========================================
+// PRINT REPORT
+// ==========================================
+
+document.querySelector(".btn-print")
+
+.addEventListener("click",()=>{
+
+window.print();
+
+});
+
+// ==========================================
+// ANIMATED COUNTERS
+// ==========================================
+
+document.querySelectorAll(".stat-card h3")
+
+.forEach(counter=>{
+
+const target=counter.innerText;
+
+counter.style.opacity="0.4";
+
+setTimeout(()=>{
+
+counter.innerText=target;
+
+counter.style.opacity="1";
+
+},700);
+
+});
+
+// ==========================================
+// SIDEBAR ACTIVE
+// ==========================================
+
+document.querySelectorAll(".sidebar a")
+
+.forEach(link=>{
+
+link.addEventListener("click",function(){
+
+document.querySelectorAll(".sidebar a")
+
+.forEach(item=>item.classList.remove("active"));
+
+this.classList.add("active");
+
+});
+
+});
+
+</script>
+
+</body>
+
+</html>

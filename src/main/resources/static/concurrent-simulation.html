@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ==========================================================
+        VaultSync Banking Management System
+        Concurrent Thread Simulation
+        Frontend : HTML5 + CSS3 + Bootstrap 5 + JavaScript
+        Backend  : Core Java + JDBC + MySQL
+=========================================================== -->
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+
+VaultSync | Concurrent Simulation
+
+</title>
+
+<!-- Google Fonts -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Bootstrap -->
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+
+/*=========================================================
+ROOT VARIABLES
+=========================================================*/
+
+:root{
+
+--primary:#D4AF37;
+--secondary:#0D3B2E;
+--background:#F6F4EC;
+--card:#FFFFFF;
+--text:#17212B;
+--muted:#6B7280;
+--border:#ECECEC;
+--shadow:0 18px 40px rgba(0,0,0,.08);
+
+--heading:"Sora",sans-serif;
+--body:"Manrope",sans-serif;
+
+}
+
+/*=========================================================
+RESET
+=========================================================*/
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+
+}
+
+body{
+
+background:var(--background);
+
+font-family:var(--body);
+
+overflow-x:hidden;
+
+color:var(--text);
+
+}
+
+/*=========================================================
+SIDEBAR
+=========================================================*/
+
+.sidebar{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:280px;
+height:100vh;
+
+background:linear-gradient(180deg,#0D3B2E,#164A37);
+
+padding:35px 25px;
+
+overflow-y:auto;
+
+color:#fff;
+
+}
+
+.logo{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+font-family:var(--heading);
+
+font-size:30px;
+
+font-weight:800;
+
+margin-bottom:45px;
+
+}
+
+.logo i{
+
+font-size:36px;
+
+color:var(--primary);
+
+}
+
+.sidebar h6{
+
+margin:28px 0 14px;
+
+font-size:13px;
+
+letter-spacing:1px;
+
+opacity:.6;
+
+text-transform:uppercase;
+
+}
+
+.sidebar a{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+padding:14px 18px;
+
+margin-bottom:10px;
+
+border-radius:15px;
+
+text-decoration:none;
+
+color:white;
+
+font-weight:600;
+
+transition:.35s;
+
+}
+
+.sidebar a:hover{
+
+background:rgba(255,255,255,.10);
+
+transform:translateX(6px);
+
+}
+
+.sidebar a.active{
+
+background:rgba(255,255,255,.15);
+
+}
+
+.sidebar a i{
+
+font-size:20px;
+
+width:22px;
+
+}
+
+/*=========================================================
+MAIN
+=========================================================*/
+
+.main{
+
+margin-left:280px;
+
+padding:35px;
+
+}
+
+/*=========================================================
+TOPBAR
+=========================================================*/
+
+.topbar{
+
+background:white;
+
+padding:18px 25px;
+
+border-radius:22px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+box-shadow:var(--shadow);
+
+margin-bottom:30px;
+
+}
+
+.search-box{
+
+position:relative;
+
+width:420px;
+
+}
+
+.search-box input{
+
+width:100%;
+
+height:52px;
+
+padding-left:48px;
+
+border:1px solid var(--border);
+
+border-radius:15px;
+
+outline:none;
+
+}
+
+.search-box i{
+
+position:absolute;
+
+left:18px;
+
+top:16px;
+
+color:var(--muted);
+
+}
+
+.profile{
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+}
+
+.profile img{
+
+width:50px;
+
+height:50px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+.notification{
+
+width:48px;
+
+height:48px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border-radius:50%;
+
+background:#F5F5F5;
+
+font-size:20px;
+
+cursor:pointer;
+
+}
+
+/*=========================================================
+PAGE HEADER
+=========================================================*/
+
+.page-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:30px;
+
+}
+
+.page-header h2{
+
+font-family:var(--heading);
+
+font-size:38px;
+
+font-weight:800;
+
+}
+
+.page-header p{
+
+margin-top:5px;
+
+color:var(--muted);
+
+}
+/*=========================================================
+SIMULATION GRID
+=========================================================*/
+
+.simulation-grid{
+
+display:grid;
+
+grid-template-columns:2fr 1fr;
+
+gap:25px;
+
+margin-bottom:30px;
+
+}
+
+/*=========================================================
+CARDS
+=========================================================*/
+
+.card-box{
+
+background:white;
+
+padding:30px;
+
+border-radius:24px;
+
+box-shadow:var(--shadow);
+
+}
+
+.card-title{
+
+font-family:var(--heading);
+
+font-size:26px;
+
+font-weight:800;
+
+margin-bottom:25px;
+
+}
+
+/*=========================================================
+CONTROL BUTTONS
+=========================================================*/
+
+.control-buttons{
+
+display:flex;
+
+gap:15px;
+
+flex-wrap:wrap;
+
+margin-bottom:25px;
+
+}
+
+.btn-start,
+
+.btn-stop,
+
+.btn-reset{
+
+flex:1;
+
+height:55px;
+
+border:none;
+
+border-radius:16px;
+
+font-size:16px;
+
+font-weight:700;
+
+transition:.3s;
+
+}
+
+.btn-start{
+
+background:#198754;
+
+color:white;
+
+}
+
+.btn-start:hover{
+
+background:#157347;
+
+transform:translateY(-4px);
+
+}
+
+.btn-stop{
+
+background:#DC3545;
+
+color:white;
+
+}
+
+.btn-stop:hover{
+
+background:#BB2D3B;
+
+transform:translateY(-4px);
+
+}
+
+.btn-reset{
+
+background:#ECECEC;
+
+}
+
+.btn-reset:hover{
+
+background:#DDDDDD;
+
+}
+
+/*=========================================================
+THREAD STATUS CARDS
+=========================================================*/
+
+.thread-stats{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:18px;
+
+margin-bottom:25px;
+
+}
+
+.thread-card{
+
+background:#FAFAFA;
+
+border:1px solid var(--border);
+
+border-radius:18px;
+
+padding:22px;
+
+text-align:center;
+
+transition:.3s;
+
+}
+
+.thread-card:hover{
+
+transform:translateY(-5px);
+
+box-shadow:var(--shadow);
+
+}
+
+.thread-card i{
+
+font-size:32px;
+
+color:var(--primary);
+
+margin-bottom:10px;
+
+}
+
+.thread-card h2{
+
+font-size:32px;
+
+font-family:var(--heading);
+
+font-weight:800;
+
+margin-bottom:5px;
+
+}
+
+.thread-card p{
+
+margin:0;
+
+color:var(--muted);
+
+}
+
+/*=========================================================
+SHARED BALANCE CARD
+=========================================================*/
+
+.balance-card{
+
+background:linear-gradient(135deg,#0D3B2E,#17533E);
+
+border-radius:24px;
+
+padding:35px;
+
+text-align:center;
+
+color:white;
+
+margin-bottom:25px;
+
+}
+
+.balance-card h6{
+
+opacity:.8;
+
+margin-bottom:10px;
+
+}
+
+.balance-card h2{
+
+font-size:42px;
+
+font-family:var(--heading);
+
+font-weight:800;
+
+color:var(--primary);
+
+margin-bottom:8px;
+
+}
+
+.balance-card p{
+
+margin:0;
+
+opacity:.8;
+
+}
+/*=========================================================
+ATM THREADS
+=========================================================*/
+
+.atm-grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:18px;
+
+margin-bottom:25px;
+
+}
+
+.atm-card{
+
+background:#FAFAFA;
+
+border:1px solid var(--border);
+
+border-radius:20px;
+
+padding:22px;
+
+transition:.35s;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.atm-card:hover{
+
+transform:translateY(-6px);
+
+box-shadow:var(--shadow);
+
+}
+
+.atm-card::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:0;
+
+width:5px;
+
+height:100%;
+
+background:var(--primary);
+
+}
+
+.atm-header{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+margin-bottom:15px;
+
+}
+
+.atm-title{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+}
+
+.atm-title i{
+
+font-size:28px;
+
+color:var(--primary);
+
+}
+
+.atm-title h5{
+
+margin:0;
+
+font-weight:800;
+
+}
+
+.thread-badge{
+
+padding:6px 14px;
+
+border-radius:30px;
+
+font-size:13px;
+
+font-weight:700;
+
+}
+
+.running{
+
+background:#DFF7E5;
+
+color:#198754;
+
+}
+
+.waiting{
+
+background:#FFF3CD;
+
+color:#B8860B;
+
+}
+
+.locked{
+
+background:#FFE5E5;
+
+color:#DC3545;
+
+}
+
+.progress{
+
+height:10px;
+
+border-radius:30px;
+
+margin-top:15px;
+
+}
+
+.progress-bar{
+
+background:linear-gradient(90deg,#D4AF37,#F8E7B0);
+
+}
+
+/*=========================================================
+LIVE TRANSACTION LOG
+=========================================================*/
+
+.log-box{
+
+height:500px;
+
+overflow-y:auto;
+
+background:#0F172A;
+
+border-radius:22px;
+
+padding:20px;
+
+font-family:Consolas,monospace;
+
+color:#F8FAFC;
+
+}
+
+.log-item{
+
+display:flex;
+
+align-items:flex-start;
+
+gap:12px;
+
+margin-bottom:16px;
+
+font-size:14px;
+
+}
+
+.log-item i{
+
+color:#22C55E;
+
+margin-top:2px;
+
+}
+
+.log-time{
+
+color:#FACC15;
+
+font-weight:700;
+
+margin-right:8px;
+
+}
+
+/*=========================================================
+RESPONSIVE
+=========================================================*/
+
+@media(max-width:1200px){
+
+.simulation-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:991px){
+
+.sidebar{
+
+left:-100%;
+
+}
+
+.main{
+
+margin-left:0;
+
+padding:20px;
+
+}
+
+.topbar{
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.search-box{
+
+width:100%;
+
+}
+
+.page-header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:20px;
+
+}
+
+.thread-stats{
+
+grid-template-columns:1fr;
+
+}
+
+.atm-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+/*=========================================================
+END CSS
+=========================================================*/
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =====================================================
+SIDEBAR
+===================================================== -->
+
+<div class="sidebar">
+
+<div class="logo">
+
+<i class="bi bi-bank2"></i>
+
+VaultSync
+
+</div>
+
+<h6>Main Menu</h6>
+
+<a href="dashboard.html">
+
+<i class="bi bi-speedometer2"></i>
+
+Dashboard
+
+</a>
+
+<a href="customer-accounts.html">
+
+<i class="bi bi-people-fill"></i>
+
+Customer Accounts
+
+</a>
+
+<a href="withdraw.html">
+
+<i class="bi bi-cash-stack"></i>
+
+Withdraw Money
+
+</a>
+
+<a href="deposit.html">
+
+<i class="bi bi-wallet2"></i>
+
+Deposit Money
+
+</a>
+
+<a href="fund-transfer.html">
+
+<i class="bi bi-arrow-left-right"></i>
+
+Fund Transfer
+
+</a>
+
+<a href="check-balance.html">
+
+<i class="bi bi-wallet-fill"></i>
+
+Check Balance
+
+</a>
+
+<a href="transaction-history.html">
+
+<i class="bi bi-clock-history"></i>
+
+Transaction History
+
+</a>
+
+<a href="#" class="active">
+
+<i class="bi bi-cpu-fill"></i>
+
+Concurrent Simulation
+
+</a>
+
+<a href="thread-monitor.html">
+
+<i class="bi bi-diagram-3-fill"></i>
+
+Thread Monitor
+
+</a>
+
+</div>
+
+<!-- =====================================================
+MAIN START
+===================================================== -->
+
+<div class="main">
+
+<div class="topbar">
+
+<div class="search-box">
+
+<i class="bi bi-search"></i>
+
+<input type="text" placeholder="Search Thread...">
+
+</div>
+
+<div class="profile">
+
+<div class="notification">
+
+<i class="bi bi-bell-fill"></i>
+
+</div>
+
+<img src="https://i.pravatar.cc/150?img=12">
+
+<div>
+
+<h6 class="mb-0 fw-bold">
+
+Welcome, Rutuja
+
+</h6>
+
+<small class="text-muted">
+
+Administrator
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="page-header">
+
+<div>
+
+<h2>
+
+Concurrent Thread Simulation
+
+</h2>
+
+<p>
+
+Monitor live banking transactions with multithreading simulation.
+
+</p>
+
+</div>
+
+</div>
+<!-- =====================================================
+SIMULATION GRID
+===================================================== -->
+
+<div class="simulation-grid">
+
+<!-- ================= LEFT PANEL ================= -->
+
+<div class="card-box">
+
+<h3 class="card-title">
+
+Simulation Control Panel
+
+</h3>
+
+<div class="control-buttons">
+
+<button
+
+class="btn-start"
+
+id="startSimulation">
+
+<i class="bi bi-play-fill"></i>
+
+Start Simulation
+
+</button>
+
+<button
+
+class="btn-stop"
+
+id="stopSimulation">
+
+<i class="bi bi-stop-fill"></i>
+
+Stop Simulation
+
+</button>
+
+<button
+
+class="btn-reset"
+
+id="resetSimulation">
+
+<i class="bi bi-arrow-clockwise"></i>
+
+Reset
+
+</button>
+
+</div>
+
+<div class="thread-stats">
+
+<div class="thread-card">
+
+<i class="bi bi-cpu-fill"></i>
+
+<h2 id="activeThreads">
+
+04
+
+</h2>
+
+<p>
+
+Active Threads
+
+</p>
+
+</div>
+
+<div class="thread-card">
+
+<i class="bi bi-hourglass-split"></i>
+
+<h2 id="waitingThreads">
+
+02
+
+</h2>
+
+<p>
+
+Waiting Threads
+
+</p>
+
+</div>
+
+<div class="thread-card">
+
+<i class="bi bi-check-circle-fill"></i>
+
+<h2 id="completedThreads">
+
+15
+
+</h2>
+
+<p>
+
+Completed Threads
+
+</p>
+
+</div>
+
+</div>
+
+<div class="balance-card">
+
+<h6>
+
+Shared Bank Balance
+
+</h6>
+
+<h2 id="sharedBalance">
+
+₹ 15,25,000
+
+</h2>
+
+<p>
+
+Protected using Synchronization Lock
+
+</p>
+
+</div>
+
+<div class="atm-grid">
+
+<div class="atm-card">
+
+<div class="atm-header">
+
+<div class="atm-title">
+
+<i class="bi bi-credit-card-2-front-fill"></i>
+
+<h5>
+
+ATM Thread 01
+
+</h5>
+
+</div>
+
+<span class="thread-badge running">
+
+Running
+
+</span>
+
+</div>
+
+<p>
+
+Withdraw ₹5,000 from ACC100245
+
+</p>
+
+<div class="progress">
+
+<div
+
+class="progress-bar"
+
+style="width:82%">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="atm-card">
+
+<div class="atm-header">
+
+<div class="atm-title">
+
+<i class="bi bi-bank"></i>
+
+<h5>
+
+ATM Thread 02
+
+</h5>
+
+</div>
+
+<span class="thread-badge waiting">
+
+Waiting
+
+</span>
+
+</div>
+
+<p>
+
+Deposit ₹10,000 into ACC100252
+
+</p>
+
+<div class="progress">
+
+<div
+
+class="progress-bar"
+
+style="width:48%">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="atm-card">
+
+<div class="atm-header">
+
+<div class="atm-title">
+
+<i class="bi bi-arrow-left-right"></i>
+
+<h5>
+
+Transfer Thread
+
+</h5>
+
+</div>
+
+<span class="thread-badge locked">
+
+Locked
+
+</span>
+
+</div>
+
+<p>
+
+Waiting for synchronized resource...
+
+</p>
+
+<div class="progress">
+
+<div
+
+class="progress-bar"
+
+style="width:22%">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="atm-card">
+
+<div class="atm-header">
+
+<div class="atm-title">
+
+<i class="bi bi-wallet2"></i>
+
+<h5>
+
+Deposit Thread
+
+</h5>
+
+</div>
+
+<span class="thread-badge running">
+
+Running
+
+</span>
+
+</div>
+
+<p>
+
+Deposit ₹20,000 into ACC100267
+
+</p>
+
+<div class="progress">
+
+<div
+
+class="progress-bar"
+
+style="width:95%">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= RIGHT PANEL ================= -->
+
+<div class="card-box">
+
+<h3 class="card-title">
+
+Live Transaction Log
+
+</h3>
+
+<div class="log-box" id="logBox">
+    <div class="log-item">
+
+<i class="bi bi-check-circle-fill"></i>
+
+<div>
+
+<span class="log-time">
+
+10:45:21
+
+</span>
+
+Thread-01 acquired lock and withdrew
+
+<strong>
+
+₹5,000
+
+</strong>
+
+from
+
+<strong>
+
+ACC100245
+
+</strong>
+
+</div>
+
+</div>
+
+<div class="log-item">
+
+<i class="bi bi-arrow-down-circle-fill"></i>
+
+<div>
+
+<span class="log-time">
+
+10:45:26
+
+</span>
+
+Deposit Thread credited
+
+<strong>
+
+₹20,000
+
+</strong>
+
+to
+
+<strong>
+
+ACC100267
+
+</strong>
+
+</div>
+
+</div>
+
+<div class="log-item">
+
+<i class="bi bi-arrow-left-right"></i>
+
+<div>
+
+<span class="log-time">
+
+10:45:33
+
+</span>
+
+Transfer Thread is waiting for synchronized resource...
+
+</div>
+
+</div>
+
+<div class="log-item">
+
+<i class="bi bi-unlock-fill"></i>
+
+<div>
+
+<span class="log-time">
+
+10:45:40
+
+</span>
+
+Lock released successfully.
+
+Transfer Thread entered Critical Section.
+
+</div>
+
+</div>
+
+<div class="log-item">
+
+<i class="bi bi-send-check-fill"></i>
+
+<div>
+
+<span class="log-time">
+
+10:45:45
+
+</span>
+
+Transferred
+
+<strong>
+
+₹12,500
+
+</strong>
+
+from
+
+<strong>
+
+ACC100245
+
+</strong>
+
+to
+
+<strong>
+
+ACC100246
+
+</strong>
+
+</div>
+
+</div>
+
+<div class="log-item">
+
+<i class="bi bi-wallet2"></i>
+
+<div>
+
+<span class="log-time">
+
+10:45:52
+
+</span>
+
+Shared Balance Updated
+
+<strong>
+
+₹15,32,500
+
+</strong>
+
+</div>
+
+</div>
+
+<div class="log-item">
+
+<i class="bi bi-check2-all"></i>
+
+<div>
+
+<span class="log-time">
+
+10:46:01
+
+</span>
+
+Simulation Running Successfully...
+
+No Deadlock Detected.
+
+</div>
+
+</div>
+
+<div class="log-item">
+
+<i class="bi bi-cpu-fill"></i>
+
+<div>
+
+<span class="log-time">
+
+10:46:08
+
+</span>
+
+4 Active Threads |
+
+2 Waiting Threads |
+
+15 Completed Threads
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+FOOTER
+===================================================== -->
+
+<footer class="text-center py-4 mt-4">
+
+<p class="text-muted mb-0">
+
+© 2026 <strong>VaultSync Banking Management System</strong> |
+Concurrent Thread Simulation Module
+
+</p>
+
+</footer>
+
+</div>
+<!-- =====================================================
+END MAIN
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+// ==========================================
+// ELEMENTS
+// ==========================================
+
+const startBtn=document.getElementById("startSimulation");
+
+const stopBtn=document.getElementById("stopSimulation");
+
+const resetBtn=document.getElementById("resetSimulation");
+
+const active=document.getElementById("activeThreads");
+
+const waiting=document.getElementById("waitingThreads");
+
+const completed=document.getElementById("completedThreads");
+
+const balance=document.getElementById("sharedBalance");
+
+const logBox=document.getElementById("logBox");
+
+let simulation=null;
+
+// ==========================================
+// START SIMULATION
+// ==========================================
+
+startBtn.addEventListener("click",()=>{
+
+if(simulation) return;
+
+addLog("Simulation Started.");
+
+simulation=setInterval(runSimulation,2000);
+
+});
+
+// ==========================================
+// STOP SIMULATION
+// ==========================================
+
+stopBtn.addEventListener("click",()=>{
+
+clearInterval(simulation);
+
+simulation=null;
+
+addLog("Simulation Stopped.");
+
+});
+
+// ==========================================
+// RESET SIMULATION
+// ==========================================
+
+resetBtn.addEventListener("click",()=>{
+
+clearInterval(simulation);
+
+simulation=null;
+
+active.innerHTML="04";
+
+waiting.innerHTML="02";
+
+completed.innerHTML="15";
+
+balance.innerHTML="₹ 15,25,000";
+
+logBox.innerHTML="";
+
+addLog("Simulation Reset Successfully.");
+
+});
+
+// ==========================================
+// RANDOM SIMULATION
+// ==========================================
+
+function runSimulation(){
+
+let a=Math.floor(Math.random()*6)+2;
+
+let w=Math.floor(Math.random()*4);
+
+let c=parseInt(completed.innerHTML)+1;
+
+let bal=1500000+Math.floor(Math.random()*50000);
+
+active.innerHTML=a;
+
+waiting.innerHTML=w;
+
+completed.innerHTML=c;
+
+balance.innerHTML="₹ "+bal.toLocaleString("en-IN");
+
+const logs=[
+
+"ATM Thread completed withdrawal.",
+
+"Deposit Thread updated account balance.",
+
+"Transfer Thread entered Critical Section.",
+
+"Synchronization Lock Acquired.",
+
+"Synchronization Lock Released.",
+
+"No Deadlock Detected.",
+
+"Concurrent Transaction Executed.",
+
+"Shared Resource Updated Successfully."
+
+];
+
+addLog(logs[Math.floor(Math.random()*logs.length)]);
+
+}
+
+// ==========================================
+// LOG FUNCTION
+// ==========================================
+
+function addLog(message){
+
+const now=new Date().toLocaleTimeString();
+
+logBox.innerHTML+=`
+
+<div class="log-item">
+
+<i class="bi bi-terminal-fill"></i>
+
+<div>
+
+<span class="log-time">${now}</span>
+
+${message}
+
+</div>
+
+</div>
+
+`;
+
+logBox.scrollTop=logBox.scrollHeight;
+
+}
+
+// ==========================================
+// SEARCH
+// ==========================================
+
+document.querySelector(".search-box input")
+
+.addEventListener("keyup",function(){
+
+console.log("Searching :",this.value);
+
+});
+
+// ==========================================
+// SIDEBAR ACTIVE
+// ==========================================
+
+document.querySelectorAll(".sidebar a")
+
+.forEach(link=>{
+
+link.addEventListener("click",function(){
+
+document.querySelectorAll(".sidebar a")
+
+.forEach(item=>item.classList.remove("active"));
+
+this.classList.add("active");
+
+});
+
+});
+
+</script>
+
+</body>
+
+</html>

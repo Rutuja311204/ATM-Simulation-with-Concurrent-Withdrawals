@@ -1029,9 +1029,9 @@ STATISTICS
 
 </div>
 
-<h3>
+<h3 id="totalTransactions">
 
-12,548
+0
 
 </h3>
 
@@ -1057,9 +1057,9 @@ Total Transactions
 
 </div>
 
-<h3>
+<h3 id="totalDeposits">
 
-₹45.8L
+₹0
 
 </h3>
 
@@ -1084,12 +1084,12 @@ Total Deposits
 <i class="bi bi-cash-stack"></i>
 
 </div>
+<h3 id="totalWithdrawals">
 
-<h3>
-
-₹28.6L
+₹0
 
 </h3>
+
 
 <p>
 
@@ -1113,9 +1113,9 @@ Total Withdrawals
 
 </div>
 
-<h3>
+<h3 id="totalTransfers">
 
-₹19.4L
+₹0
 
 </h3>
 
@@ -1135,109 +1135,7 @@ Fund Transfers
 
 </div>
 
-<!-- =====================================================
-FILTER BAR
-===================================================== -->
 
-<div class="filter-bar">
-
-<div class="filter-group">
-
-<input
-
-type="date">
-
-<input
-
-type="date">
-
-<select>
-
-<option>
-
-All Types
-
-</option>
-
-<option>
-
-Deposit
-
-</option>
-
-<option>
-
-Withdrawal
-
-</option>
-
-<option>
-
-Transfer
-
-</option>
-
-</select>
-
-<select>
-
-<option>
-
-All Status
-
-</option>
-
-<option>
-
-Success
-
-</option>
-
-<option>
-
-Pending
-
-</option>
-
-<option>
-
-Failed
-
-</option>
-
-</select>
-
-</div>
-
-<div class="action-buttons">
-
-<button class="export-btn">
-
-<i class="bi bi-file-earmark-excel-fill"></i>
-
-Export Excel
-
-</button>
-
-<button class="export-btn">
-
-<i class="bi bi-file-earmark-pdf-fill"></i>
-
-Export PDF
-
-</button>
-
-<button class="print-btn">
-
-<i class="bi bi-printer-fill"></i>
-
-Print
-
-</button>
-
-</div>
-
-</div>
 
 <!-- =====================================================
 TRANSACTION TABLE
@@ -1283,516 +1181,12 @@ Transaction Records
 
 </thead>
 
-<tbody>
+<tbody id="transactionTable">
 
-<tr>
-
-<td>
-
-TXN100001
-
-</td>
-
-<td>
-
-Rutuja Divate
-
-</td>
-
-<td>
-
-ACC100245
-
-</td>
-
-<td>
-
-Deposit
-
-</td>
-
-<td class="fw-bold text-success">
-
-+ ₹25,000
-
-</td>
-
-<td>
-
-10 Jul 2026<br>
-
-<small>10:35 AM</small>
-
-</td>
-
-<td>
-
-<span class="status success">
-
-Success
-
-</span>
-
-</td>
-
-<td>
-
-<div class="table-actions">
-
-<button class="action-btn view-btn">
-
-<i class="bi bi-eye-fill"></i>
-
-</button>
-
-<button class="action-btn download-btn">
-
-<i class="bi bi-download"></i>
-
-</button>
-
-</div>
-
-</td>
-
-</tr>
-<tr>
-
-<td>
-
-TXN100002
-
-</td>
-
-<td>
-
-Aarav Sharma
-
-</td>
-
-<td>
-
-ACC100246
-
-</td>
-
-<td>
-
-Withdrawal
-
-</td>
-
-<td class="fw-bold text-danger">
-
-- ₹8,000
-
-</td>
-
-<td>
-
-10 Jul 2026<br>
-
-<small>09:10 AM</small>
-
-</td>
-
-<td>
-
-<span class="status success">
-
-Success
-
-</span>
-
-</td>
-
-<td>
-
-<div class="table-actions">
-
-<button class="action-btn view-btn">
-
-<i class="bi bi-eye-fill"></i>
-
-</button>
-
-<button class="action-btn download-btn">
-
-<i class="bi bi-download"></i>
-
-</button>
-
-</div>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-TXN100003
-
-</td>
-
-<td>
-
-Priya Patil
-
-</td>
-
-<td>
-
-ACC100247
-
-</td>
-
-<td>
-
-Fund Transfer
-
-</td>
-
-<td class="fw-bold text-primary">
-
-₹12,500
-
-</td>
-
-<td>
-
-09 Jul 2026<br>
-
-<small>04:45 PM</small>
-
-</td>
-
-<td>
-
-<span class="status pending">
-
-Pending
-
-</span>
-
-</td>
-
-<td>
-
-<div class="table-actions">
-
-<button class="action-btn view-btn">
-
-<i class="bi bi-eye-fill"></i>
-
-</button>
-
-<button class="action-btn download-btn">
-
-<i class="bi bi-download"></i>
-
-</button>
-
-</div>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-TXN100004
-
-</td>
-
-<td>
-
-Rahul Verma
-
-</td>
-
-<td>
-
-ACC100248
-
-</td>
-
-<td>
-
-Deposit
-
-</td>
-
-<td class="fw-bold text-success">
-
-+ ₹18,000
-
-</td>
-
-<td>
-
-08 Jul 2026<br>
-
-<small>02:30 PM</small>
-
-</td>
-
-<td>
-
-<span class="status success">
-
-Success
-
-</span>
-
-</td>
-
-<td>
-
-<div class="table-actions">
-
-<button class="action-btn view-btn">
-
-<i class="bi bi-eye-fill"></i>
-
-</button>
-
-<button class="action-btn download-btn">
-
-<i class="bi bi-download"></i>
-
-</button>
-
-</div>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-TXN100005
-
-</td>
-
-<td>
-
-Neha Joshi
-
-</td>
-
-<td>
-
-ACC100249
-
-</td>
-
-<td>
-
-Withdrawal
-
-</td>
-
-<td class="fw-bold text-danger">
-
-- ₹3,500
-
-</td>
-
-<td>
-
-08 Jul 2026<br>
-
-<small>11:20 AM</small>
-
-</td>
-
-<td>
-
-<span class="status failed">
-
-Failed
-
-</span>
-
-</td>
-
-<td>
-
-<div class="table-actions">
-
-<button class="action-btn view-btn">
-
-<i class="bi bi-eye-fill"></i>
-
-</button>
-
-<button class="action-btn download-btn">
-
-<i class="bi bi-download"></i>
-
-</button>
-
-</div>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-TXN100006
-
-</td>
-
-<td>
-
-Karan Mehta
-
-</td>
-
-<td>
-
-ACC100250
-
-</td>
-
-<td>
-
-Fund Transfer
-
-</td>
-
-<td class="fw-bold text-primary">
-
-₹50,000
-
-</td>
-
-<td>
-
-07 Jul 2026<br>
-
-<small>06:10 PM</small>
-
-</td>
-
-<td>
-
-<span class="status success">
-
-Success
-
-</span>
-
-</td>
-
-<td>
-
-<div class="table-actions">
-
-<button class="action-btn view-btn">
-
-<i class="bi bi-eye-fill"></i>
-
-</button>
-
-<button class="action-btn download-btn">
-
-<i class="bi bi-download"></i>
-
-</button>
-
-</div>
-
-</td>
-
-</tr>
 
 </tbody>
 
 </table>
-
-</div>
-
-<!-- =====================================================
-PAGINATION
-===================================================== -->
-
-<div class="pagination-box">
-
-<p class="text-muted mb-0">
-
-Showing <strong>1-6</strong> of <strong>12,548</strong> Transactions
-
-</p>
-
-<nav>
-
-<ul class="pagination mb-0">
-
-<li class="page-item disabled">
-
-<a class="page-link" href="#">
-
-Previous
-
-</a>
-
-</li>
-
-<li class="page-item active">
-
-<a class="page-link" href="#">
-
-1
-
-</a>
-
-</li>
-
-<li class="page-item">
-
-<a class="page-link" href="#">
-
-2
-
-</a>
-
-</li>
-
-<li class="page-item">
-
-<a class="page-link" href="#">
-
-3
-
-</a>
-
-</li>
-
-<li class="page-item">
-
-<a class="page-link" href="#">
-
-Next
-
-</a>
-
-</li>
-
-</ul>
-
-</nav>
-
-</div>
 
 </div>
 
@@ -1820,125 +1214,137 @@ END MAIN
 
 <script>
 
-// ==========================================
-// SEARCH TRANSACTIONS
-// ==========================================
+// Logged In User
+
+const customer = JSON.parse(localStorage.getItem("customer"));
+
+if(customer){
+
+document.querySelector(".profile h6").innerHTML =
+"Welcome, " + customer.fullName;
+
+document.querySelector(".profile small").innerHTML =
+customer.accountType || "Customer";
+
+}
+
+// Load Transactions
+
+fetch("http://localhost:8081/customer/transactions")
+
+.then(res=>res.json())
+
+.then(list=>{
+
+const table=document.getElementById("transactionTable");
+
+table.innerHTML="";
+
+let deposit=0;
+let withdraw=0;
+let transfer=0;
+
+list.forEach(tx=>{
+
+if(tx.transactionType=="Deposit")
+deposit+=tx.amount;
+
+if(tx.transactionType=="Withdraw")
+withdraw+=tx.amount;
+
+if(tx.transactionType=="Transfer")
+transfer+=tx.amount;
+
+let color="success";
+
+if(tx.status=="Pending")
+color="pending";
+
+if(tx.status=="Failed")
+color="failed";
+
+table.innerHTML+=`
+
+<tr>
+
+<td>TXN${tx.transactionId}</td>
+
+<td>${tx.customerName || "-"}</td>
+
+<td>${tx.accountNumber}</td>
+
+<td>${tx.transactionType}</td>
+
+<td>₹ ${Number(tx.amount).toLocaleString("en-IN")}</td>
+
+<td>${tx.transactionDate.replace("T"," ").substring(0,16)}</td>
+
+<td>
+
+<span class="status ${color}">
+
+${tx.status}
+
+</span>
+
+</td>
+
+<td>
+
+<button class="action-btn view-btn">
+
+<i class="bi bi-eye-fill"></i>
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById("totalTransactions").innerHTML=list.length;
+
+document.getElementById("totalDeposits").innerHTML=
+"₹ "+deposit.toLocaleString("en-IN");
+
+document.getElementById("totalWithdrawals").innerHTML=
+"₹ "+withdraw.toLocaleString("en-IN");
+
+document.getElementById("totalTransfers").innerHTML=
+"₹ "+transfer.toLocaleString("en-IN");
+
+});
+
+// Search
 
 document.querySelector(".search-box input")
 
 .addEventListener("keyup",function(){
 
-console.log("Searching :",this.value);
+const value=this.value.toLowerCase();
 
-});
+document.querySelectorAll("#transactionTable tr")
 
-// ==========================================
-// EXPORT BUTTONS
-// ==========================================
+.forEach(row=>{
 
-document.querySelectorAll(".export-btn")
+row.style.display=row.innerText.toLowerCase().includes(value)
 
-.forEach(btn=>{
+? ""
 
-btn.addEventListener("click",()=>{
-
-alert(btn.innerText+" Download Started");
+: "none";
 
 });
 
 });
 
-// ==========================================
-// PRINT REPORT
-// ==========================================
+// Print
 
 document.querySelector(".print-btn")
 
-.addEventListener("click",()=>{
-
-window.print();
-
-});
-
-// ==========================================
-// VIEW RECEIPT
-// ==========================================
-
-document.querySelectorAll(".view-btn")
-
-.forEach(btn=>{
-
-btn.addEventListener("click",()=>{
-
-alert("Opening Transaction Receipt...");
-
-});
-
-});
-
-// ==========================================
-// DOWNLOAD RECEIPT
-// ==========================================
-
-document.querySelectorAll(".download-btn")
-
-.forEach(btn=>{
-
-btn.addEventListener("click",()=>{
-
-alert("Receipt Download Started...");
-
-});
-
-});
-
-// ==========================================
-// PAGINATION
-// ==========================================
-
-document.querySelectorAll(".pagination .page-link")
-
-.forEach(link=>{
-
-link.addEventListener("click",function(e){
-
-e.preventDefault();
-
-document.querySelectorAll(".pagination .page-item")
-
-.forEach(item=>item.classList.remove("active"));
-
-if(this.parentElement.innerText!="Previous" &&
-
-this.parentElement.innerText!="Next"){
-
-this.parentElement.classList.add("active");
-
-}
-
-});
-
-});
-
-// ==========================================
-// SIDEBAR ACTIVE
-// ==========================================
-
-document.querySelectorAll(".sidebar a")
-
-.forEach(link=>{
-
-link.addEventListener("click",function(){
-
-document.querySelectorAll(".sidebar a")
-
-.forEach(item=>item.classList.remove("active"));
-
-this.classList.add("active");
-
-});
-
-});
+.onclick=()=>window.print();
 
 </script>
 

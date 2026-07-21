@@ -347,7 +347,7 @@ TRANSFER GRID
 
 display:grid;
 
-grid-template-columns:1fr 420px;
+grid-template-columns:1fr;
 
 gap:25px;
 
@@ -912,16 +912,12 @@ placeholder="Search Customer">
 
 <div>
 
-<h6 class="mb-0 fw-bold">
-
-Welcome, Rutuja
-
+<h6 class="mb-0 fw-bold" id="customerName">
+Loading...
 </h6>
 
-<small class="text-muted">
-
-Administrator
-
+<small class="text-muted" id="accountType">
+Loading...
 </small>
 
 </div>
@@ -975,10 +971,8 @@ Sender Name
 
 </h6>
 
-<h5>
-
-Rutuja Divate
-
+<h5 id="senderName">
+Loading...
 </h5>
 
 </div>
@@ -991,43 +985,53 @@ Sender Account
 
 </h6>
 
-<h5>
-
-ACC100245
-
+<h5 id="senderAccount">
+Loading...
 </h5>
 
 </div>
 
-<div class="info-box">
+<div class="mb-4">
 
-<h6>
+<label class="form-label">
 
 Receiver Name
 
-</h6>
+</label>
 
-<h5>
+<input
 
-Aarav Sharma
+type="text"
 
-</h5>
+class="form-control"
+
+id="receiverName"
+
+placeholder="Enter Receiver Name"
+
+required>
 
 </div>
 
-<div class="info-box">
+<div class="mb-4">
 
-<h6>
+<label class="form-label">
 
-Receiver Account
+Receiver Account Number
 
-</h6>
+</label>
 
-<h5>
+<input
 
-ACC100246
+type="text"
 
-</h5>
+class="form-control"
+
+id="receiverAccount"
+
+placeholder="Enter Receiver Account Number"
+
+required>
 
 </div>
 
@@ -1167,7 +1171,6 @@ class="form-control"
 
 id="pin"
 
-maxlength="4"
 
 placeholder="Enter 4-digit PIN"
 
@@ -1243,180 +1246,6 @@ Transfer Failed. Please Try Again.
 
 <!-- ================= RIGHT CARD ================= -->
 
-<div>
-
-<div class="balance-card">
-
-<h6>
-
-Available Balance
-
-</h6>
-
-<h2>
-
-₹ 1,25,000
-
-</h2>
-
-</div>
-<h3 class="card-title">
-
-Recent Fund Transfers
-
-</h3>
-
-<div class="history-list">
-
-<div class="history-item">
-
-<div class="history-left">
-
-<div class="history-icon">
-
-<i class="bi bi-arrow-left-right"></i>
-
-</div>
-
-<div>
-
-<h6>
-
-Transfer to Aarav Sharma
-
-</h6>
-
-<small>
-
-10 Jul 2026 • 10:45 AM • UPI
-
-</small>
-
-</div>
-
-</div>
-
-<div class="amount">
-
-₹ 5,000
-
-</div>
-
-</div>
-
-<div class="history-item">
-
-<div class="history-left">
-
-<div class="history-icon">
-
-<i class="bi bi-arrow-left-right"></i>
-
-</div>
-
-<div>
-
-<h6>
-
-Transfer to Priya Patil
-
-</h6>
-
-<small>
-
-09 Jul 2026 • 03:20 PM • NEFT
-
-</small>
-
-</div>
-
-</div>
-
-<div class="amount">
-
-₹ 12,000
-
-</div>
-
-</div>
-
-<div class="history-item">
-
-<div class="history-left">
-
-<div class="history-icon">
-
-<i class="bi bi-arrow-left-right"></i>
-
-</div>
-
-<div>
-
-<h6>
-
-Transfer to Rahul Verma
-
-</h6>
-
-<small>
-
-08 Jul 2026 • 01:15 PM • IMPS
-
-</small>
-
-</div>
-
-</div>
-
-<div class="amount">
-
-₹ 8,750
-
-</div>
-
-</div>
-
-<div class="history-item">
-
-<div class="history-left">
-
-<div class="history-icon">
-
-<i class="bi bi-arrow-left-right"></i>
-
-</div>
-
-<div>
-
-<h6>
-
-Transfer to Neha Joshi
-
-</h6>
-
-<small>
-
-07 Jul 2026 • 09:40 AM • RTGS
-
-</small>
-
-</div>
-
-</div>
-
-<div class="amount">
-
-₹ 25,000
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
 
 <!-- =====================================================
 FOOTER
@@ -1480,75 +1309,119 @@ const successBox=document.getElementById("successBox");
 
 const errorBox=document.getElementById("errorBox");
 
-form.addEventListener("submit",function(e){
+document.getElementById("transferForm").addEventListener("submit",function(e){
 
 e.preventDefault();
 
 const amount=parseFloat(document.getElementById("amount").value);
 
-const ifsc=document.getElementById("ifsc").value.trim();
+const customer = JSON.parse(localStorage.getItem("customer"));
 
-const type=document.getElementById("transferType").value;
+console.log(customer);
+const ifsc=document.getElementById("ifsc").value;
 
-const balance=125000;
+const receiverName =
+document.getElementById("receiverName").value;
 
-successBox.style.display="none";
+const receiverAccount =
+document.getElementById("receiverAccount").value;
 
-errorBox.style.display="none";
+const transferType=document.getElementById("transferType").value;
 
-if(isNaN(amount)||amount<=0){
+if(receiverName==""){
 
-alert("Enter a valid transfer amount.");
-
-return;
-
-}
-
-if(amount>balance){
-
-errorBox.innerHTML="Insufficient Balance.";
-
-errorBox.style.display="block";
+alert("Enter Receiver Name");
 
 return;
 
 }
 
-if(type==="Select Transfer Type"){
+if(receiverAccount==""){
 
-alert("Please select transfer type.");
-
-return;
-
-}
-
-if(ifsc.length<8){
-
-alert("Enter a valid IFSC Code.");
+alert("Enter Receiver Account Number");
 
 return;
 
 }
 
-transferBtn.innerHTML=
+if(amount<=0){
 
-'<span class="spinner-border spinner-border-sm me-2"></span>Processing Transfer...';
+alert("Enter valid amount");
 
-transferBtn.disabled=true;
+return;
 
-setTimeout(()=>{
+}
 
-successBox.style.display="block";
+if(amount>customer.balance){
 
-transferBtn.innerHTML='<i class="bi bi-check-circle-fill"></i> Transfer Successful';
+document.getElementById("errorBox").style.display="block";
 
-transferBtn.classList.remove("btn-transfer");
+document.getElementById("errorBox").innerHTML="Insufficient Balance";
 
-transferBtn.classList.add("btn","btn-success");
+return;
 
-},2000);
+}
+
+fetch(
+`http://localhost:8081/customer/transfer?email=${encodeURIComponent(customer.email)}&receiverAccount=${encodeURIComponent(receiverAccount)}&amount=${amount}`,
+{
+method:"POST"
+}
+)
+
+.then(res => {
+
+    if(!res.ok){
+        throw new Error("Transfer Failed");
+    }
+
+    return res.json();
+
+})
+
+.then(data=>{
+
+console.log(data);
+
+localStorage.setItem("customer", JSON.stringify(data));
+
+alert("Transfer Successful");
+
+window.location.href="dashboard.html";
+
+})
+.catch(err=>{
+
+console.log(err);
+
+alert("Transfer Failed");
 
 });
+
+});
+
+
+// ==========================================
+// LOAD CUSTOMER
+// ==========================================
+const customer = JSON.parse(localStorage.getItem("customer"));
+
+console.log(customer);
+
+
+if(customer){
+
+document.getElementById("customerName").innerText = customer?.fullName || "";
+document.getElementById("accountType").innerText = customer?.accountType || "";
+
+
+document.getElementById("senderName").innerText=customer.fullName;
+
+document.getElementById("senderAccount").innerText=customer.accountNumber;
+
+document.getElementById("availableBalance").innerText =
+"₹ " + (customer.balance || 0).toLocaleString("en-IN");
+}
 
 // ==========================================
 // SEARCH

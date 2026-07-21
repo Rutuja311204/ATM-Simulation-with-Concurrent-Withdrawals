@@ -964,16 +964,12 @@ placeholder="Search Customer...">
 
 <div>
 
-<h6 class="mb-0 fw-bold">
-
-Welcome, Rutuja
-
+<h6 class="mb-0 fw-bold" id="profileName">
+Welcome
 </h6>
 
-<small class="text-muted">
-
-Administrator
-
+<small class="text-muted" id="profileType">
+Savings Account
 </small>
 
 </div>
@@ -1023,11 +1019,12 @@ STATISTICS
 
 </div>
 
-<h3>
+<h3 id="totalCustomers">
 
-1,256
+0
 
 </h3>
+
 
 <p>
 
@@ -1051,9 +1048,9 @@ Total Customers
 
 </div>
 
-<h3>
+<h3 id="activeCustomers">
 
-1,189
+0
 
 </h3>
 
@@ -1079,9 +1076,9 @@ Active Customers
 
 </div>
 
-<h3>
+<h3 id="savingAccounts">
 
-842
+0
 
 </h3>
 
@@ -1107,9 +1104,9 @@ Savings Accounts
 
 </div>
 
-<h3>
+<h3 id="currentAccounts">
 
-414
+0
 
 </h3>
 
@@ -1129,69 +1126,6 @@ Current Accounts
 
 </div>
 
-<!-- =====================================================
-FILTER BAR
-===================================================== -->
-
-<div class="filter-bar">
-
-<div class="filter-group">
-
-<select>
-
-<option>
-
-All Accounts
-
-</option>
-
-<option>
-
-Savings
-
-</option>
-
-<option>
-
-Current
-
-</option>
-
-</select>
-
-<select>
-
-<option>
-
-All Status
-
-</option>
-
-<option>
-
-Active
-
-</option>
-
-<option>
-
-Inactive
-
-</option>
-
-</select>
-
-</div>
-
-<button class="export-btn">
-
-<i class="bi bi-download"></i>
-
-Export Data
-
-</button>
-
-</div>
 
 <!-- =====================================================
 CUSTOMER TABLE
@@ -1233,426 +1167,9 @@ Customer List
 
 </thead>
 
-<tbody>
+<tbody id="customerTable">
 
-<tr>
 
-<td>
-
-<div class="customer">
-
-<img src="https://i.pravatar.cc/150?img=12">
-
-<div>
-
-<h6>
-
-Rutuja Divate
-
-</h6>
-
-<small>
-
-rutuja@gmail.com
-
-</small>
-
-</div>
-
-</div>
-
-</td>
-
-<td>
-
-ACC100245
-
-</td>
-
-<td>
-
-Savings
-
-</td>
-
-<td class="fw-bold">
-
-₹1,25,000
-
-</td>
-
-<td>
-
-<span class="status active-status">
-
-Active
-
-</span>
-
-</td>
-
-<td>
-
-<div class="actions">
-
-<button class="action-btn view">
-
-<i class="bi bi-eye-fill"></i>
-
-</button>
-
-<button class="action-btn edit">
-
-<i class="bi bi-pencil-fill"></i>
-
-</button>
-
-<button class="action-btn delete">
-
-<i class="bi bi-trash-fill"></i>
-
-</button>
-
-</div>
-
-</td>
-
-</tr>
-<tr>
-
-<td>
-
-<div class="customer">
-
-<img src="https://i.pravatar.cc/150?img=32">
-
-<div>
-
-<h6>
-
-Aarav Sharma
-
-</h6>
-
-<small>
-
-aarav@gmail.com
-
-</small>
-
-</div>
-
-</div>
-
-</td>
-
-<td>
-
-ACC100246
-
-</td>
-
-<td>
-
-Current
-
-</td>
-
-<td class="fw-bold">
-
-₹85,500
-
-</td>
-
-<td>
-
-<span class="status active-status">
-
-Active
-
-</span>
-
-</td>
-
-<td>
-
-<div class="actions">
-
-<button class="action-btn view">
-
-<i class="bi bi-eye-fill"></i>
-
-</button>
-
-<button class="action-btn edit">
-
-<i class="bi bi-pencil-fill"></i>
-
-</button>
-
-<button class="action-btn delete">
-
-<i class="bi bi-trash-fill"></i>
-
-</button>
-
-</div>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<div class="customer">
-
-<img src="https://i.pravatar.cc/150?img=25">
-
-<div>
-
-<h6>
-
-Priya Patil
-
-</h6>
-
-<small>
-
-priya@gmail.com
-
-</small>
-
-</div>
-
-</div>
-
-</td>
-
-<td>
-
-ACC100247
-
-</td>
-
-<td>
-
-Savings
-
-</td>
-
-<td class="fw-bold">
-
-₹2,45,000
-
-</td>
-
-<td>
-
-<span class="status pending-status">
-
-Pending
-
-</span>
-
-</td>
-
-<td>
-
-<div class="actions">
-
-<button class="action-btn view">
-
-<i class="bi bi-eye-fill"></i>
-
-</button>
-
-<button class="action-btn edit">
-
-<i class="bi bi-pencil-fill"></i>
-
-</button>
-
-<button class="action-btn delete">
-
-<i class="bi bi-trash-fill"></i>
-
-</button>
-
-</div>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<div class="customer">
-
-<img src="https://i.pravatar.cc/150?img=41">
-
-<div>
-
-<h6>
-
-Rahul Verma
-
-</h6>
-
-<small>
-
-rahul@gmail.com
-
-</small>
-
-</div>
-
-</div>
-
-</td>
-
-<td>
-
-ACC100248
-
-</td>
-
-<td>
-
-Current
-
-</td>
-
-<td class="fw-bold">
-
-₹58,700
-
-</td>
-
-<td>
-
-<span class="status inactive-status">
-
-Inactive
-
-</span>
-
-</td>
-
-<td>
-
-<div class="actions">
-
-<button class="action-btn view">
-
-<i class="bi bi-eye-fill"></i>
-
-</button>
-
-<button class="action-btn edit">
-
-<i class="bi bi-pencil-fill"></i>
-
-</button>
-
-<button class="action-btn delete">
-
-<i class="bi bi-trash-fill"></i>
-
-</button>
-
-</div>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<div class="customer">
-
-<img src="https://i.pravatar.cc/150?img=15">
-
-<div>
-
-<h6>
-
-Neha Joshi
-
-</h6>
-
-<small>
-
-neha@gmail.com
-
-</small>
-
-</div>
-
-</div>
-
-</td>
-
-<td>
-
-ACC100249
-
-</td>
-
-<td>
-
-Savings
-
-</td>
-
-<td class="fw-bold">
-
-₹4,80,000
-
-</td>
-
-<td>
-
-<span class="status active-status">
-
-Active
-
-</span>
-
-</td>
-
-<td>
-
-<div class="actions">
-
-<button class="action-btn view">
-
-<i class="bi bi-eye-fill"></i>
-
-</button>
-
-<button class="action-btn edit">
-
-<i class="bi bi-pencil-fill"></i>
-
-</button>
-
-<button class="action-btn delete">
-
-<i class="bi bi-trash-fill"></i>
-
-</button>
-
-</div>
-
-</td>
-
-</tr>
 
 </tbody>
 
@@ -1686,6 +1203,129 @@ END MAIN
 
 <script>
 
+
+const loggedCustomer = JSON.parse(localStorage.getItem("customer"));
+
+if(loggedCustomer){
+
+document.getElementById("profileName").innerHTML =
+"Welcome, " + loggedCustomer.fullName;
+
+document.getElementById("profileType").innerHTML =
+loggedCustomer.accountType;
+
+}
+const customerTable = document.getElementById("customerTable");
+
+fetch("http://localhost:8081/customer/all")
+.then(res => res.json())
+.then(customers => {
+
+    customerTable.innerHTML = "";
+
+    let total = customers.length;
+let active = 0;
+let savings = 0;
+let current = 0;
+
+customers.forEach(customer => {
+
+    if(customer.status=="Active")
+        active++;
+
+    if(customer.accountType=="Savings")
+        savings++;
+
+    if(customer.accountType=="Current")
+        current++;
+
+        let badge = "active-status";
+
+        if(customer.status === "Inactive")
+            badge = "inactive-status";
+
+        if(customer.status === "Pending")
+            badge = "pending-status";
+
+        customerTable.innerHTML += `
+
+<tr>
+
+<td>
+
+
+<div>
+
+<h6>${customer.fullName}</h6>
+
+<small>${customer.email}</small>
+
+</div>
+
+</td>
+
+<td>${customer.accountNumber}</td>
+
+<td>${customer.accountType}</td>
+
+<td class="fw-bold">
+
+₹${Number(customer.balance).toLocaleString("en-IN")}
+
+</td>
+
+<td>
+
+<span class="status ${badge}">
+
+${customer.status}
+
+</span>
+
+</td>
+
+<td>
+
+<div class="actions">
+
+<button class="action-btn view" data-id="${customer.customerId}">
+
+<i class="bi bi-eye-fill"></i>
+
+</button>
+<button class="action-btn edit" data-id="${customer.customerId}">
+
+
+<i class="bi bi-pencil-fill"></i>
+
+</button>
+
+<button class="action-btn delete" data-id="${customer.customerId}">
+
+<i class="bi bi-trash-fill"></i>
+
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+    });
+    document.getElementById("totalCustomers").innerHTML = total;
+
+document.getElementById("activeCustomers").innerHTML = active;
+
+document.getElementById("savingAccounts").innerHTML = savings;
+
+document.getElementById("currentAccounts").innerHTML = current;
+attachButtons();
+
+});
+
 // ===========================================
 // SEARCH CUSTOMER
 // ===========================================
@@ -1694,7 +1334,16 @@ const searchInput=document.querySelector(".search-box input");
 
 searchInput.addEventListener("keyup",function(){
 
-console.log("Searching : "+this.value);
+const value = this.value.toLowerCase();
+
+document.querySelectorAll("#customerTable tr").forEach(row=>{
+
+row.style.display =
+row.innerText.toLowerCase().includes(value)
+? ""
+: "none";
+
+});
 
 });
 
@@ -1710,49 +1359,63 @@ alert("Add Customer Module Coming Next");
 
 });
 
-// ===========================================
-// ACTION BUTTONS
-// ===========================================
+function attachButtons(){
 
-document.querySelectorAll(".view")
+document.querySelectorAll(".view").forEach(btn=>{
 
-.forEach(btn=>{
+btn.onclick=function(){
 
-btn.onclick=()=>{
+const id=this.dataset.id;
 
-alert("View Customer Details");
+window.location.href="customer-details.html?id="+id;
 
 };
 
 });
 
-document.querySelectorAll(".edit")
+document.querySelectorAll(".edit").forEach(btn=>{
 
-.forEach(btn=>{
+btn.onclick=function(){
 
-btn.onclick=()=>{
+const id=this.dataset.id;
 
-alert("Edit Customer");
+window.location.href="edit-customer.html?id="+id;
 
 };
 
 });
 
-document.querySelectorAll(".delete")
+document.querySelectorAll(".delete").forEach(btn=>{
 
-.forEach(btn=>{
+btn.onclick=function(){
 
-btn.onclick=()=>{
+const id=this.dataset.id;
 
-if(confirm("Delete this customer?")){
+if(confirm("Delete Customer?")){
 
-alert("Customer Deleted");
+fetch("http://localhost:8081/customer/delete/"+id,{
+
+method:"DELETE"
+
+})
+
+.then(()=>{
+
+loadCustomers();
+
+alert("Customer Deleted Successfully");
+
+});
 
 }
 
 };
 
 });
+
+}
+
+
 
 // ===========================================
 // EXPORT BUTTON

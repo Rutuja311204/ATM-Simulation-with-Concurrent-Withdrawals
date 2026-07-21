@@ -49,4 +49,8 @@ public class Customer {
     private String pin;
 
     private String status;
+
+    public String getFullName() {
+    return fullName;
+}
 }

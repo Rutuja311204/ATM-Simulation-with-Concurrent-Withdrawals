@@ -871,121 +871,79 @@ SIDEBAR
 <div class="sidebar">
 
 <div class="logo">
-
 <i class="bi bi-bank2"></i>
-
 VaultSync
-
 </div>
 
 <h6>Main Menu</h6>
 
-<a href="#" class="active">
-
+<a href="dashboard.html" class="active">
 <i class="bi bi-speedometer2"></i>
-
 Dashboard
-
 </a>
 
-<a href="#">
-
+<a href="customer-accounts.html">
 <i class="bi bi-people-fill"></i>
-
 Customer Accounts
-
 </a>
 
-<a href="#">
-
+<a href="withdraw.html">
 <i class="bi bi-cash-stack"></i>
-
 Withdraw Money
-
 </a>
 
-<a href="#">
-
+<a href="deposit.html">
 <i class="bi bi-wallet2"></i>
-
 Deposit Money
-
 </a>
 
-<a href="#">
-
+<a href="fund-transfer.html">
 <i class="bi bi-arrow-left-right"></i>
-
 Fund Transfer
-
 </a>
 
-<a href="#">
-
+<a href="transaction-history.html">
 <i class="bi bi-clock-history"></i>
-
 Transaction History
-
 </a>
 
 <h6>Concurrency Lab</h6>
 
-<a href="#">
-
+<a href="concurrent-simulation.html">
 <i class="bi bi-cpu-fill"></i>
-
 Concurrent Simulation
-
 </a>
 
-<a href="#">
-
+<a href="thread-monitor.html">
 <i class="bi bi-diagram-3-fill"></i>
-
 Thread Monitor
-
 </a>
 
 <h6>Reports</h6>
 
-<a href="#">
-
+<a href="about.html">
 <i class="bi bi-graph-up-arrow"></i>
-
 Analytics
-
 </a>
 
-<a href="#">
-
+<a href="reports.html">
 <i class="bi bi-file-earmark-bar-graph"></i>
-
 Reports
-
 </a>
 
-<a href="#">
-
+<a href="contact.html">
 <i class="bi bi-bell-fill"></i>
-
 Notifications
-
 </a>
 
-<a href="#">
-
+<a href="settings.html">
 <i class="bi bi-gear-fill"></i>
-
 Settings
-
 </a>
 
-<a href="#">
-
+<a href="index.html">
 <i class="bi bi-box-arrow-right"></i>
-
 Logout
-
 </a>
 
 </div>
@@ -1025,18 +983,25 @@ placeholder="Search customers, transactions, threads...">
 
 <div>
 
-<h6 class="mb-0 fw-bold" id="customerName">
+<span id="customerName">Loading...</span>
+
+<small class="text-muted" id="accountType">
 Loading...
-</h6>
+</small>
 
-<small class="text-muted">
+<br>
 
-Administrator
+<small id="accountNumber">
+Loading...
+</small>
 
+<br>
+
+<small id="customerEmail">
+Loading...
 </small>
 
 </div>
-
 </div>
 
 </div>
@@ -1073,11 +1038,7 @@ STATISTICS
 
 </div>
 
-<h3>
-
-₹12,45,000
-
-</h3>
+<h3 id="balance">₹0</h3>
 
 <p>
 
@@ -1101,11 +1062,7 @@ Total Balance
 
 </div>
 
-<h3>
-
-₹2,85,000
-
-</h3>
+<h3 id="todayWithdraw">₹0</h3>
 
 <p>
 
@@ -1129,11 +1086,8 @@ Today's Withdrawals
 
 </div>
 
-<h3>
+<h3 id="todayDeposit">₹0</h3>
 
-₹3,40,000
-
-</h3>
 
 <p>
 
@@ -1157,11 +1111,7 @@ Today's Deposits
 
 </div>
 
-<h3>
-
-08
-
-</h3>
+<h3 id="activeThreads">0</h3>
 
 <p>
 
@@ -1192,12 +1142,12 @@ CHART + QUICK ACTIONS
 Transaction Overview
 
 </h4>
-
 <div class="chart">
 
-📊 Transaction Analytics Chart
+<canvas id="transactionChart" height="180"></canvas>
 
 </div>
+
 
 </div>
 
@@ -1340,147 +1290,7 @@ Recent Transactions
 
 </thead>
 
-<tbody>
-
-<tr>
-
-<td>TXN10001</td>
-
-<td>Rutuja Divate</td>
-
-<td>Deposit</td>
-
-<td class="fw-bold text-success">
-
-+ ₹25,000
-
-</td>
-
-<td>
-
-<span class="badge-success">
-
-Completed
-
-</span>
-
-</td>
-
-<td>10 Jul 2026</td>
-
-</tr>
-
-<tr>
-
-<td>TXN10002</td>
-
-<td>Aarav Sharma</td>
-
-<td>Withdrawal</td>
-
-<td class="fw-bold text-danger">
-
-- ₹8,000
-
-</td>
-
-<td>
-
-<span class="badge-success">
-
-Completed
-
-</span>
-
-</td>
-
-<td>10 Jul 2026</td>
-
-</tr>
-
-<tr>
-
-<td>TXN10003</td>
-
-<td>Priya Patil</td>
-
-<td>Transfer</td>
-
-<td class="fw-bold text-primary">
-
-₹12,000
-
-</td>
-
-<td>
-
-<span class="badge-pending">
-
-Pending
-
-</span>
-
-</td>
-
-<td>10 Jul 2026</td>
-
-</tr>
-
-<tr>
-
-<td>TXN10004</td>
-
-<td>Rahul Verma</td>
-
-<td>Withdrawal</td>
-
-<td class="fw-bold text-danger">
-
-- ₹5,000
-
-</td>
-
-<td>
-
-<span class="badge-failed">
-
-Failed
-
-</span>
-
-</td>
-
-<td>09 Jul 2026</td>
-
-</tr>
-
-<tr>
-
-<td>TXN10005</td>
-
-<td>Neha Joshi</td>
-
-<td>Deposit</td>
-
-<td class="fw-bold text-success">
-
-+ ₹50,000
-
-</td>
-
-<td>
-
-<span class="badge-success">
-
-Completed
-
-</span>
-
-</td>
-
-<td>09 Jul 2026</td>
-
-</tr>
+<tbody id="transactionTable">
 
 </tbody>
 
@@ -1644,11 +1454,11 @@ END MAIN
 // SEARCH
 // ==========================================
 
-const searchInput=document.querySelector(".search input");
+const searchInput = document.querySelector(".search input");
 
-searchInput.addEventListener("keyup",function(){
+searchInput.addEventListener("keyup", function () {
 
-console.log("Searching : "+this.value);
+    console.log("Searching : " + this.value);
 
 });
 
@@ -1656,81 +1466,57 @@ console.log("Searching : "+this.value);
 // CARD HOVER
 // ==========================================
 
-document.querySelectorAll(".card-box").forEach(card=>{
+document.querySelectorAll(".card-box").forEach(card => {
 
-card.addEventListener("mouseenter",()=>{
+    card.addEventListener("mouseenter", () => {
 
-card.style.transform="translateY(-10px)";
+        card.style.transform = "translateY(-10px)";
 
-});
+    });
 
-card.addEventListener("mouseleave",()=>{
+    card.addEventListener("mouseleave", () => {
 
-card.style.transform="translateY(0px)";
+        card.style.transform = "translateY(0px)";
 
-});
-
-});
-
-// ==========================================
-// QUICK ACTION CLICK
-// ==========================================
-
-document.querySelectorAll(".action-btn").forEach(btn=>{
-
-btn.addEventListener("click",()=>{
-
-const action=btn.querySelector("h6").innerText;
-
-alert(action+" Module Coming Next");
-
-});
+    });
 
 });
 
 // ==========================================
-// LIVE COUNTER
+// QUICK ACTIONS
 // ==========================================
 
-function animateValue(element,start,end,duration){
+document.querySelectorAll(".action-btn").forEach(btn => {
 
-let range=end-start;
+    btn.addEventListener("click", () => {
 
-let current=start;
+        const action = btn.querySelector("h6").innerText.trim();
 
-let increment=end>start?1:-1;
+        if (action === "Deposit") {
 
-let stepTime=Math.abs(Math.floor(duration/range));
+            window.location.href = "deposit.html";
 
-let timer=setInterval(()=>{
+        }
 
-current+=increment;
+        else if (action === "Withdraw") {
 
-element.textContent=current;
+            window.location.href = "withdraw.html";
 
-if(current==end){
+        }
 
-clearInterval(timer);
+        else if (action === "Transfer") {
 
-}
+            window.location.href = "fund-transfer.html";
 
-},stepTime);
+        }
 
-}
+        else if (action === "History") {
 
-const threadCard=document.querySelectorAll(".card-box h3")[3];
+            window.location.href = "transaction-history.html";
 
-animateValue(threadCard,0,8,1200);
+        }
 
-// ==========================================
-// NOTIFICATION
-// ==========================================
-
-document.querySelector(".notification")
-
-.addEventListener("click",()=>{
-
-alert("No New Notifications");
+    });
 
 });
 
@@ -1738,47 +1524,191 @@ alert("No New Notifications");
 // ACTIVE SIDEBAR
 // ==========================================
 
-document.querySelectorAll(".sidebar a")
+document.querySelectorAll(".sidebar a").forEach(link => {
 
-.forEach(link=>{
+    link.addEventListener("click", function () {
 
-link.addEventListener("click",function(){
+        document.querySelectorAll(".sidebar a")
+        .forEach(item => item.classList.remove("active"));
 
-document.querySelectorAll(".sidebar a")
+        this.classList.add("active");
 
-.forEach(item=>item.classList.remove("active"));
-
-this.classList.add("active");
-
-});
+    });
 
 });
 
 // ==========================================
-// LOAD LOGGED-IN CUSTOMER
+// NOTIFICATION
 // ==========================================
 
-const email = localStorage.getItem("email");
+document.querySelector(".notification").addEventListener("click", () => {
 
-if(email){
-
-fetch("http://localhost:8081/customer/"+email)
-
-.then(res=>res.json())
-
-.then(customer=>{
-
-document.getElementById("customerName").innerHTML =
-customer.fullName;
-
-document.getElementById("welcomeText").innerHTML =
-"Good Morning, "+customer.fullName+" 👋";
+    alert("No New Notifications");
 
 });
+
+// ==========================================
+// LOAD CUSTOMER
+// ==========================================
+
+let customerData = JSON.parse(localStorage.getItem("customer"));
+
+if(customerData){
+
+    // Today's Deposit
+    fetch("http://localhost:8081/customer/todayDeposit/" + customerData.email)
+    .then(res => res.json())
+    .then(amount => {
+
+        document.getElementById("todayDeposit").innerText =
+        "₹ " + Number(amount).toLocaleString("en-IN");
+
+    });
+
+    // Today's Withdraw
+    fetch("http://localhost:8081/customer/todayWithdraw/" + customerData.email)
+    .then(res => res.json())
+    .then(amount => {
+
+        document.getElementById("todayWithdraw").innerText =
+        "₹ " + Number(amount).toLocaleString("en-IN");
+
+    });
+
+    // Latest Customer Data
+    fetch("http://localhost:8081/customer/" + customerData.email)
+    .then(res => res.json())
+    .then(data => {
+
+        localStorage.setItem("customer", JSON.stringify(data));
+
+        document.getElementById("customerName").innerText =
+        data.fullName;
+
+        document.getElementById("accountType").innerText =
+        data.accountType || "Savings";
+
+        document.getElementById("accountNumber").innerText =
+        "Account No : " + data.accountNumber;
+
+        document.getElementById("customerEmail").innerText =
+        data.email;
+
+        document.getElementById("welcomeText").innerText =
+        "Good Morning, " + data.fullName + " 👋";
+
+        document.getElementById("balance").innerText =
+        "₹ " + Number(data.balance).toLocaleString("en-IN");
+
+    });
+
+    // Recent Transactions
+    fetch("http://localhost:8081/customer/transactions/" + customerData.email)
+    .then(res => res.json())
+    .then(list => {
+
+        const table = document.getElementById("transactionTable");
+
+        table.innerHTML = "";
+
+        list.slice(0,5).forEach(tx => {
+
+            table.innerHTML += `
+            <tr>
+                <td>TXN${tx.transactionId}</td>
+                <td>${customerData.fullName}</td>
+                <td>${tx.transactionType}</td>
+                <td>₹ ${Number(tx.amount).toLocaleString("en-IN")}</td>
+                <td><span class="badge-success">${tx.status}</span></td>
+                <td>${tx.transactionDate.replace("T"," ").substring(0,16)}</td>
+            </tr>
+            `;
+
+        });
+
+    });
 
 }
 
+// ==========================================
+// THREAD COUNT (Temporary)
+// ==========================================
+
+document.getElementById("activeThreads").innerText = "3";
+
+// ==========================================
+// TRANSACTION CHART
+// ==========================================
+
+fetch("http://localhost:8081/customer/transactions/" + customerData.email)
+
+.then(res => res.json())
+
+.then(list => {
+
+let deposit = 0;
+let withdraw = 0;
+let transfer = 0;
+
+list.forEach(tx => {
+
+if(tx.transactionType === "Deposit"){
+
+deposit += tx.amount;
+
+}
+
+else if(tx.transactionType === "Withdraw"){
+
+withdraw += tx.amount;
+
+}
+
+else if(tx.transactionType === "Transfer"){
+
+transfer += tx.amount;
+
+}
+
+});
+
+new Chart(document.getElementById("transactionChart"),{
+
+type:"bar",
+
+data:{
+
+labels:["Deposit","Withdraw","Transfer"],
+
+datasets:[{
+
+label:"Amount (₹)",
+
+data:[deposit,withdraw,transfer]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{display:false}
+
+}
+
+}
+
+});
+
+});
+
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </body>
 

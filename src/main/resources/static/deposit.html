@@ -359,13 +359,14 @@ DEPOSIT GRID
 
 display:grid;
 
-grid-template-columns:1fr 420px;
+grid-template-columns:1fr;
 
 gap:25px;
 
 margin-bottom:30px;
 
 }
+
 
 /*=========================================================
 CARDS
@@ -902,16 +903,12 @@ placeholder="Search Customer">
 
 <div>
 
-<h6 class="mb-0 fw-bold">
-
-Welcome, Rutuja
-
+<h6 class="mb-0 fw-bold" id="customerName">
+Loading...
 </h6>
 
-<small class="text-muted">
-
-Administrator
-
+<small class="text-muted" id="accountType">
+Loading...
 </small>
 
 </div>
@@ -965,10 +962,8 @@ Customer Name
 
 </h6>
 
-<h5>
-
-Rutuja Divate
-
+<h5 id="depositCustomerName">
+Loading...
 </h5>
 
 </div>
@@ -981,10 +976,8 @@ Account Number
 
 </h6>
 
-<h5>
-
-ACC100245
-
+<h5 id="depositAccountNumber">
+Loading...
 </h5>
 
 </div>
@@ -997,10 +990,8 @@ Account Type
 
 </h6>
 
-<h5>
-
-Savings
-
+<h5 id="depositAccountType">
+Loading...
 </h5>
 
 </div>
@@ -1013,10 +1004,8 @@ Available Balance
 
 </h6>
 
-<h5>
-
-₹ 1,25,000
-
+<h5 id="depositBalance">
+₹0
 </h5>
 
 </div>
@@ -1078,17 +1067,10 @@ Transaction PIN
 <div class="input-group">
 
 <input
-
 type="password"
-
 class="form-control"
-
 id="pin"
-
-maxlength="4"
-
-placeholder="Enter 4-digit PIN"
-
+placeholder="Enter Transaction PIN"
 required>
 
 <span
@@ -1151,180 +1133,7 @@ Amount Deposited Successfully.
 
 <!-- ================= RIGHT CARD ================= -->
 
-<div>
 
-<div class="balance-card">
-
-<h6>
-
-Current Balance
-
-</h6>
-
-<h2>
-
-₹ 1,25,000
-
-</h2>
-
-</div>
-<h3 class="card-title">
-
-Recent Deposits
-
-</h3>
-
-<div class="history-list">
-
-<div class="history-item">
-
-<div class="history-left">
-
-<div class="history-icon">
-
-<i class="bi bi-wallet2"></i>
-
-</div>
-
-<div>
-
-<h6>
-
-Cash Deposit
-
-</h6>
-
-<small>
-
-10 Jul 2026 • 11:20 AM
-
-</small>
-
-</div>
-
-</div>
-
-<div class="amount">
-
-+ ₹20,000
-
-</div>
-
-</div>
-
-<div class="history-item">
-
-<div class="history-left">
-
-<div class="history-icon">
-
-<i class="bi bi-wallet2"></i>
-
-</div>
-
-<div>
-
-<h6>
-
-Cheque Deposit
-
-</h6>
-
-<small>
-
-09 Jul 2026 • 02:40 PM
-
-</small>
-
-</div>
-
-</div>
-
-<div class="amount">
-
-+ ₹50,000
-
-</div>
-
-</div>
-
-<div class="history-item">
-
-<div class="history-left">
-
-<div class="history-icon">
-
-<i class="bi bi-wallet2"></i>
-
-</div>
-
-<div>
-
-<h6>
-
-Online Transfer
-
-</h6>
-
-<small>
-
-08 Jul 2026 • 06:10 PM
-
-</small>
-
-</div>
-
-</div>
-
-<div class="amount">
-
-+ ₹12,500
-
-</div>
-
-</div>
-
-<div class="history-item">
-
-<div class="history-left">
-
-<div class="history-icon">
-
-<i class="bi bi-wallet2"></i>
-
-</div>
-
-<div>
-
-<h6>
-
-NEFT Deposit
-
-</h6>
-
-<small>
-
-07 Jul 2026 • 09:45 AM
-
-</small>
-
-</div>
-
-</div>
-
-<div class="amount">
-
-+ ₹35,000
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
 
 <!-- =====================================================
 FOOTER
@@ -1386,39 +1195,78 @@ const depositBtn=document.getElementById("depositBtn");
 
 const successBox=document.getElementById("successBox");
 
-form.addEventListener("submit",function(e){
+document.getElementById("depositForm").addEventListener("submit", function(e){
 
-e.preventDefault();
+    e.preventDefault();
 
-const amount=parseFloat(document.getElementById("amount").value);
+   const amount = parseFloat(document.getElementById("amount").value); 
 
-if(isNaN(amount)||amount<=0){
+    const customer = JSON.parse(localStorage.getItem("customer"));
 
-alert("Enter a valid deposit amount.");
+    fetch("http://localhost:8081/customer/deposit?email=" +
+        customer.email + "&amount=" + amount, {
 
-return;
+        method: "POST"
 
-}
+    })
 
-depositBtn.innerHTML=
+    .then(res => res.json())
 
-'<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+    .then(data => {
 
-depositBtn.disabled=true;
+        localStorage.setItem("customer", JSON.stringify(data));
+        let totalDeposit = Number(localStorage.getItem("todayDeposit") || 0);
 
-setTimeout(()=>{
+        totalDeposit += Number(amount);
 
-successBox.style.display="block";
+        localStorage.setItem("todayDeposit", totalDeposit);
 
-depositBtn.innerHTML='<i class="bi bi-check-circle-fill"></i> Deposit Successful';
+        alert("Deposit Successful");
 
-depositBtn.classList.remove("btn-deposit");
+        window.location.href = "dashboard.html";
 
-depositBtn.classList.add("btn","btn-success");
+    })
 
-},1800);
+    .catch(err => {
+
+        alert("Deposit Failed");
+
+        console.log(err);
+
+    });
 
 });
+
+// ==========================================
+// LOAD CUSTOMER
+// ==========================================
+
+const customer = JSON.parse(localStorage.getItem("customer"));
+
+if(customer){
+
+    document.getElementById("customerName").innerText =
+    customer.fullName;
+
+    document.getElementById("accountType").innerText =
+    customer.accountType || "Savings";
+
+    document.getElementById("depositCustomerName").innerText =
+    customer.fullName;
+
+    document.getElementById("depositAccountNumber").innerText =
+    customer.accountNumber;
+
+    document.getElementById("depositAccountType").innerText =
+    customer.accountType || "Savings";
+
+    document.getElementById("depositBalance").innerText =
+    "₹ " + Number(customer.balance).toLocaleString("en-IN");
+
+    document.getElementById("currentBalance").innerText =
+    "₹ " + Number(customer.balance).toLocaleString("en-IN");
+
+}
 
 // ==========================================
 // SEARCH

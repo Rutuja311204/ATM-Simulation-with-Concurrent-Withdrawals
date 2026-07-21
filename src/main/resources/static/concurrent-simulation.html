@@ -984,15 +984,15 @@ MAIN START
 
 <div>
 
-<h6 class="mb-0 fw-bold">
+<h6 class="mb-0 fw-bold" id="profileName">
 
-Welcome, Rutuja
+Welcome
 
 </h6>
 
-<small class="text-muted">
+<small class="text-muted" id="profileType">
 
-Administrator
+Savings Account
 
 </small>
 
@@ -1145,7 +1145,7 @@ Shared Bank Balance
 
 <h2 id="sharedBalance">
 
-₹ 15,25,000
+₹ 0
 
 </h2>
 
@@ -1157,187 +1157,83 @@ Protected using Synchronization Lock
 
 </div>
 
-<div class="atm-grid">
+<div class="card-box mt-4">
 
-<div class="atm-card">
+<h3 class="card-title">
+ATM Request Queue
+</h3>
 
-<div class="atm-header">
+<table class="table align-middle">
 
-<div class="atm-title">
+<thead>
 
-<i class="bi bi-credit-card-2-front-fill"></i>
+<tr>
+<th>ATM</th>
+<th>Operation</th>
+<th>Amount</th>
+<th>Status</th>
+</tr>
 
-<h5>
+</thead>
 
-ATM Thread 01
+<tbody id="queueTable">
 
-</h5>
+<tr>
 
-</div>
+<td>ATM-01</td>
 
-<span class="thread-badge running">
+<td>Withdraw</td>
 
-Running
+<td>₹1000</td>
 
-</span>
-
-</div>
-
-<p>
-
-Withdraw ₹5,000 from ACC100245
-
-</p>
-
-<div class="progress">
-
-<div
-
-class="progress-bar"
-
-style="width:82%">
-
-</div>
-
-</div>
-
-</div>
-
-<div class="atm-card">
-
-<div class="atm-header">
-
-<div class="atm-title">
-
-<i class="bi bi-bank"></i>
-
-<h5>
-
-ATM Thread 02
-
-</h5>
-
-</div>
-
-<span class="thread-badge waiting">
-
+<td>
+<span class="badge bg-warning">
 Waiting
-
 </span>
+</td>
 
-</div>
+</tr>
 
-<p>
+<tr>
 
-Deposit ₹10,000 into ACC100252
+<td>ATM-02</td>
 
-</p>
+<td>Withdraw</td>
 
-<div class="progress">
+<td>₹1000</td>
 
-<div
-
-class="progress-bar"
-
-style="width:48%">
-
-</div>
-
-</div>
-
-</div>
-
-<div class="atm-card">
-
-<div class="atm-header">
-
-<div class="atm-title">
-
-<i class="bi bi-arrow-left-right"></i>
-
-<h5>
-
-Transfer Thread
-
-</h5>
-
-</div>
-
-<span class="thread-badge locked">
-
-Locked
-
+<td>
+<span class="badge bg-warning">
+Waiting
 </span>
+</td>
 
-</div>
+</tr>
 
-<p>
+<tr>
 
-Waiting for synchronized resource...
+<td>ATM-03</td>
 
-</p>
+<td>Withdraw</td>
 
-<div class="progress">
+<td>₹1000</td>
 
-<div
-
-class="progress-bar"
-
-style="width:22%">
-
-</div>
-
-</div>
-
-</div>
-
-<div class="atm-card">
-
-<div class="atm-header">
-
-<div class="atm-title">
-
-<i class="bi bi-wallet2"></i>
-
-<h5>
-
-Deposit Thread
-
-</h5>
-
-</div>
-
-<span class="thread-badge running">
-
-Running
-
+<td>
+<span class="badge bg-warning">
+Waiting
 </span>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 </div>
 
-<p>
 
-Deposit ₹20,000 into ACC100267
 
-</p>
-
-<div class="progress">
-
-<div
-
-class="progress-bar"
-
-style="width:95%">
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
 
 <!-- ================= RIGHT PANEL ================= -->
 
@@ -1592,6 +1488,18 @@ END MAIN
 // ELEMENTS
 // ==========================================
 
+const customer = JSON.parse(localStorage.getItem("customer"));
+
+if(customer){
+
+document.getElementById("profileName").innerHTML =
+"Welcome, " + customer.fullName;
+
+document.getElementById("profileType").innerHTML =
+customer.accountType;
+
+}
+
 const startBtn=document.getElementById("startSimulation");
 
 const stopBtn=document.getElementById("stopSimulation");
@@ -1619,6 +1527,20 @@ startBtn.addEventListener("click",()=>{
 if(simulation) return;
 
 addLog("Simulation Started.");
+addLog("Synchronization Enabled.");
+
+
+const customer = JSON.parse(localStorage.getItem("customer"));
+
+fetch("http://localhost:8081/simulation/start?email="+customer.email,{
+    method:"POST"
+});
+
+current=0;
+
+queue.forEach(q=>q.status="Waiting");
+
+renderQueue();
 
 simulation=setInterval(runSimulation,2000);
 
@@ -1635,6 +1557,7 @@ clearInterval(simulation);
 simulation=null;
 
 addLog("Simulation Stopped.");
+addLog("All Pending Threads Cancelled.");
 
 });
 
@@ -1648,63 +1571,148 @@ clearInterval(simulation);
 
 simulation=null;
 
-active.innerHTML="04";
+active.innerHTML="0";
 
-waiting.innerHTML="02";
+waiting.innerHTML="0";
 
-completed.innerHTML="15";
+completed.innerHTML="0";
 
-balance.innerHTML="₹ 15,25,000";
+balance.innerHTML="₹ 0";
 
 logBox.innerHTML="";
 
 addLog("Simulation Reset Successfully.");
+current = 0;
+
+queue.forEach(q => q.status = "Waiting");
+
+renderQueue();
 
 });
+
 
 // ==========================================
 // RANDOM SIMULATION
 // ==========================================
 
-function runSimulation(){
-
-let a=Math.floor(Math.random()*6)+2;
-
-let w=Math.floor(Math.random()*4);
-
-let c=parseInt(completed.innerHTML)+1;
-
-let bal=1500000+Math.floor(Math.random()*50000);
-
-active.innerHTML=a;
-
-waiting.innerHTML=w;
-
-completed.innerHTML=c;
-
-balance.innerHTML="₹ "+bal.toLocaleString("en-IN");
-
-const logs=[
-
-"ATM Thread completed withdrawal.",
-
-"Deposit Thread updated account balance.",
-
-"Transfer Thread entered Critical Section.",
-
-"Synchronization Lock Acquired.",
-
-"Synchronization Lock Released.",
-
-"No Deadlock Detected.",
-
-"Concurrent Transaction Executed.",
-
-"Shared Resource Updated Successfully."
-
+let queue = [
+{
+atm:"ATM-01",
+status:"Waiting"
+},
+{
+atm:"ATM-02",
+status:"Waiting"
+},
+{
+atm:"ATM-03",
+status:"Waiting"
+}
 ];
 
-addLog(logs[Math.floor(Math.random()*logs.length)]);
+let current = 0;
+
+function runSimulation(){
+
+    if(current >= queue.length){
+
+        addLog("Simulation Completed Successfully.");
+
+        clearInterval(simulation);
+
+        simulation = null;
+
+        return;
+
+    }
+
+    const customer = JSON.parse(localStorage.getItem("customer"));
+
+    addLog(queue[current].atm + " Waiting for Lock...");
+
+    setTimeout(()=>{
+
+        addLog(queue[current].atm + " Lock Acquired");
+
+        fetch("http://localhost:8081/customer/withdraw?email="+customer.email+"&amount=1000",{
+
+            method:"POST"
+
+        })
+
+        .then(res=>res.json())
+
+        .then(data=>{
+
+            balance.innerHTML =
+            "₹ " + Number(data.balance).toLocaleString("en-IN");
+
+            active.innerHTML = queue.length-current-1;
+            waiting.innerHTML = queue.length-current-1;
+            completed.innerHTML = current+1;
+
+            addLog(queue[current].atm + " Withdraw ₹1000 Successful");
+
+            addLog(queue[current].atm + " Lock Released");
+
+            current++;
+
+            renderQueue();
+
+        });
+
+    },1000);
+
+}
+
+function renderQueue(){
+
+    if(current < queue.length){
+
+        queue.forEach((q,index)=>{
+
+            if(index < current){
+
+                q.status = "Completed";
+
+            }
+            else if(index == current){
+
+                q.status = "Processing";
+
+            }
+            else{
+
+                q.status = "Waiting";
+
+            }
+
+        });
+
+    }
+
+    let html = "";
+
+    queue.forEach(q=>{
+
+        let color="warning";
+
+        if(q.status=="Processing") color="primary";
+
+        if(q.status=="Completed") color="success";
+
+        html += `
+        <tr>
+            <td>${q.atm}</td>
+            <td>Withdraw</td>
+            <td>₹1000</td>
+            <td><span class="badge bg-${color}">${q.status}</span></td>
+        </tr>
+        `;
+
+    });
+
+    document.getElementById("queueTable").innerHTML = html;
 
 }
 

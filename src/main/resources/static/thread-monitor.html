@@ -939,14 +939,14 @@ MAIN START
 <div>
 
 <h6 class="mb-0 fw-bold">
+<span id="welcomeName">Welcome</span>
 
-Welcome, Rutuja
 
 </h6>
 
 <small class="text-muted">
+Customer
 
-Administrator
 
 </small>
 
@@ -1038,12 +1038,8 @@ Refresh
 <div class="monitor-card">
 
 <i class="bi bi-cpu-fill"></i>
+<h2 id="activeThread">0</h2>
 
-<h2 id="activeThread">
-
-08
-
-</h2>
 
 <p>
 
@@ -1057,11 +1053,7 @@ Running Threads
 
 <i class="bi bi-hourglass-split"></i>
 
-<h2 id="waitingThread">
-
-03
-
-</h2>
+<h2 id="waitingThread">0</h2>
 
 <p>
 
@@ -1075,11 +1067,8 @@ Waiting Threads
 
 <i class="bi bi-check-circle-fill"></i>
 
-<h2 id="completedThread">
+<h2 id="completedThread">0</h2>
 
-45
-
-</h2>
 
 <p>
 
@@ -1093,11 +1082,8 @@ Completed
 
 <i class="bi bi-exclamation-triangle-fill"></i>
 
-<h2 id="blockedThread">
+<h2 id="blockedThread">0</h2>
 
-01
-
-</h2>
 
 <p>
 
@@ -1197,248 +1183,7 @@ Live Thread Table
 
 </thead>
 
-<tbody>
-
-<tr>
-
-<td>
-
-T-001
-
-</td>
-
-<td>
-
-Withdraw Thread
-
-</td>
-
-<td>
-
-High
-
-</td>
-
-<td>
-
-18%
-
-</td>
-
-<td>
-
-125 MB
-
-</td>
-
-<td>
-
-<span class="status running">
-
-Running
-
-</span>
-
-</td>
-
-<td width="220">
-
-<div class="progress">
-
-<div
-
-class="progress-bar"
-
-style="width:82%">
-
-</div>
-
-</div>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-T-002
-
-</td>
-
-<td>
-
-Deposit Thread
-
-</td>
-
-<td>
-
-Medium
-
-</td>
-
-<td>
-
-12%
-
-</td>
-
-<td>
-
-98 MB
-
-</td>
-
-<td>
-
-<span class="status waiting">
-
-Waiting
-
-</span>
-
-</td>
-
-<td>
-
-<div class="progress">
-
-<div
-
-class="progress-bar"
-
-style="width:46%">
-
-</div>
-
-</div>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-T-003
-
-</td>
-
-<td>
-
-Transfer Thread
-
-</td>
-
-<td>
-
-High
-
-</td>
-
-<td>
-
-21%
-
-</td>
-
-<td>
-
-140 MB
-
-</td>
-
-<td>
-
-<span class="status blocked">
-
-Blocked
-
-</span>
-
-</td>
-
-<td>
-
-<div class="progress">
-
-<div
-
-class="progress-bar"
-
-style="width:25%">
-
-</div>
-
-</div>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-T-004
-
-</td>
-
-<td>
-
-Balance Thread
-
-</td>
-
-<td>
-
-Low
-
-</td>
-
-<td>
-
-9%
-
-</td>
-
-<td>
-
-72 MB
-
-</td>
-
-<td>
-
-<span class="status completed">
-
-Completed
-
-</span>
-
-</td>
-
-<td>
-
-<div class="progress">
-
-<div
-
-class="progress-bar"
-
-style="width:100%">
-
-</div>
-
-</div>
-
-</td>
-
-</tr>
-
+<tbody id="threadTable">
 </tbody>
 
 </table>
@@ -1462,9 +1207,6 @@ Live Activity Log
 </h3>
 
 <div class="log-box" id="logBox">
-    <div class="log-item">
-
-<i class="bi bi-cpu-fill"></i>
 
 <div>
 
@@ -1716,11 +1458,34 @@ let monitor=null;
 
 startBtn.addEventListener("click",()=>{
 
-if(monitor) return;
+const customer=JSON.parse(localStorage.getItem("customer"));
 
-addLog("Thread Monitor Started.");
+fetch("http://localhost:8081/simulation/start?email="+customer.email,{
+method:"POST"
+})
+.then(()=>{
 
-monitor=setInterval(updateMonitor,2000);
+addLog("Simulation Started");
+
+updateMonitor();
+
+loadThreadTable();
+
+loadLogs();
+
+if(monitor) clearInterval(monitor);
+
+monitor=setInterval(()=>{
+
+updateMonitor();
+
+loadThreadTable();
+
+loadLogs();
+
+},1000);
+
+});
 
 });
 
@@ -1730,9 +1495,13 @@ monitor=setInterval(updateMonitor,2000);
 
 stopBtn.addEventListener("click",()=>{
 
+if(monitor){
+
 clearInterval(monitor);
 
 monitor=null;
+
+}
 
 addLog("Monitoring Stopped.");
 
@@ -1741,20 +1510,12 @@ addLog("Monitoring Stopped.");
 // ==========================================
 // REFRESH
 // ==========================================
-
 refreshBtn.addEventListener("click",()=>{
 
-active.innerHTML="08";
-
-waiting.innerHTML="03";
-
-completed.innerHTML="45";
-
-blocked.innerHTML="01";
-
-addLog("Thread Statistics Refreshed.");
+updateMonitor();
 
 });
+
 
 // ==========================================
 // LIVE MONITOR UPDATE
@@ -1762,39 +1523,24 @@ addLog("Thread Statistics Refreshed.");
 
 function updateMonitor(){
 
-active.innerHTML=Math.floor(Math.random()*8)+4;
+fetch("http://localhost:8081/simulation/running")
+.then(r=>r.text())
+.then(data=>active.innerHTML=data);
 
-waiting.innerHTML=Math.floor(Math.random()*5);
+fetch("http://localhost:8081/simulation/waiting")
+.then(r=>r.text())
+.then(data=>waiting.innerHTML=data);
 
-blocked.innerHTML=Math.floor(Math.random()*3);
+fetch("http://localhost:8081/simulation/completed")
+.then(r=>r.text())
+.then(data=>completed.innerHTML=data);
 
-completed.innerHTML=parseInt(completed.innerHTML)+1;
+fetch("http://localhost:8081/simulation/blocked")
+.then(r=>r.text())
+.then(data=>blocked.innerHTML=data);
 
-const logs=[
-
-"Withdraw Thread entered Critical Section.",
-
-"Deposit Thread waiting for synchronization lock.",
-
-"Transfer Thread completed successfully.",
-
-"Balance Thread refreshed customer balance.",
-
-"CPU utilization updated.",
-
-"Memory allocation optimized.",
-
-"Shared resource locked.",
-
-"Shared resource released.",
-
-"No deadlock detected.",
-
-"Thread execution completed."
-
-];
-
-addLog(logs[Math.floor(Math.random()*logs.length)]);
+loadThreadTable();
+loadLogs();
 
 }
 
@@ -1859,6 +1605,103 @@ this.classList.add("active");
 });
 
 });
+
+function loadThreadTable(){
+
+fetch("http://localhost:8081/simulation/logs")
+.then(res=>res.json())
+.then(list=>{
+
+const table=document.getElementById("threadTable");
+
+table.innerHTML="";
+
+list.forEach((t,index)=>{
+
+table.innerHTML+=`
+
+<tr>
+
+<td>T-${index+1}</td>
+
+<td>${t.threadName}</td>
+
+<td>High</td>
+
+<td>-</td>
+
+<td>-</td>
+
+<td><span class="status ${t.status.toLowerCase()}">${t.status}</span></td>
+
+<td>${t.activity}</td>
+
+</tr>
+
+`;
+
+});
+
+});
+
+}
+
+function loadLogs(){
+
+fetch("http://localhost:8081/simulation/logs")
+.then(res=>res.json())
+.then(list=>{
+
+const log=document.getElementById("logBox");
+
+log.innerHTML="";
+
+list.forEach(item=>{
+
+const time=item.logTime
+? item.logTime.replace("T"," ").substring(11,19)
+: "--:--:--";
+
+log.innerHTML+=`
+
+<div class="log-item">
+
+<i class="bi bi-terminal-fill"></i>
+
+<div>
+
+<span class="log-time">${time}</span>
+
+<strong>${item.threadName}</strong>
+
+<br>
+
+${item.activity}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+});
+
+}
+
+updateMonitor();
+
+loadThreadTable();
+
+loadLogs();
+
+const customer = JSON.parse(localStorage.getItem("customer"));
+
+if(customer){
+    document.getElementById("welcomeName").innerHTML =
+        "Welcome, " + customer.fullName;
+}
 
 </script>
 

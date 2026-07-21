@@ -1031,25 +1031,39 @@ loginForm.addEventListener("submit", function (e) {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
+    
     fetch("http://localhost:8081/customer/login?email=" + email + "&pin=" + password,{
-        method:"POST"
-    })
+    method:"POST"
+})
 
-    .then(res=>{
+.then(res => {
 
-        if(res.ok){
-            localStorage.setItem("email", email);
-            alert("Login Successful");
-            window.location.href="dashboard.html";
-        }
-        else{
-            alert("Invalid Email or Password");
-            loginBtn.disabled=false;
-            loginBtn.innerHTML='<i class="bi bi-box-arrow-in-right"></i> Secure Login';
-        }
+    if(!res.ok){
+        throw new Error("Invalid Login");
+    }
 
-    });
+    return res.json();
+})
 
+.then(data => {
+
+    localStorage.setItem("email", email);
+    localStorage.setItem("customer", JSON.stringify(data));
+    console.log(data);
+
+    alert("Login Successful");
+
+    window.location.href="dashboard.html";
+})
+
+.catch(error => {
+
+    alert("Invalid Email or Password");
+
+    loginBtn.disabled = false;
+    loginBtn.innerHTML='<i class="bi bi-box-arrow-in-right"></i> Secure Login';
+
+});
 });
 
 // ===========================================

@@ -869,7 +869,7 @@ type="password"
 
 class="form-control"
 
-id="password"
+id="pin"
 
 placeholder="Enter password"
 
@@ -991,29 +991,23 @@ Back To Home
 
 <script>
 
-function togglePassword(){
+function togglePassword() {
 
-const pass=document.getElementById("password");
+    const pass = document.getElementById("pin");
+    const eye = document.getElementById("eyeIcon");
 
-const eye=document.getElementById("eyeIcon");
-
-if(pass.type==="password"){
-
-pass.type="text";
-
-eye.className="bi bi-eye-slash-fill";
-
-}else{
-
-pass.type="password";
-
-eye.className="bi bi-eye-fill";
+    if (pass.type === "password") {
+        pass.type = "text";
+        eye.className = "bi bi-eye-slash-fill";
+    } else {
+        pass.type = "password";
+        eye.className = "bi bi-eye-fill";
+    }
 
 }
 
-}
 // ===========================================
-// LOGIN LOADING ANIMATION
+// LOGIN
 // ===========================================
 
 const loginForm = document.getElementById("loginForm");
@@ -1024,65 +1018,70 @@ loginForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     loginBtn.innerHTML =
-    '<span class="spinner-border spinner-border-sm me-2"></span>Signing In...';
+        '<span class="spinner-border spinner-border-sm me-2"></span>Signing In...';
 
     loginBtn.disabled = true;
 
     const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const pin = document.getElementById("pin").value;
 
-    
-    fetch("http://localhost:8081/customer/login?email=" + email + "&pin=" + password,{
-    method:"POST"
-})
+    fetch(window.location.origin + "/customer/login?email=" +
+        encodeURIComponent(email) +
+        "&pin=" +
+        encodeURIComponent(pin), {
+        method: "POST"
+    })
 
-.then(res => {
+    .then(res => {
 
-    if(!res.ok){
-        throw new Error("Invalid Login");
-    }
+        if (!res.ok) {
+            throw new Error("Invalid Login");
+        }
 
-    return res.json();
-})
+        return res.json();
 
-.then(data => {
+    })
 
-    localStorage.setItem("email", email);
-    localStorage.setItem("customer", JSON.stringify(data));
-    console.log(data);
+    .then(data => {
 
-    alert("Login Successful");
+        localStorage.setItem("email", email);
+        localStorage.setItem("customer", JSON.stringify(data));
 
-    window.location.href="dashboard.html";
-})
+        alert("Login Successful");
 
-.catch(error => {
+        window.location.href = "dashboard.html";
 
-    alert("Invalid Email or Password");
+    })
 
-    loginBtn.disabled = false;
-    loginBtn.innerHTML='<i class="bi bi-box-arrow-in-right"></i> Secure Login';
+    .catch(error => {
 
-});
+        alert("Invalid Email or PIN");
+
+        loginBtn.disabled = false;
+        loginBtn.innerHTML =
+            '<i class="bi bi-box-arrow-in-right"></i> Secure Login';
+
+    });
+
 });
 
 // ===========================================
 // INPUT ANIMATION
 // ===========================================
 
-document.querySelectorAll(".form-control").forEach(input=>{
+document.querySelectorAll(".form-control").forEach(input => {
 
-input.addEventListener("focus",()=>{
+    input.addEventListener("focus", () => {
 
-input.style.transform="translateY(-2px)";
+        input.style.transform = "translateY(-2px)";
 
-});
+    });
 
-input.addEventListener("blur",()=>{
+    input.addEventListener("blur", () => {
 
-input.style.transform="translateY(0px)";
+        input.style.transform = "translateY(0px)";
 
-});
+    });
 
 });
 
@@ -1090,23 +1089,20 @@ input.style.transform="translateY(0px)";
 // FLOATING EFFECT
 // ===========================================
 
-document.addEventListener("mousemove",(e)=>{
+document.addEventListener("mousemove", (e) => {
 
-const cards=document.querySelectorAll(".float-card");
+    const cards = document.querySelectorAll(".float-card");
 
-cards.forEach((card,index)=>{
+    cards.forEach((card, index) => {
 
-const speed=(index+1)*0.015;
+        const speed = (index + 1) * 0.015;
 
-const x=(window.innerWidth/2-e.pageX)*speed;
+        const x = (window.innerWidth / 2 - e.pageX) * speed;
+        const y = (window.innerHeight / 2 - e.pageY) * speed;
 
-const y=(window.innerHeight/2-e.pageY)*speed;
+        card.style.transform = `translate(${x}px,${y}px)`;
 
-card.style.transform=
-
-`translate(${x}px,${y}px)`;
-
-});
+    });
 
 });
 
@@ -1114,13 +1110,13 @@ card.style.transform=
 // ENTER KEY SUPPORT
 // ===========================================
 
-document.addEventListener("keydown",(e)=>{
+document.addEventListener("keydown", (e) => {
 
-if(e.key==="Enter"){
+    if (e.key === "Enter") {
 
-loginForm.requestSubmit();
+        loginForm.requestSubmit();
 
-}
+    }
 
 });
 

@@ -1436,7 +1436,7 @@ const customer = {
     pin: document.getElementById("password").value
 };
 
-fetch("http://window.location.origin + /customer/register",{
+fetch(window.location.origin + "/customer/register",{
     method:"POST",
     headers:{
         "Content-Type":"application/json"
